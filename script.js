@@ -1,6 +1,6 @@
 /* Odd-Lot Arbitrage — table renderer */
 
-const DATA_URL = './data/opportunities.json';
+const DATA_URL = './data/opportunities.json?v=' + Date.now();
 
 function fmt_price(v) {
   return v != null ? '$' + v.toFixed(2) : '—';
