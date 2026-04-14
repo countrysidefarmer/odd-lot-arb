@@ -392,6 +392,17 @@ def main():
                 skipped += 1
                 continue
 
+            # Sanity check: T-1 price must be within 3x of offer price.
+            # A wider ratio indicates either a bad offer price extraction (generic
+            # regex grabbed a fee/compensation figure) or ticker reuse (same ticker
+            # now belongs to a different company with a different price level).
+            offer_ref = offer["price_upper"]
+            if not (offer_ref / 3.0 < t1_price < offer_ref * 3.0):
+                print("  [SKIP] T-1 ${} vs offer ${} ratio implausible — stale ticker or bad extraction".format(
+                    t1_price, offer_ref), file=sys.stderr)
+                skipped += 1
+                continue
+
             # Determine clearing price
             is_dutch = offer["price_lower"] != offer["price_upper"]
 
