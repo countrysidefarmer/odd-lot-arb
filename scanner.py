@@ -584,7 +584,7 @@ def main():
     dry_run = "--dry-run" in sys.argv
     test_email = "--test-email" in sys.argv
     output_json = "--json" in sys.argv
-    days = 90 if dry_run else 7
+    days = 90
 
     if test_email:
         _send_test_email()
