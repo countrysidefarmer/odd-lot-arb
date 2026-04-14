@@ -113,11 +113,17 @@ def _make_session():
 
 
 def _sec_get(session, url, **kwargs):
-    """GET with retry on 429."""
-    for attempt in range(3):
+    """GET with retry on 429 and 500."""
+    for attempt in range(4):
         resp = session.get(url, timeout=30, **kwargs)
         if resp.status_code == 429:
-            time.sleep(2 ** attempt * 2)
+            time.sleep(2 ** attempt * 3)
+            continue
+        if resp.status_code == 500:
+            wait = 2 ** attempt * 5  # 5s, 10s, 20s, 40s
+            print("[WARN] EDGAR 500, retrying in {}s (attempt {}/4)".format(wait, attempt + 1),
+                  file=sys.stderr)
+            time.sleep(wait)
             continue
         resp.raise_for_status()
         return resp
@@ -591,7 +597,12 @@ def main():
     print("[INFO] Scanning EDGAR for SC TO-I filings from {} to {}".format(start, end),
           file=sys.stderr)
 
-    hits = search_edgar(start, end)
+    try:
+        hits = search_edgar(start, end)
+    except Exception as e:
+        print("[ERROR] EDGAR search failed after retries: {}".format(e), file=sys.stderr)
+        print("[INFO] Skipping scan — site data unchanged", file=sys.stderr)
+        sys.exit(0)
     print("[INFO] Found {} raw hits".format(len(hits)), file=sys.stderr)
 
     session = _make_session()
