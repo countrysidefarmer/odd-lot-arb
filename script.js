@@ -126,21 +126,28 @@ function render_stats(trades) {
 
 function render_chart(trades) {
   const years = [...new Set(trades.map(t => t.expiry.slice(0, 4)))].sort();
+  const current_year = new Date().getUTCFullYear().toString();
+
+  // Month start days (approx) and labels for x-axis
+  const MONTH_DAYS  = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
+  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',''];
 
   const datasets = years.map((yr, i) => {
     const yr_trades = trades
       .filter(t => t.expiry.startsWith(yr))
       .sort((a, b) => a.expiry.localeCompare(b.expiry));
 
-    // Build cumsum points: start at (0, 0), add a point per trade
-    const points = [{ x: 0, y: 0 }];
+    // Start at day 1, $0; add a step at each trade; hold flat until next trade
+    const points = [{ x: 1, y: 0 }];
     let cum = 0;
     yr_trades.forEach(t => {
+      const doy = day_of_year(t.expiry);
+      // Hold previous level up to this trade
+      points.push({ x: doy - 0.01, y: Math.round(cum * 100) / 100 });
       cum += t.realized_pnl;
-      points.push({ x: day_of_year(t.expiry), y: Math.round(cum * 100) / 100 });
+      points.push({ x: doy, y: Math.round(cum * 100) / 100 });
     });
-    // Extend line to end of year for completed years
-    const current_year = new Date().getUTCFullYear().toString();
+    // Extend to year end for completed years
     if (yr !== current_year) {
       points.push({ x: 365, y: Math.round(cum * 100) / 100 });
     }
@@ -150,10 +157,14 @@ function render_chart(trades) {
       label: yr,
       data: points,
       borderColor: color,
-      backgroundColor: color + '20',
+      backgroundColor: color + '15',
       borderWidth: 2,
-      pointRadius: 3,
-      pointHoverRadius: 5,
+      pointRadius: (ctx) => {
+        // Only show dot at actual trade points, not the flat segments
+        const raw = ctx.raw;
+        return raw && String(raw.x).includes('.') ? 0 : 4;
+      },
+      pointHoverRadius: 6,
       tension: 0,
       fill: false,
     };
@@ -161,32 +172,27 @@ function render_chart(trades) {
 
   const ctx = document.getElementById('pnlChart').getContext('2d');
 
-  // Month labels on x-axis (day of year → month name)
-  const month_ticks = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335];
-  const month_labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
   new Chart(ctx, {
     type: 'scatter',
     data: { datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: 'nearest', intersect: false },
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: {
-          labels: { color: '#8899b4', font: { size: 12 } },
+          labels: { color: '#8899b4', font: { size: 12 }, boxWidth: 24 },
         },
         tooltip: {
           callbacks: {
-            label: ctx => {
-              const yr = ctx.dataset.label;
-              const doy = ctx.parsed.x;
-              const pnl = ctx.parsed.y;
-              // Reconstruct approximate date from day-of-year
+            title: items => {
+              const doy = Math.round(items[0].parsed.x);
+              const yr = items[0].dataset.label;
               const d = new Date(Date.UTC(parseInt(yr), 0, doy));
-              const ds = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-              return `${yr} ${ds}: $${pnl.toFixed(2)} cumulative`;
+              return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            },
+            label: item => {
+              return `${item.dataset.label}: $${item.parsed.y.toFixed(2)} cumulative`;
             },
           },
         },
@@ -194,15 +200,19 @@ function render_chart(trades) {
       scales: {
         x: {
           type: 'linear',
-          min: 0,
+          min: 1,
           max: 365,
           ticks: {
             color: '#8899b4',
+            maxTicksLimit: 13,
             callback: val => {
-              const idx = month_ticks.indexOf(val);
-              return idx >= 0 ? month_labels[idx] : '';
+              // Find the nearest month start
+              const idx = MONTH_DAYS.findIndex(d => Math.abs(d - val) < 8);
+              return idx >= 0 ? MONTH_NAMES[idx] : '';
             },
-            values: month_ticks,
+          },
+          afterBuildTicks: axis => {
+            axis.ticks = MONTH_DAYS.slice(0, 12).map(v => ({ value: v }));
           },
           grid: { color: 'rgba(255,255,255,0.05)' },
         },
@@ -227,7 +237,6 @@ function source_badge(src) {
 
 function render_hist_table(trades) {
   const tbody = document.getElementById('hist-table-body');
-  // Most recent first
   const sorted = [...trades].sort((a, b) => b.expiry.localeCompare(a.expiry));
   sorted.forEach(t => {
     const pnl_neg = t.realized_pnl < 0;
@@ -236,8 +245,7 @@ function render_hist_table(trades) {
       <td class="cell-ticker">${escape_html(t.ticker)}</td>
       <td class="cell-company">${escape_html(t.company_name)}</td>
       <td><span class="cell-exchange">${escape_html(t.exchange)}</span></td>
-      <td class="cell-range">${fmt_range(t.price_lower, t.price_upper)}</td>
-      <td class="cell-price">${fmt_price(t.clearing_price)} ${source_badge(t.clearing_price_source)}</td>
+      <td class="cell-range">${fmt_price(t.price_upper)}</td>
       <td class="cell-price">${fmt_price(t.t1_price)}</td>
       <td class="cell-profit${pnl_neg ? ' negative' : ''}">${fmt_price(t.realized_pnl)}</td>
       <td class="cell-expiry">${fmt_date(t.expiry)}</td>

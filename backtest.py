@@ -407,7 +407,7 @@ def main():
             is_dutch = offer["price_lower"] != offer["price_upper"]
 
             if not is_dutch:
-                # Fixed-price offer: clearing price = offer price
+                # Fixed-price offer: clearing price = offer price (known)
                 clearing_price = offer["price_upper"]
                 clearing_source = "fixed"
                 amendment_link = None
@@ -418,12 +418,20 @@ def main():
                 time.sleep(0.15)
 
                 if clearing_price is None:
-                    # Fall back to upper bound of range
-                    clearing_price = offer["price_upper"]
-                    clearing_source = "upper_bound_fallback"
-                    amendment_link = None
-                    print("  [WARN] No amendment clearing price found for {} — using upper bound".format(
+                    # No confirmed clearing price — skip this trade rather than estimate
+                    print("  [SKIP] Dutch auction {} — no amendment clearing price found".format(
                         ticker), file=sys.stderr)
+                    skipped += 1
+                    continue
+
+            # Strategy rule: only enter if stock was trading below the offer price at T-1.
+            # If stock was already above or at the offer ceiling, the trade makes no sense
+            # (odd-lot holders would not benefit — offer likely to be withdrawn or repriced).
+            if t1_price >= offer["price_upper"]:
+                print("  [SKIP] {} T-1 ${} >= offer ${} — stock above range, no entry".format(
+                    ticker, t1_price, offer["price_upper"]), file=sys.stderr)
+                skipped += 1
+                continue
 
             realized_pnl = round(99 * (clearing_price - t1_price), 2)
 
