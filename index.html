@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -62,6 +63,61 @@
 
         <p class="table-note">Sorted by expiry date — soonest first. Max profit = 99 &times; (offer price &minus; current price). Prices refresh with each daily scan.</p>
 
+      </div>
+    </section>
+
+    <!-- HISTORICAL PERFORMANCE -->
+    <section class="section section-alt" id="historical">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Since Jan 2016</span>
+          <h2>Historical performance</h2>
+          <p class="section-intro">Every completed odd-lot tender offer since 2016 — with actual realized clearing prices from SEC amendment filings and T-1 entry prices from Yahoo Finance.</p>
+        </div>
+
+        <div id="hist-loading" class="status-msg">Loading historical data&hellip;</div>
+        <div id="hist-error" class="status-msg" style="display:none">Could not load historical data.</div>
+
+        <div id="hist-content" style="display:none">
+
+          <!-- Stats bar -->
+          <div class="stats-bar" id="hist-stats">
+            <!-- filled by JS -->
+          </div>
+
+          <!-- Cumulative P&L chart -->
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-title">Cumulative P&L by year <span class="chart-subtitle">(99 shares per trade, $0 on Jan 1 each year)</span></span>
+            </div>
+            <div class="chart-wrap-hist">
+              <canvas id="pnlChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Historical trades table -->
+          <h3 class="table-heading" style="margin-top:48px">All completed trades</h3>
+          <div class="table-wrap">
+            <table id="hist-table">
+              <thead>
+                <tr>
+                  <th>Ticker</th>
+                  <th>Company</th>
+                  <th>Exchange</th>
+                  <th>Offer Range</th>
+                  <th>Clearing Price</th>
+                  <th>T-1 Price</th>
+                  <th>Realized P&L</th>
+                  <th>Expiry</th>
+                  <th>Filing</th>
+                </tr>
+              </thead>
+              <tbody id="hist-table-body"></tbody>
+            </table>
+          </div>
+          <p class="table-note">Sorted most recent first &middot; Clearing price source: <span class="badge-inline badge-green">amendment</span> = from SEC SC&nbsp;TO-I/A filing &nbsp;<span class="badge-inline badge-amber">est.</span> = upper bound of Dutch auction range (no amendment data found) &nbsp;<span class="badge-inline badge-blue">fixed</span> = fixed-price offer</p>
+
+        </div>
       </div>
     </section>
 

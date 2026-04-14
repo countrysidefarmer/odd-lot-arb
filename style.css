@@ -305,6 +305,76 @@ footer {
   color: rgba(136, 153, 180, 0.45);
 }
 
+/* ── STATS BAR ── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  text-align: center;
+}
+.stat-val {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.stat-val.green { color: var(--accent); }
+.stat-val.red { color: var(--red); }
+.stat-lbl {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* ── CHART BOX ── */
+.chart-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 8px;
+}
+.chart-box-header {
+  margin-bottom: 20px;
+}
+.chart-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.chart-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.chart-wrap-hist {
+  position: relative;
+  height: 400px;
+}
+
+/* ── INLINE BADGES ── */
+.badge-inline {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.badge-green { background: var(--accent-dim); color: var(--accent); }
+.badge-amber { background: var(--amber-dim); color: var(--amber); }
+.badge-blue  { background: var(--blue-dim);  color: var(--blue);  }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .site-header { padding: 44px 0 40px; }
