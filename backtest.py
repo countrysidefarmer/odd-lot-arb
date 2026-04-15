@@ -13,12 +13,10 @@ Takes 20-60 minutes depending on number of filings found.
 from __future__ import annotations
 
 import json
-import os
 import pathlib
 import re
 import sys
 import time
-from collections import defaultdict
 from datetime import date, datetime, timedelta
 
 import requests
@@ -38,11 +36,14 @@ from scanner import (
     _pick_offer_document,
     _sec_get,
     _strip_html,
+    _try_index,
     _valid_price,
     extract_offer_details,
     fetch_primary_document,
     parse_hit,
 )
+
+EDGAR_SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{}.json"
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -95,34 +96,54 @@ def _search_edgar_form(start, end, form):
 
 
 # ---------------------------------------------------------------------------
-# Amendment index
+# Amendment discovery via EDGAR submissions API
 # ---------------------------------------------------------------------------
 
-def build_amendment_index(amendment_hits):
+def _fetch_submissions_amendments(session, padded_cik):
     """
-    Group SC TO-I/A hits by company CIK.
-    Returns {cik: [sorted list of amendment metadata dicts by filed_date]}.
+    Fetch all SC TO-I/A filings for a CIK from the EDGAR submissions API.
+    Returns list of dicts: {accession, filed_date, primary_doc}.
+    Handles pagination via the filings.files array for older filings.
     """
-    index = defaultdict(list)
-    for hit in amendment_hits:
-        meta = parse_hit(hit)
-        if not meta:
+    url = EDGAR_SUBMISSIONS_URL.format(padded_cik)
+    try:
+        resp = _sec_get(session, url)
+        data = resp.json()
+    except Exception as e:
+        print("  [WARN] Submissions API failed for CIK {}: {}".format(padded_cik, e),
+              file=sys.stderr)
+        return []
+
+    results = []
+
+    def _extract_from_block(block):
+        forms = block.get("form", [])
+        accessions = block.get("accessionNumber", [])
+        dates = block.get("filingDate", [])
+        primary_docs = block.get("primaryDocument", [])
+        for form, acc, dt, doc in zip(forms, accessions, dates, primary_docs):
+            if form == "SC TO-I/A":
+                results.append({"accession": acc, "filed_date": dt, "primary_doc": doc})
+
+    # Recent filings block
+    recent = data.get("filings", {}).get("recent", {})
+    if recent:
+        _extract_from_block(recent)
+
+    # Older filing bundles
+    for file_meta in data.get("filings", {}).get("files", []):
+        file_name = file_meta.get("name")
+        if not file_name:
             continue
-        entry = {
-            "adsh": meta["adsh"],
-            "clean_adsh": meta["clean_adsh"],
-            "cik": meta["cik"],
-            "agent_cik": meta.get("agent_cik"),
-            "filed_date": meta["filed_date"],
-            "direct_filename": meta.get("direct_filename"),
-        }
-        index[meta["cik"]].append(entry)
+        try:
+            file_url = "https://data.sec.gov/submissions/{}".format(file_name)
+            resp2 = _sec_get(session, file_url)
+            _extract_from_block(resp2.json())
+            time.sleep(0.1)
+        except Exception:
+            pass
 
-    # Sort each CIK's amendments by filed_date ascending
-    for cik in index:
-        index[cik].sort(key=lambda x: x["filed_date"] or date.min)
-
-    return dict(index)
+    return results
 
 
 # ---------------------------------------------------------------------------
@@ -134,10 +155,10 @@ _CP_CLEARING = re.compile(
     r'clearing\s+price.{0,200}?\$\s*(\d{1,4}(?:\.\d{1,2})?)',
     re.IGNORECASE,
 )
-# Pattern 2: "accepted for payment/purchase at $X per share"
+# Pattern 2: "accepted for payment/purchase ... at [a price of] $X per [Class A] Share"
 _CP_ACCEPTED = re.compile(
     r'accepted\s+for\s+(?:payment|purchase).{0,300}?'
-    r'at\s+(?:a\s+(?:purchase\s+)?price\s+of\s+)?\$\s*(\d{1,4}(?:\.\d{1,2})?)\s+per\s+[Ss]hare',
+    r'at\s+(?:a\s+(?:purchase\s+)?price\s+of\s+)?\$\s*(\d{1,4}(?:\.\d{1,2})?)\s+per\s+(?:\w+\s+)*[Ss]hare',
     re.IGNORECASE,
 )
 # Pattern 3: "Purchase Price ... determined to be $X"
@@ -145,14 +166,30 @@ _CP_DETERMINED = re.compile(
     r'[Pp]urchase\s+[Pp]rice.{0,300}?determined.{0,200}?\$\s*(\d{1,4}(?:\.\d{1,2})?)',
     re.IGNORECASE,
 )
-# Pattern 4: "will pay $X per share"
-_CP_WILL_PAY = re.compile(
-    r'will\s+(?:pay|purchase)\s+\$\s*(\d{1,4}(?:\.\d{1,2})?)\s+per\s+[Ss]hare',
+# Pattern 4: "[final] purchase price of $X [per share]"  (catches CRAI, CNNE)
+_CP_PURCHASE_OF = re.compile(
+    r'(?:final\s+)?purchase\s+price\s+of\s+\$\s*(\d{1,4}(?:\.\d{1,2})?)',
     re.IGNORECASE,
 )
-# Pattern 5: generic "$X per Share" — last resort
+# Pattern 5: "at a price of $X per [Class A/B/C] Share"  (catches RAMP, AMCX)
+_CP_AT_PRICE = re.compile(
+    r'at\s+a\s+price\s+of\s+\$\s*(\d{1,4}(?:\.\d{1,2})?)\s+per\s+(?:\w+\s+)*[Ss]hare',
+    re.IGNORECASE,
+)
+# Pattern 6: "acquired/purchased ... at [a price of] $X per [Class A] Share"  (catches RGP)
+_CP_ACQUIRED = re.compile(
+    r'(?:acquired|purchased).{0,200}?'
+    r'at\s+(?:a\s+price\s+of\s+)?\$\s*(\d{1,4}(?:\.\d{1,2})?)\s+per\s+(?:\w+\s+)*[Ss]hare',
+    re.IGNORECASE,
+)
+# Pattern 7: "will pay/purchase $X per [Class A] Share"
+_CP_WILL_PAY = re.compile(
+    r'will\s+(?:pay|purchase)\s+\$\s*(\d{1,4}(?:\.\d{1,2})?)\s+per\s+(?:\w+\s+)*[Ss]hare',
+    re.IGNORECASE,
+)
+# Pattern 8: generic "$X per [Class A] Share" — last resort
 _CP_GENERIC = re.compile(
-    r'\$\s*(\d{1,4}(?:\.\d{1,2})?)\s+per\s+[Ss]hare',
+    r'\$\s*(\d{1,4}(?:\.\d{1,2})?)\s+per\s+(?:\w+\s+)*[Ss]hare',
     re.IGNORECASE,
 )
 
@@ -165,11 +202,14 @@ def extract_clearing_price(html):
     text = _strip_html(html)
 
     for pat, label in [
-        (_CP_CLEARING, "amendment"),
-        (_CP_ACCEPTED, "amendment"),
-        (_CP_DETERMINED, "amendment"),
-        (_CP_WILL_PAY, "amendment"),
-        (_CP_GENERIC, "amendment_generic"),
+        (_CP_CLEARING,    "amendment"),
+        (_CP_ACCEPTED,    "amendment"),
+        (_CP_DETERMINED,  "amendment"),
+        (_CP_PURCHASE_OF, "amendment"),
+        (_CP_AT_PRICE,    "amendment"),
+        (_CP_ACQUIRED,    "amendment"),
+        (_CP_WILL_PAY,    "amendment"),
+        (_CP_GENERIC,     "amendment"),
     ]:
         m = pat.search(text)
         if m:
@@ -180,37 +220,131 @@ def extract_clearing_price(html):
     return None, None
 
 
-def find_clearing_price_from_amendments(session, cik, expiry, amendment_index):
+_TERMINATION_RE = re.compile(
+    r'terminated?\s+the\s+(?:tender\s+)?offer|termination\s+of\s+(?:the\s+)?(?:tender\s+)?offer',
+    re.IGNORECASE,
+)
+
+
+def _fetch_exhibit_htmls(session, cik, agent_cik, adsh, clean_adsh):
     """
-    Find the first SC TO-I/A for this CIK filed on or after the offer expiry,
-    fetch it, and extract the clearing price.
+    Return HTML text for each EX-99.* exhibit document in the filing index.
+    These are press release exhibits that often contain the actual clearing price
+    when the primary SC TO-I/A document is just a stub incorporating by reference.
+    Falls back to parsing the HTML index for older filings where -index.json is absent.
+    """
+    import re as _re
+
+    documents = _try_index(session, cik, adsh, clean_adsh)
+    active_cik = cik
+    if documents is None and agent_cik and agent_cik != cik:
+        documents = _try_index(session, agent_cik, adsh, clean_adsh)
+        active_cik = agent_cik
+
+    exhibit_urls = []
+
+    if documents:
+        for doc in documents:
+            doc_type = doc.get("type", "").upper()
+            url = doc.get("documentUrl", "")
+            if doc_type.startswith("EX-99") and url.endswith((".htm", ".html", ".txt")):
+                exhibit_urls.append(url)
+    else:
+        # Older filings lack -index.json; parse the HTML index instead
+        for try_cik in ([cik] + ([agent_cik] if agent_cik and agent_cik != cik else [])):
+            html_idx_url = "{}/{}/{}/{}-index.htm".format(
+                EDGAR_ARCHIVES, try_cik, clean_adsh, adsh)
+            try:
+                resp = session.get(html_idx_url, timeout=20)
+                if not resp.ok:
+                    continue
+                hrefs = _re.findall(
+                    r'EX-99[^<]*</td>.*?href="(/Archives/edgar/data/[^"]+\.htm)"',
+                    resp.text, _re.IGNORECASE | _re.DOTALL,
+                )
+                if hrefs:
+                    exhibit_urls = ["https://www.sec.gov" + h for h in hrefs]
+                    break
+                time.sleep(0.15)
+            except Exception:
+                pass
+
+    exhibits = []
+    for url in exhibit_urls:
+        try:
+            resp = _sec_get(session, url)
+            exhibits.append(resp.text)
+            time.sleep(0.15)
+        except Exception:
+            pass
+    return exhibits
+
+
+def find_clearing_price_from_submissions(session, cik, expiry, price_lower, price_upper):
+    """
+    Use the EDGAR submissions API to find SC TO-I/A filings for this CIK
+    filed within 90 days after the offer expiry, then extract the clearing price.
+    When the primary document yields nothing, searches EX-99 press release exhibits.
+    Validates the extracted price is within the offer range (±5% slack).
     Returns (clearing_price, source, amendment_link) or (None, None, None).
     """
-    candidates = amendment_index.get(cik, [])
-    for amend in candidates:
-        # Only consider amendments filed on or after expiry
-        if amend["filed_date"] and amend["filed_date"] < expiry:
-            continue
-        # Skip amendments filed more than 90 days after expiry (likely unrelated)
-        if amend["filed_date"] and amend["filed_date"] > expiry + timedelta(days=90):
-            continue
+    padded_cik = str(int(cik)).zfill(10)
+    amendments = _fetch_submissions_amendments(session, padded_cik)
+
+    expiry_str = expiry.isoformat()
+    limit_str = (expiry + timedelta(days=90)).isoformat()
+
+    candidates = [
+        a for a in amendments
+        if expiry_str <= a["filed_date"] <= limit_str
+    ]
+    candidates.sort(key=lambda x: x["filed_date"])
+
+    # Acceptable range: [lower_bound * 0.95, upper_bound * 1.05]
+    lo = (price_lower if price_lower is not None else price_upper * 0.5) * 0.95
+    hi = price_upper * 1.05
+
+    for cand in candidates:
+        adsh = cand["accession"]                    # e.g. "0001193125-18-324979"
+        clean_adsh = adsh.replace("-", "")          # e.g. "000119312518324979"
+        # Agent CIK is the numeric prefix of the accession number
+        agent_cik = str(int(adsh.split("-")[0]))
 
         html = fetch_primary_document(
-            session,
-            amend["cik"],
-            amend["adsh"],
-            amend["clean_adsh"],
-            agent_cik=amend.get("agent_cik"),
-            direct_filename=amend.get("direct_filename"),
+            session, cik, adsh, clean_adsh,
+            agent_cik=agent_cik,
+            direct_filename=cand["primary_doc"] or None,
         )
         if not html:
+            time.sleep(0.15)
             continue
 
+        # Detect terminated offers — stop searching this filing and move on
+        if _TERMINATION_RE.search(_strip_html(html)):
+            print("  [SKIP] Offer terminated per amendment — no clearing price", file=sys.stderr)
+            return None, None, None
+
+        # Try primary document first
         price, source = extract_clearing_price(html)
-        if price is not None:
-            clean = amend["clean_adsh"]
-            link = "{}/{}/{}/".format(EDGAR_ARCHIVES, amend["cik"], clean)
+        if price is not None and lo <= price <= hi:
+            link = "{}/{}/{}/".format(EDGAR_ARCHIVES, cik, clean_adsh)
             return price, source, link
+        if price is not None:
+            print("  [WARN] Amendment clearing ${} outside offer range [${}, ${}] — skipping".format(
+                price, price_lower, price_upper), file=sys.stderr)
+
+        # Primary doc yielded nothing valid — try EX-99 press release exhibits
+        for ex_html in _fetch_exhibit_htmls(session, cik, agent_cik, adsh, clean_adsh):
+            if _TERMINATION_RE.search(_strip_html(ex_html)):
+                print("  [SKIP] Offer terminated per exhibit — no clearing price", file=sys.stderr)
+                return None, None, None
+            price, source = extract_clearing_price(ex_html)
+            if price is not None and lo <= price <= hi:
+                link = "{}/{}/{}/".format(EDGAR_ARCHIVES, cik, clean_adsh)
+                return price, source, link
+            if price is not None:
+                print("  [WARN] Exhibit clearing ${} outside offer range [${}, ${}] — skipping".format(
+                    price, price_lower, price_upper), file=sys.stderr)
 
         time.sleep(0.15)
 
@@ -303,14 +437,6 @@ def main():
         BACKTEST_START, end), file=sys.stderr)
     filing_hits = _search_edgar_form(BACKTEST_START, end, "SC TO-I")
     print("[INFO] Found {} SC TO-I hits".format(len(filing_hits)), file=sys.stderr)
-
-    print("[INFO] Searching EDGAR for SC TO-I/A amendments from {} to {}".format(
-        BACKTEST_START, end), file=sys.stderr)
-    amendment_hits = _search_edgar_form(BACKTEST_START, end, "SC TO-I/A")
-    print("[INFO] Found {} SC TO-I/A amendment hits".format(len(amendment_hits)), file=sys.stderr)
-
-    amendment_index = build_amendment_index(amendment_hits)
-    print("[INFO] Amendment index: {} unique CIKs".format(len(amendment_index)), file=sys.stderr)
 
     # Group SC TO-I hits by accession number (EDGAR returns one hit per exhibit)
     filings = {}
@@ -412,9 +538,10 @@ def main():
                 clearing_source = "fixed"
                 amendment_link = None
             else:
-                # Dutch auction: try to find actual clearing price from amendment
+                # Dutch auction: look up actual clearing price via EDGAR submissions API
                 clearing_price, clearing_source, amendment_link = \
-                    find_clearing_price_from_amendments(session, cik, expiry, amendment_index)
+                    find_clearing_price_from_submissions(
+                        session, cik, expiry, offer["price_lower"], offer["price_upper"])
                 time.sleep(0.15)
 
                 if clearing_price is None:
@@ -460,6 +587,22 @@ def main():
             print("  [ERROR] {}: {}".format(adsh, e), file=sys.stderr)
             skipped += 1
             continue
+
+    # Deduplicate by (ticker, expiry) — multiple EDGAR hits can map to the
+    # same underlying offer. Prefer "fixed" over "amendment" source; otherwise
+    # keep the entry with the highest clearing price (most conservative).
+    source_rank = {"fixed": 0, "amendment": 1}
+    seen: dict[tuple, dict] = {}
+    for t in trades:
+        key = (t["ticker"], t["expiry"])
+        if key not in seen:
+            seen[key] = t
+        else:
+            existing = seen[key]
+            if (source_rank.get(t["clearing_price_source"], 2) <
+                    source_rank.get(existing["clearing_price_source"], 2)):
+                seen[key] = t  # better source
+    trades = list(seen.values())
 
     # Sort by expiry date ascending
     trades.sort(key=lambda x: x["expiry"])

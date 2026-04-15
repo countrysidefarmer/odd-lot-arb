@@ -173,7 +173,7 @@ function render_chart(trades) {
   const ctx = document.getElementById('pnlChart').getContext('2d');
 
   new Chart(ctx, {
-    type: 'scatter',
+    type: 'line',
     data: { datasets },
     options: {
       responsive: true,
