@@ -258,9 +258,10 @@ def _fetch_exhibit_htmls(session, cik, agent_cik, adsh, clean_adsh):
                 resp = session.get(html_idx_url, timeout=20)
                 if not resp.ok:
                     continue
+                # Index HTML has href before type: <a href="/Archives/...htm">...</a></td><td>EX-99...</td>
                 hrefs = _re.findall(
-                    r'EX-99[^<]*</td>.*?href="(/Archives/edgar/data/[^"]+\.htm)"',
-                    resp.text, _re.IGNORECASE | _re.DOTALL,
+                    r'href="(/Archives/edgar/data/[^"]+\.htm)"[^>]*>[^<]*</a></td>\s*<td[^>]*>\s*EX-99',
+                    resp.text, _re.IGNORECASE,
                 )
                 if hrefs:
                     exhibit_urls = ["https://www.sec.gov" + h for h in hrefs]

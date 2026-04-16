@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-15T11:25:25Z",
-  "trade_count": 54,
-  "total_pnl": 21019.14,
+  "generated_at": "2026-04-16T03:11:56Z",
+  "trade_count": 58,
+  "total_pnl": 21379.0,
   "trades": [
     {
       "ticker": "FC",
@@ -34,6 +34,22 @@
       "realized_pnl": 6.93,
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1371489/000104746916010960/",
       "amendment_link": null
+    },
+    {
+      "ticker": "VRTS",
+      "company_name": "VIRTUS INVESTMENT PARTNERS, INC.",
+      "exchange": "NYSE",
+      "price_lower": 73.0,
+      "price_upper": 82.5,
+      "clearing_price": 82.5,
+      "clearing_price_source": "amendment",
+      "t1_price": 81.28,
+      "t1_date": "2016-06-07",
+      "expiry": "2016-06-08",
+      "filed_date": "2016-05-10",
+      "realized_pnl": 120.78,
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/883237/000119312516584866/",
+      "amendment_link": "https://www.sec.gov/Archives/edgar/data/883237/000119312516617411/"
     },
     {
       "ticker": "RGP",
@@ -210,6 +226,22 @@
       "realized_pnl": 1470.15,
       "filing_link": "https://www.sec.gov/Archives/edgar/data/776867/000104746918002667/",
       "amendment_link": "https://www.sec.gov/Archives/edgar/data/776867/000110465918031101/"
+    },
+    {
+      "ticker": "WHR",
+      "company_name": "WHIRLPOOL CORP /DE/",
+      "exchange": "NYSE",
+      "price_lower": 150.0,
+      "price_upper": 170.0,
+      "clearing_price": 159.5,
+      "clearing_price_source": "amendment",
+      "t1_price": 164.3,
+      "t1_date": "2018-05-22",
+      "expiry": "2018-05-23",
+      "filed_date": "2018-04-26",
+      "realized_pnl": -475.2,
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/106640/000119312518134842/",
+      "amendment_link": "https://www.sec.gov/Archives/edgar/data/106640/000119312518172908/"
     },
     {
       "ticker": "QCOM",
@@ -450,6 +482,22 @@
       "realized_pnl": 220.77,
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1478454/000114036121022641/",
       "amendment_link": null
+    },
+    {
+      "ticker": "CVLG",
+      "company_name": "COVENANT LOGISTICS GROUP, INC.",
+      "exchange": "NYSE",
+      "price_lower": 21.0,
+      "price_upper": 23.0,
+      "clearing_price": 23.0,
+      "clearing_price_source": "amendment",
+      "t1_price": 12.195,
+      "t1_date": "2021-09-02",
+      "expiry": "2021-09-03",
+      "filed_date": "2021-08-09",
+      "realized_pnl": 1069.69,
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/928658/000100888621000080/",
+      "amendment_link": "https://www.sec.gov/Archives/edgar/data/928658/000100888621000087/"
     },
     {
       "ticker": "IVT",
@@ -818,6 +866,22 @@
       "realized_pnl": 539.55,
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1835724/000110465924097910/",
       "amendment_link": null
+    },
+    {
+      "ticker": "WEX",
+      "company_name": "WEX Inc.",
+      "exchange": "NYSE",
+      "price_lower": 148.0,
+      "price_upper": 170.0,
+      "clearing_price": 154.0,
+      "clearing_price_source": "amendment",
+      "t1_price": 157.59,
+      "t1_date": "2025-03-24",
+      "expiry": "2025-03-25",
+      "filed_date": "2025-02-26",
+      "realized_pnl": -355.41,
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/1309108/000114036125006098/",
+      "amendment_link": "https://www.sec.gov/Archives/edgar/data/1309108/000114036125010363/"
     },
     {
       "ticker": "SWZ",
