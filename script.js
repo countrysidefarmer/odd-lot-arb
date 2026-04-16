@@ -90,17 +90,6 @@ fetch('./data/opportunities.json?v=' + Date.now())
 
 // ── Historical backtest ──────────────────────────────────────────────────────
 
-const YEAR_COLORS = [
-  '#10d48a', '#4a9eff', '#f59e0b', '#f87171', '#a78bfa',
-  '#34d399', '#60a5fa', '#fb923c', '#e879f9', '#86efac', '#fde68a',
-];
-
-function day_of_year(iso) {
-  const d = new Date(iso + 'T12:00:00Z');
-  const start = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  return Math.floor((d - start) / 86400000) + 1;
-}
-
 function render_stats(trades) {
   const total_pnl = trades.reduce((s, t) => s + t.realized_pnl, 0);
 
@@ -124,96 +113,68 @@ function render_stats(trades) {
   `;
 }
 
-function render_chart(trades) {
-  const years = [...new Set(trades.map(t => t.expiry.slice(0, 4)))].sort();
-  const current_year = new Date().getUTCFullYear().toString();
-
-  // Month start days (approx) and labels for x-axis
-  const MONTH_DAYS  = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
-  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',''];
-
-  const datasets = years.map((yr, i) => {
-    const yr_trades = trades
-      .filter(t => t.expiry.startsWith(yr))
-      .sort((a, b) => a.expiry.localeCompare(b.expiry));
-
-    // Start at day 1, $0; add a step at each trade; hold flat until next trade
-    const points = [{ x: 1, y: 0 }];
-    let cum = 0;
-    yr_trades.forEach(t => {
-      const doy = day_of_year(t.expiry);
-      // Hold previous level up to this trade
-      points.push({ x: doy - 0.01, y: Math.round(cum * 100) / 100 });
-      cum += t.realized_pnl;
-      points.push({ x: doy, y: Math.round(cum * 100) / 100 });
-    });
-    // Extend to year end for completed years
-    if (yr !== current_year) {
-      points.push({ x: 365, y: Math.round(cum * 100) / 100 });
-    }
-
-    const color = YEAR_COLORS[i % YEAR_COLORS.length];
-    return {
-      label: yr,
-      data: points,
-      borderColor: color,
-      backgroundColor: color + '15',
-      borderWidth: 2,
-      pointRadius: (ctx) => {
-        // Only show dot at actual trade points, not the flat segments
-        const raw = ctx.raw;
-        return raw && String(raw.x).includes('.') ? 0 : 4;
-      },
-      pointHoverRadius: 6,
-      tension: 0,
-      fill: false,
-    };
+function render_bar_chart(trades) {
+  // Group trades by year
+  const by_year = {};
+  trades.forEach(t => {
+    const yr = t.expiry.slice(0, 4);
+    if (!by_year[yr]) by_year[yr] = { total: 0, trades: [] };
+    by_year[yr].total = Math.round((by_year[yr].total + t.realized_pnl) * 100) / 100;
+    by_year[yr].trades.push(t);
   });
+  const years = Object.keys(by_year).sort();
+  const totals = years.map(yr => by_year[yr].total);
+  const colors = totals.map(v => v >= 0 ? '#10d48a' : '#f87171');
+  const bg_colors = totals.map(v => v >= 0 ? 'rgba(16,212,138,0.2)' : 'rgba(248,113,113,0.2)');
 
   const ctx = document.getElementById('pnlChart').getContext('2d');
 
   new Chart(ctx, {
-    type: 'line',
-    data: { datasets },
+    type: 'bar',
+    data: {
+      labels: years,
+      datasets: [{
+        data: totals,
+        backgroundColor: bg_colors,
+        borderColor: colors,
+        borderWidth: 2,
+        borderRadius: 4,
+        borderSkipped: false,
+      }],
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: {
-          labels: { color: '#8899b4', font: { size: 12 }, boxWidth: 24 },
-        },
+        legend: { display: false },
         tooltip: {
           callbacks: {
-            title: items => {
-              const doy = Math.round(items[0].parsed.x);
-              const yr = items[0].dataset.label;
-              const d = new Date(Date.UTC(parseInt(yr), 0, doy));
-              return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            title: items => items[0].label,
+            afterTitle: items => {
+              const yr = items[0].label;
+              const total = by_year[yr].total;
+              return 'Total: $' + total.toFixed(0);
             },
-            label: item => {
-              return `${item.dataset.label}: $${item.parsed.y.toFixed(2)} cumulative`;
+            label: () => '',
+            footer: items => {
+              const yr = items[0].label;
+              return by_year[yr].trades
+                .slice()
+                .sort((a, b) => b.realized_pnl - a.realized_pnl)
+                .map(t =>
+                  `${t.ticker.padEnd(6)}  $${t.t1_price.toFixed(2)} → $${t.clearing_price.toFixed(2)}  P&L $${t.realized_pnl.toFixed(0)}`
+                );
             },
           },
+          titleFont: { size: 13, weight: 'bold' },
+          footerFont: { family: 'monospace', size: 11 },
+          footerColor: '#8899b4',
+          padding: 12,
         },
       },
       scales: {
         x: {
-          type: 'linear',
-          min: 1,
-          max: 365,
-          ticks: {
-            color: '#8899b4',
-            maxTicksLimit: 13,
-            callback: val => {
-              // Find the nearest month start
-              const idx = MONTH_DAYS.findIndex(d => Math.abs(d - val) < 8);
-              return idx >= 0 ? MONTH_NAMES[idx] : '';
-            },
-          },
-          afterBuildTicks: axis => {
-            axis.ticks = MONTH_DAYS.slice(0, 12).map(v => ({ value: v }));
-          },
+          ticks: { color: '#8899b4', font: { size: 12 } },
           grid: { color: 'rgba(255,255,255,0.05)' },
         },
         y: {
@@ -265,7 +226,7 @@ function render_historical(data) {
   }
   document.getElementById('hist-content').style.display = '';
   render_stats(trades);
-  render_chart(trades);
+  render_bar_chart(trades);
   render_hist_table(trades);
 }
 
