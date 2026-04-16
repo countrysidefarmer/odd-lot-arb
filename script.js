@@ -206,7 +206,7 @@ function render_hist_table(trades) {
       <td class="cell-ticker">${escape_html(t.ticker)}</td>
       <td class="cell-company">${escape_html(t.company_name)}</td>
       <td><span class="cell-exchange">${escape_html(t.exchange)}</span></td>
-      <td class="cell-range">${fmt_price(t.price_upper)}</td>
+      <td class="cell-range">${fmt_price(t.clearing_price)}</td>
       <td class="cell-price">${fmt_price(t.t1_price)}</td>
       <td class="cell-profit${pnl_neg ? ' negative' : ''}">${fmt_price(t.realized_pnl)}</td>
       <td class="cell-expiry">${fmt_date(t.expiry)}</td>
