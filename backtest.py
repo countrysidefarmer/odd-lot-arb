@@ -194,14 +194,17 @@ _CP_GENERIC = re.compile(
 )
 
 
-def extract_clearing_price(html):
+def extract_clearing_price(html, strict=False):
     """
     Extract the final clearing price from an SC TO-I/A amendment HTML.
+    strict=True omits _CP_GENERIC to avoid false positives from offer-range
+    boilerplate in primary SC TO-I/A documents (e.g. "less than $80 per Share").
+    strict=False (default for press-release exhibits) uses all patterns.
     Returns (price: float, source: str) or (None, None).
     """
     text = _strip_html(html)
 
-    for pat, label in [
+    patterns = [
         (_CP_CLEARING,    "amendment"),
         (_CP_ACCEPTED,    "amendment"),
         (_CP_DETERMINED,  "amendment"),
@@ -209,8 +212,11 @@ def extract_clearing_price(html):
         (_CP_AT_PRICE,    "amendment"),
         (_CP_ACQUIRED,    "amendment"),
         (_CP_WILL_PAY,    "amendment"),
-        (_CP_GENERIC,     "amendment"),
-    ]:
+    ]
+    if not strict:
+        patterns.append((_CP_GENERIC, "amendment"))
+
+    for pat, label in patterns:
         m = pat.search(text)
         if m:
             p = float(m.group(1))
@@ -222,6 +228,16 @@ def extract_clearing_price(html):
 
 _TERMINATION_RE = re.compile(
     r'terminated?\s+the\s+(?:tender\s+)?offer|termination\s+of\s+(?:the\s+)?(?:tender\s+)?offer',
+    re.IGNORECASE,
+)
+
+# Results-announcement language: only present in the final results SC TO-I/A,
+# not in intermediate amendments that merely extend or amend the offer terms.
+_RESULTS_LANGUAGE_RE = re.compile(
+    r'accepted\s+for\s+(?:purchase|payment)|'
+    r'final\s+results?\s+of\s+(?:the\s+)?(?:tender\s+)?offer|'
+    r'purchase\s+price\s+(?:has\s+been\s+)?determined|'
+    r'(?:shares?|units?)\s+(?:tendered\s+)?(?:were|have\s+been)\s+(?:purchased|accepted)',
     re.IGNORECASE,
 )
 
@@ -305,10 +321,13 @@ def find_clearing_price_from_submissions(session, cik, expiry, price_lower, pric
     lo = (price_lower if price_lower is not None else price_upper * 0.5) * 0.95
     hi = price_upper * 1.05
 
-    for cand in candidates:
-        adsh = cand["accession"]                    # e.g. "0001193125-18-324979"
-        clean_adsh = adsh.replace("-", "")          # e.g. "000119312518324979"
-        # Agent CIK is the numeric prefix of the accession number
+    def _try_extract(cand):
+        """
+        Attempt to extract a valid clearing price from one amendment candidate.
+        Returns (price, source, link, has_results_language) or (None, None, None, False).
+        """
+        adsh = cand["accession"]
+        clean_adsh = adsh.replace("-", "")
         agent_cik = str(int(adsh.split("-")[0]))
 
         html = fetch_primary_document(
@@ -318,36 +337,58 @@ def find_clearing_price_from_submissions(session, cik, expiry, price_lower, pric
         )
         if not html:
             time.sleep(0.15)
-            continue
+            return None, None, None, False
 
-        # Detect terminated offers — stop searching this filing and move on
-        if _TERMINATION_RE.search(_strip_html(html)):
+        text = _strip_html(html)
+
+        # Detect terminated offers — bail out of entire search
+        if _TERMINATION_RE.search(text):
             print("  [SKIP] Offer terminated per amendment — no clearing price", file=sys.stderr)
-            return None, None, None
+            return "TERMINATED", None, None, False
 
-        # Try primary document first
-        price, source = extract_clearing_price(html)
+        has_results = bool(_RESULTS_LANGUAGE_RE.search(text))
+
+        # Try primary document (strict — no generic per-share pattern)
+        price, source = extract_clearing_price(html, strict=True)
         if price is not None and lo <= price <= hi:
             link = "{}/{}/{}/".format(EDGAR_ARCHIVES, cik, clean_adsh)
-            return price, source, link
+            return price, source, link, has_results
         if price is not None:
-            print("  [WARN] Amendment clearing ${} outside offer range [${}, ${}] — skipping".format(
+            print("  [WARN] Primary clearing ${} outside range [${}, ${}]".format(
                 price, price_lower, price_upper), file=sys.stderr)
 
-        # Primary doc yielded nothing valid — try EX-99 press release exhibits
+        # Try EX-99 press release exhibits (full patterns, no boilerplate risk)
         for ex_html in _fetch_exhibit_htmls(session, cik, agent_cik, adsh, clean_adsh):
-            if _TERMINATION_RE.search(_strip_html(ex_html)):
+            ex_text = _strip_html(ex_html)
+            if _TERMINATION_RE.search(ex_text):
                 print("  [SKIP] Offer terminated per exhibit — no clearing price", file=sys.stderr)
-                return None, None, None
-            price, source = extract_clearing_price(ex_html)
+                return "TERMINATED", None, None, False
+            if _RESULTS_LANGUAGE_RE.search(ex_text):
+                has_results = True
+            price, source = extract_clearing_price(ex_html, strict=False)
             if price is not None and lo <= price <= hi:
                 link = "{}/{}/{}/".format(EDGAR_ARCHIVES, cik, clean_adsh)
-                return price, source, link
+                return price, source, link, has_results
             if price is not None:
-                print("  [WARN] Exhibit clearing ${} outside offer range [${}, ${}] — skipping".format(
+                print("  [WARN] Exhibit clearing ${} outside range [${}, ${}]".format(
                     price, price_lower, price_upper), file=sys.stderr)
 
         time.sleep(0.15)
+        return None, None, None, has_results
+
+    # Two-pass strategy:
+    # Pass 1: only consider amendments that contain results-announcement language
+    #         (ensures we use the final results filing, not an intermediate amendment)
+    # Pass 2: if nothing found in pass 1, fall back to any amendment with a valid price
+    for results_only in (True, False):
+        for cand in candidates:
+            price, source, link, has_results = _try_extract(cand)
+            if price == "TERMINATED":
+                return None, None, None
+            if price is not None:
+                if results_only and not has_results:
+                    continue  # skip non-results amendments in first pass
+                return price, source, link
 
     return None, None, None
 
