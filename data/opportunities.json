@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-24T04:13:16Z",
+  "last_updated": "2026-04-25T03:47:22Z",
   "opportunities": [
     {
       "ticker": "CMU",
@@ -19,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 8.21,
       "price_upper": 8.21,
-      "current_price": 8.355,
-      "max_profit": -14.35,
+      "current_price": 8.35,
+      "max_profit": -13.86,
       "expiry": "2026-05-12",
       "filed_date": "2026-04-13",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/847411/000093041326001040/"
