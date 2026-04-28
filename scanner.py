@@ -450,7 +450,7 @@ def _format_table(opportunities):
     return "\n".join(rows)
 
 
-def build_and_send_email(opportunities):
+def build_and_send_email(opportunities, all_opportunities=None):
     if not opportunities:
         return
 
@@ -463,7 +463,7 @@ def build_and_send_email(opportunities):
     port = int(os.environ["SMTP_PORT"])
 
     msg = MIMEText(body, "plain")
-    msg["Subject"] = "Odd-Lot Tender Offers — {} ({} found)".format(
+    msg["Subject"] = "Odd-Lot Tender Offers — {} ({} new/updated)".format(
         date.today().isoformat(), len(opportunities)
     )
     msg["From"] = email_from
@@ -524,7 +524,31 @@ def write_json(opportunities):
 
 
 # ---------------------------------------------------------------------------
-# 10. Main
+# 10. State — track seen opportunities to avoid duplicate emails
+# ---------------------------------------------------------------------------
+
+STATE_PATH = pathlib.Path("data/seen_state.json")
+
+
+def load_state():
+    if STATE_PATH.exists():
+        return json.loads(STATE_PATH.read_text())
+    return {"opportunities": {}}
+
+
+def save_state(state, opportunities):
+    active_adshs = {op["adsh"] for op in opportunities}
+    state["opportunities"] = {
+        k: v for k, v in state["opportunities"].items()
+        if k in active_adshs
+    }
+    state["last_updated"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    STATE_PATH.write_text(json.dumps(state, indent=2))
+
+
+# ---------------------------------------------------------------------------
+# 11. Main
 # ---------------------------------------------------------------------------
 
 def _pick_offer_document(filenames):
@@ -663,6 +687,7 @@ def main():
             profit = calculate_profit(offer["price_upper"], market["current_price"])
 
             opportunities.append({
+                "adsh": adsh,
                 "ticker": meta["ticker"],
                 "company_name": meta["company_name"],
                 "exchange": market["exchange"],
@@ -689,13 +714,41 @@ def main():
     if output_json:
         write_json(opportunities)
 
+    # Determine which opportunities warrant an email alert.
+    state = load_state()
+    seen = state.setdefault("opportunities", {})
+
+    to_email = []
+    for op in opportunities:
+        adsh = op["adsh"]
+        entry = seen.get(adsh)
+        if entry is None:
+            to_email.append(op)
+        elif op["max_profit"] >= 100 and not entry.get("threshold_alerted"):
+            to_email.append(op)
+
+    for op in opportunities:
+        adsh = op["adsh"]
+        if adsh not in seen:
+            seen[adsh] = {
+                "ticker": op["ticker"],
+                "first_seen": date.today().isoformat(),
+                "threshold_alerted": False,
+            }
+        if op["max_profit"] >= 100:
+            seen[adsh]["threshold_alerted"] = True
+
+    save_state(state, opportunities)
+
     if dry_run:
-        if opportunities:
-            print("\n" + _format_table(opportunities))
+        if to_email:
+            print("\n[INFO] Would email {} opportunity/ies (new or crossed $100):".format(
+                len(to_email)))
+            print(_format_table(to_email))
         else:
-            print("[INFO] No actionable opportunities found.")
+            print("[INFO] No new opportunities or threshold crossings — no email would be sent.")
     else:
-        build_and_send_email(opportunities)
+        build_and_send_email(to_email)
 
     sys.exit(0)
 

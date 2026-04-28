@@ -472,12 +472,26 @@ def get_exchange(ticker):
 # ---------------------------------------------------------------------------
 
 def main():
+    incremental = "--incremental" in sys.argv
     today = date.today()
     end = today.isoformat()
 
+    if incremental:
+        start = (today - timedelta(days=60)).isoformat()
+        existing_trades = []
+        if JSON_PATH.exists():
+            existing_trades = json.loads(JSON_PATH.read_text()).get("trades", [])
+        existing_keys = {(t["ticker"], t["expiry"]) for t in existing_trades}
+        print("[INFO] Incremental mode: scanning last 60 days; {} trades already recorded".format(
+            len(existing_trades)), file=sys.stderr)
+    else:
+        start = BACKTEST_START
+        existing_trades = []
+        existing_keys = set()
+
     print("[INFO] Searching EDGAR for SC TO-I filings from {} to {}".format(
-        BACKTEST_START, end), file=sys.stderr)
-    filing_hits = _search_edgar_form(BACKTEST_START, end, "SC TO-I")
+        start, end), file=sys.stderr)
+    filing_hits = _search_edgar_form(start, end, "SC TO-I")
     print("[INFO] Found {} SC TO-I hits".format(len(filing_hits)), file=sys.stderr)
 
     # Group SC TO-I hits by accession number (EDGAR returns one hit per exhibit)
@@ -534,6 +548,12 @@ def main():
             expiry = offer["expiry"]
             if expiry is None:
                 print("  [SKIP] No expiry date", file=sys.stderr)
+                skipped += 1
+                continue
+
+            if incremental and (ticker, expiry.isoformat()) in existing_keys:
+                print("  [SKIP] Already in historical ({} {})".format(ticker, expiry),
+                      file=sys.stderr)
                 skipped += 1
                 continue
 
@@ -649,10 +669,20 @@ def main():
     # Sort by expiry date ascending
     trades.sort(key=lambda x: x["expiry"])
 
-    total_pnl = round(sum(t["realized_pnl"] for t in trades), 2)
-    print("\n[INFO] Complete: {} trades, {} skipped, total P&L ${:.2f}".format(
-        len(trades), skipped, total_pnl), file=sys.stderr)
+    if incremental:
+        new_count = len(trades)
+        trades = existing_trades + trades
+        trades.sort(key=lambda x: x["expiry"])
+        print("\n[INFO] Incremental complete: {} new trades found, {} skipped".format(
+            new_count, skipped), file=sys.stderr)
+        if new_count == 0:
+            print("[INFO] Nothing new — historical.json unchanged", file=sys.stderr)
+            return
+    else:
+        print("\n[INFO] Complete: {} trades, {} skipped".format(
+            len(trades), skipped), file=sys.stderr)
 
+    total_pnl = round(sum(t["realized_pnl"] for t in trades), 2)
     JSON_PATH.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "generated_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -661,7 +691,8 @@ def main():
         "trades": trades,
     }
     JSON_PATH.write_text(json.dumps(payload, indent=2))
-    print("[INFO] Wrote {} trades to {}".format(len(trades), JSON_PATH), file=sys.stderr)
+    print("[INFO] Wrote {} trades to {} (total P&L ${:.2f})".format(
+        len(trades), JSON_PATH, total_pnl), file=sys.stderr)
 
 
 if __name__ == "__main__":
