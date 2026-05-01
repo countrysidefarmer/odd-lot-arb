@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-30T04:27:03Z",
+  "last_updated": "2026-05-01T04:42:22Z",
   "opportunities": [
     {
       "ticker": "CMU",
@@ -7,8 +7,8 @@
       "exchange": "NYSE",
       "price_lower": 3.62,
       "price_upper": 3.62,
-      "current_price": 3.65,
-      "max_profit": -2.97,
+      "current_price": 3.64,
+      "max_profit": -1.98,
       "expiry": "2026-05-05",
       "filed_date": "2026-04-06",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/809844/000093041326000980/"
@@ -19,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 8.21,
       "price_upper": 8.21,
-      "current_price": 8.34,
-      "max_profit": -12.87,
+      "current_price": 8.35,
+      "max_profit": -13.86,
       "expiry": "2026-05-12",
       "filed_date": "2026-04-13",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/847411/000093041326001040/"
