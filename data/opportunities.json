@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-06T04:28:43Z",
+  "last_updated": "2026-05-07T04:29:09Z",
   "opportunities": [
     {
       "ticker": "CXH",
@@ -7,8 +7,8 @@
       "exchange": "NYSE",
       "price_lower": 8.21,
       "price_upper": 8.21,
-      "current_price": 8.345,
-      "max_profit": -13.36,
+      "current_price": 8.35,
+      "max_profit": -13.86,
       "expiry": "2026-05-12",
       "filed_date": "2026-04-13",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/847411/000093041326001040/"
