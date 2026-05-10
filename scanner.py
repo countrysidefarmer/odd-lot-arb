@@ -87,6 +87,12 @@ _EXPIRY_FALLBACK = re.compile(
 )
 _TICKER_RE = re.compile(r"\(([A-Z]{1,5})\)\s*\(CIK")
 
+# NAV-based offer detection (closed-end fund tenders at % of NAV)
+_NAV_OFFER_RE = re.compile(
+    r"(\d{1,3}(?:\.\d+)?)\s*%\s+of\s+(?:the\s+)?(?:fund'?s?\s+)?net\s+asset\s+value",
+    re.IGNORECASE,
+)
+
 
 # ---------------------------------------------------------------------------
 # 1. Date range
@@ -302,10 +308,55 @@ def _valid_price(p):
     return 0.10 < p < 10_000
 
 
+def fetch_cef_nav_per_share(session, cik):
+    """Return the most recently reported NAV per share for a closed-end fund from its N-CEN filing.
+    Returns None on failure."""
+    try:
+        padded = str(int(cik)).zfill(10)
+        r = _sec_get(session, "https://data.sec.gov/submissions/CIK{}.json".format(padded))
+        data = r.json()
+        filings = data.get("filings", {}).get("recent", {})
+        forms = filings.get("form", [])
+        accessions = filings.get("accessionNumber", [])
+
+        ncen_acc = None
+        for form, acc in zip(forms, accessions):
+            if form == "N-CEN":
+                ncen_acc = acc.replace("-", "")
+                break
+        if not ncen_acc:
+            return None
+
+        xml_url = "https://www.sec.gov/Archives/edgar/data/{}/{}/primary_doc.xml".format(
+            cik, ncen_acc)
+        xml_r = _sec_get(session, xml_url)
+        m = re.search(r"<netAssetValuePerShare>([\d.]+)</netAssetValuePerShare>", xml_r.text)
+        return float(m.group(1)) if m else None
+    except Exception:
+        return None
+
+
 def extract_offer_details(html):
     text = _strip_html(html)
     price_lower = price_upper = None
     expiry = None
+
+    # Detect NAV-based offers before fixed-price patterns fire on market-price references
+    nav_m = _NAV_OFFER_RE.search(text)
+    if nav_m:
+        for pat in (_EXPIRY, _EXPIRY_PRORATION, _EXPIRY_DEF, _EXPIRY_FALLBACK):
+            em = pat.search(text)
+            if em:
+                expiry = _parse_date(em.group(1))
+                if expiry:
+                    break
+        return {
+            "price_lower": None,
+            "price_upper": None,
+            "expiry": expiry,
+            "is_nav_offer": True,
+            "nav_pct": float(nav_m.group(1)) / 100.0,
+        }
 
     m = _RANGE_TO.search(text)
     if m:
@@ -430,6 +481,8 @@ def _format_table(opportunities):
     rows = [header, sep]
     for op in opportunities:
         offer_str = _format_price(op["price_lower"], op["price_upper"])
+        if op.get("is_nav_offer"):
+            offer_str = "~" + offer_str + " (NAV)"
         expiry_str = op["expiry"].isoformat() if op["expiry"] else "Unknown"
         filed_str = op["filed_date"].isoformat() if op.get("filed_date") else "Unknown"
         profit_str = "${:.2f}".format(op["max_profit"])
@@ -667,7 +720,23 @@ def main():
                 continue
 
             offer = extract_offer_details(html)
-            if offer["price_upper"] is None:
+
+            if offer.get("is_nav_offer"):
+                # Closed-end fund tender at % of NAV — fetch NAV per share from most recent N-CEN
+                nav_pct = offer["nav_pct"]
+                nav_per_share = fetch_cef_nav_per_share(session, meta["cik"])
+                if nav_per_share is None:
+                    print("[SKIP] {} NAV offer — N-CEN NAV not found".format(
+                        meta["ticker"]), file=sys.stderr)
+                    continue
+                estimated_price = round(nav_pct * nav_per_share, 4)
+                offer["price_lower"] = estimated_price
+                offer["price_upper"] = estimated_price
+                print("[INFO] {} NAV offer: {:.0f}% × ${:.4f} NAV ≈ ${:.4f}".format(
+                    meta["ticker"], nav_pct * 100, nav_per_share, estimated_price),
+                    file=sys.stderr)
+                time.sleep(0.15)
+            elif offer["price_upper"] is None:
                 print("[SKIP] No price found for {}".format(meta["ticker"]), file=sys.stderr)
                 continue
 
@@ -693,14 +762,16 @@ def main():
                 "exchange": market["exchange"],
                 "price_lower": offer["price_lower"],
                 "price_upper": offer["price_upper"],
+                "is_nav_offer": offer.get("is_nav_offer", False),
                 "current_price": market["current_price"],
                 "max_profit": profit,
                 "expiry": offer["expiry"],
                 "filed_date": meta.get("filed_date"),
                 "filing_link": meta["filing_link"],
             })
-            print("[OK]   {} — profit ${:.2f} — expiry {}".format(
-                meta["ticker"], profit, offer["expiry"]), file=sys.stderr)
+            nav_note = " (NAV est.)" if offer.get("is_nav_offer") else ""
+            print("[OK]   {} — profit ${:.2f}{} — expiry {}".format(
+                meta["ticker"], profit, nav_note, offer["expiry"]), file=sys.stderr)
 
         except Exception as e:
             print("[ERROR] {}: {}".format(adsh, e), file=sys.stderr)

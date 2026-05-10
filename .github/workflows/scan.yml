@@ -34,6 +34,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/opportunities.json
+          git add data/opportunities.json data/seen_state.json
           git diff --cached --quiet || git commit -m "chore: update opportunities $(date -u +%Y-%m-%d)"
           git push
