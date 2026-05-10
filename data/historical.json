@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-16T11:17:52Z",
-  "trade_count": 56,
-  "total_pnl": 23834.2,
+  "generated_at": "2026-05-10T18:44:58Z",
+  "trade_count": 58,
+  "total_pnl": 23959.93,
   "trades": [
     {
       "ticker": "FC",
@@ -898,6 +898,38 @@
       "realized_pnl": 191.07,
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1576789/000117891326000759/",
       "amendment_link": "https://www.sec.gov/Archives/edgar/data/1576789/000117891326001986/"
+    },
+    {
+      "ticker": "SCHL",
+      "company_name": "SCHOLASTIC CORP",
+      "exchange": "NASDAQ",
+      "price_lower": 36.0,
+      "price_upper": 40.0,
+      "clearing_price": 40.0,
+      "clearing_price_source": "amendment",
+      "t1_price": 39.77,
+      "t1_date": "2026-04-17",
+      "expiry": "2026-04-20",
+      "filed_date": "2026-03-23",
+      "realized_pnl": 22.77,
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/866729/000119312526118703/",
+      "amendment_link": "https://www.sec.gov/Archives/edgar/data/866729/000119312526166703/"
+    },
+    {
+      "ticker": "RBNE",
+      "company_name": "Robin Energy Ltd.",
+      "exchange": "NASDAQ",
+      "price_lower": 3.0,
+      "price_upper": 3.0,
+      "clearing_price": 3.0,
+      "clearing_price_source": "fixed",
+      "t1_price": 1.96,
+      "t1_date": "2026-04-22",
+      "expiry": "2026-04-23",
+      "filed_date": "2026-03-24",
+      "realized_pnl": 102.96,
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/2039060/000114036126010925/",
+      "amendment_link": null
     }
   ]
 }
