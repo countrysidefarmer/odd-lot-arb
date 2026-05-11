@@ -1,14 +1,14 @@
 {
-  "last_updated": "2026-05-10T04:38:27Z",
+  "last_updated": "2026-05-11T04:53:30Z",
   "opportunities": [
     {
       "ticker": "CXH",
       "company_name": "MFS INVESTMENT GRADE MUNICIPAL TRUST",
       "exchange": "NYSE",
-      "price_lower": 8.21,
-      "price_upper": 8.21,
+      "price_lower": 8.5338,
+      "price_upper": 8.5338,
       "current_price": 8.375,
-      "max_profit": -16.33,
+      "max_profit": 15.72,
       "expiry": "2026-05-12",
       "filed_date": "2026-04-13",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/847411/000093041326001040/"
