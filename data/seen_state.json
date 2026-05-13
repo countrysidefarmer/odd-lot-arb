@@ -1,10 +1,4 @@
 {
-  "opportunities": {
-    "0000930413-26-001040": {
-      "ticker": "CXH",
-      "first_seen": "2026-05-11",
-      "threshold_alerted": false
-    }
-  },
-  "last_updated": "2026-05-12T04:30:15Z"
+  "opportunities": {},
+  "last_updated": "2026-05-13T04:37:26Z"
 }
