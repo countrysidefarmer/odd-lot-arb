@@ -1,4 +1,17 @@
 {
-  "last_updated": "2026-05-13T04:37:26Z",
-  "opportunities": []
+  "last_updated": "2026-05-14T04:35:49Z",
+  "opportunities": [
+    {
+      "ticker": "EXFY",
+      "company_name": "Expensify, Inc.",
+      "exchange": "NASDAQ",
+      "price_lower": 0.98,
+      "price_upper": 0.98,
+      "current_price": 1.14,
+      "max_profit": -15.84,
+      "expiry": "2026-06-10",
+      "filed_date": "2026-05-13",
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/1476840/000147684026000044/"
+    }
+  ]
 }

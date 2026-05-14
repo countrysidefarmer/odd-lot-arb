@@ -1,4 +1,10 @@
 {
-  "opportunities": {},
-  "last_updated": "2026-05-13T04:37:26Z"
+  "opportunities": {
+    "0001476840-26-000044": {
+      "ticker": "EXFY",
+      "first_seen": "2026-05-14",
+      "threshold_alerted": false
+    }
+  },
+  "last_updated": "2026-05-14T04:35:49Z"
 }
