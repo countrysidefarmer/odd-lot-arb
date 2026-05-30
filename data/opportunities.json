@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-29T05:03:11Z",
+  "last_updated": "2026-05-30T04:43:32Z",
   "opportunities": [
     {
       "ticker": "EXFY",
@@ -7,8 +7,8 @@
       "exchange": "NASDAQ",
       "price_lower": 0.98,
       "price_upper": 0.98,
-      "current_price": 1.16,
-      "max_profit": -17.82,
+      "current_price": 1.17,
+      "max_profit": -18.81,
       "expiry": "2026-06-10",
       "filed_date": "2026-05-13",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1476840/000147684026000044/"
