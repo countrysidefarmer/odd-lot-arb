@@ -4,7 +4,17 @@
       "ticker": "EXFY",
       "first_seen": "2026-05-14",
       "threshold_alerted": false
+    },
+    "0001213900-26-063179": {
+      "ticker": "OPTU",
+      "first_seen": "2026-06-02",
+      "threshold_alerted": true
+    },
+    "0001140361-26-023437": {
+      "ticker": "JOF",
+      "first_seen": "2026-06-02",
+      "threshold_alerted": true
     }
   },
-  "last_updated": "2026-06-01T05:52:09Z"
+  "last_updated": "2026-06-02T05:20:44Z"
 }
