@@ -1,10 +1,5 @@
 {
   "opportunities": {
-    "0001476840-26-000044": {
-      "ticker": "EXFY",
-      "first_seen": "2026-05-14",
-      "threshold_alerted": false
-    },
     "0001213900-26-063179": {
       "ticker": "OPTU",
       "first_seen": "2026-06-02",
@@ -16,5 +11,5 @@
       "threshold_alerted": true
     }
   },
-  "last_updated": "2026-06-10T05:09:15Z"
+  "last_updated": "2026-06-11T05:19:25Z"
 }

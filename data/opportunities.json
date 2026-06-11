@@ -1,26 +1,14 @@
 {
-  "last_updated": "2026-06-10T05:09:15Z",
+  "last_updated": "2026-06-11T05:19:25Z",
   "opportunities": [
-    {
-      "ticker": "EXFY",
-      "company_name": "Expensify, Inc.",
-      "exchange": "NASDAQ",
-      "price_lower": 0.98,
-      "price_upper": 0.98,
-      "current_price": 1.19,
-      "max_profit": -20.79,
-      "expiry": "2026-06-10",
-      "filed_date": "2026-05-13",
-      "filing_link": "https://www.sec.gov/Archives/edgar/data/1476840/000147684026000044/"
-    },
     {
       "ticker": "OPTU",
       "company_name": "Optimum Communications, Inc.",
       "exchange": "NYSE",
       "price_lower": 2.5,
       "price_upper": 2.5,
-      "current_price": 1.1,
-      "max_profit": 138.6,
+      "current_price": 1.2,
+      "max_profit": 128.7,
       "expiry": "2026-06-30",
       "filed_date": "2026-06-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1702780/000121390026063179/"
@@ -31,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 13.5338,
       "price_upper": 13.5338,
-      "current_price": 11.38,
-      "max_profit": 213.23,
+      "current_price": 11.34,
+      "max_profit": 217.19,
       "expiry": "2026-07-01",
       "filed_date": "2026-06-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/859796/000114036126023437/"
