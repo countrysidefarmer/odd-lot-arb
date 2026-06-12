@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-06-11T05:19:25Z",
+  "last_updated": "2026-06-12T05:27:52Z",
   "opportunities": [
     {
       "ticker": "OPTU",
@@ -7,8 +7,8 @@
       "exchange": "NYSE",
       "price_lower": 2.5,
       "price_upper": 2.5,
-      "current_price": 1.2,
-      "max_profit": 128.7,
+      "current_price": 1.25,
+      "max_profit": 123.75,
       "expiry": "2026-06-30",
       "filed_date": "2026-06-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1702780/000121390026063179/"
@@ -19,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 13.5338,
       "price_upper": 13.5338,
-      "current_price": 11.34,
-      "max_profit": 217.19,
+      "current_price": 11.51,
+      "max_profit": 200.36,
       "expiry": "2026-07-01",
       "filed_date": "2026-06-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/859796/000114036126023437/"
