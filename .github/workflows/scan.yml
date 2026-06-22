@@ -28,7 +28,7 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
-        run: python scanner.py --json
+        run: python scanner.py --json --dry-run
 
       - name: Commit updated data
         run: |
