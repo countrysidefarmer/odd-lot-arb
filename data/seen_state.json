@@ -1,10 +1,4 @@
 {
-  "opportunities": {
-    "0001140361-26-023437": {
-      "ticker": "JOF",
-      "first_seen": "2026-06-02",
-      "threshold_alerted": true
-    }
-  },
-  "last_updated": "2026-07-01T05:14:06Z"
+  "opportunities": {},
+  "last_updated": "2026-07-02T04:51:25Z"
 }

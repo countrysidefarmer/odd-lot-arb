@@ -1,17 +1,4 @@
 {
-  "last_updated": "2026-07-01T05:14:06Z",
-  "opportunities": [
-    {
-      "ticker": "JOF",
-      "company_name": "JAPAN SMALLER CAPITALIZATION FUND INC",
-      "exchange": "NYSE",
-      "price_lower": 13.5338,
-      "price_upper": 13.5338,
-      "current_price": 11.78,
-      "max_profit": 173.63,
-      "expiry": "2026-07-01",
-      "filed_date": "2026-06-01",
-      "filing_link": "https://www.sec.gov/Archives/edgar/data/859796/000114036126023437/"
-    }
-  ]
+  "last_updated": "2026-07-02T04:51:25Z",
+  "opportunities": []
 }
