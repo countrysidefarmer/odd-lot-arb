@@ -1,0 +1,8 @@
+{
+  "_comment": "Things no dataset can know: fitness, depth charts, press conferences. Keyed by FPL web name or player id. pStart is the probability the player starts a given game (0-1). Delete an entry once the model's own data catches up.",
+
+  "Isak": {
+    "pStart": 0.9,
+    "note": "Fit, and the understudy ahead of him in last season's data is injured. Liverpool's designated penalty taker at 9.0m, which is not a squad role."
+  }
+}

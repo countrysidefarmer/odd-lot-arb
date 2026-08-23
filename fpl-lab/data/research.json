@@ -1,0 +1,6279 @@
+{
+ "generated": "2026-08-21T19:47:15.985Z",
+ "seasons": {
+  "2025-26": {
+   "rows": 29757,
+   "panel": 14226,
+   "next1": {
+    "label": "Next gameweek — all players",
+    "n": 14226,
+    "univariate": [
+     {
+      "key": "f_mins3",
+      "label": "Minutes (avg last 3)",
+      "rho": 0.5475307408143071
+     },
+     {
+      "key": "f_form4",
+      "label": "Form (pts/gm, last 4)",
+      "rho": 0.50380861961796
+     },
+     {
+      "key": "f_form6",
+      "label": "Form (pts/gm, last 6)",
+      "rho": 0.4802723680009718
+     },
+     {
+      "key": "f_ppg",
+      "label": "Season points per game",
+      "rho": 0.4353178815672969
+     },
+     {
+      "key": "f_startrate",
+      "label": "Start rate",
+      "rho": 0.41525443202612194
+     },
+     {
+      "key": "f_price",
+      "label": "Price",
+      "rho": 0.19907438120222315
+     },
+     {
+      "key": "f_xgi90",
+      "label": "xG+xA per 90",
+      "rho": 0.08256283482426198
+     },
+     {
+      "key": "f_ict90",
+      "label": "ICT per 90",
+      "rho": 0.08167688804605062
+     },
+     {
+      "key": "f_bps90",
+      "label": "BPS per 90",
+      "rho": 0.06568655781034581
+     },
+     {
+      "key": "f_threat90",
+      "label": "Threat per 90",
+      "rho": 0.051776393355618906
+     },
+     {
+      "key": "f_oppweak_att",
+      "label": "Fixture: opponent is toothless",
+      "rho": 0.03463783759624518
+     },
+     {
+      "key": "f_home",
+      "label": "Home fixture",
+      "rho": 0.027794424996091572
+     },
+     {
+      "key": "f_oppweak_def",
+      "label": "Fixture: opponent leaks goals",
+      "rho": 0.025539484035330233
+     },
+     {
+      "key": "f_defcon90",
+      "label": "Defensive contribution per 90",
+      "rho": 0.011857456494312133
+     },
+     {
+      "key": "f_ppg90",
+      "label": "Season points per 90",
+      "rho": 0.004594741896301167
+     }
+    ],
+    "models": [
+     {
+      "name": "Minutes only",
+      "r2": 0.1616956689650253,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.9645817889046719
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.23292872071392456
+       }
+      ]
+     },
+     {
+      "name": "Form only",
+      "r2": 0.13991325475371874,
+      "betas": [
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.5953613302473131
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.5545575370879574
+       }
+      ]
+     },
+     {
+      "name": "Fixture only",
+      "r2": 0.005638138004509741,
+      "betas": [
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.1353218709451875
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.10255801518651765
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.07808682840216834
+       }
+      ]
+     },
+     {
+      "name": "Underlying rates only",
+      "r2": 0.004510284813365684,
+      "betas": [
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.2505453911777713
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.15046398288998375
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.0747253885859449
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form",
+      "r2": 0.17314392245215782,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.900565662158737
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.545921516198265
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.1996427446626242
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.031419395934570646
+       }
+      ]
+     },
+     {
+      "name": "Minutes + fixture",
+      "r2": 0.1673814832179802,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.9647724198052338
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.23303202528855915
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.12100386989272907
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.10282429765520924
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.09516527356678448
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form + fixture",
+      "r2": 0.1787480401357141,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.9006233264899509
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.5435867815883493
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.19773106644879418
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.1194960873212748
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.10363631973851516
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.0941732887210993
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.031856620478937524
+       }
+      ]
+     },
+     {
+      "name": "Everything",
+      "r2": 0.18162245176008318,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.9145071370935725
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.4560290458320813
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.12310311422909417
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.11949910161940021
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.11176343442321444
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.10355172399340686
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.09427815918758072
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.0790646686297936
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.07598871219427823
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.022315991188638366
+       }
+      ]
+     }
+    ],
+    "full": {
+     "name": "All features",
+     "r2": 0.18526067017457748,
+     "betas": [
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "beta": 0.9432741711439492
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "beta": 0.40917740039107936
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "beta": -0.20485573773358562
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "beta": 0.18766865013531844
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "beta": 0.15534907537802284
+      },
+      {
+       "key": "f_oppweak_att",
+       "label": "Fixture: opponent is toothless",
+       "beta": 0.11682270181495642
+      },
+      {
+       "key": "f_home",
+       "label": "Home fixture",
+       "beta": 0.10318311142532019
+      },
+      {
+       "key": "f_oppweak_def",
+       "label": "Fixture: opponent leaks goals",
+       "beta": 0.09247141157911898
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "beta": -0.0817868091073438
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "beta": 0.07246091141545132
+      },
+      {
+       "key": "f_defcon90",
+       "label": "Defensive contribution per 90",
+       "beta": 0.06144093110449448
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "beta": -0.04227066515630635
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "beta": 0.037598049941083476
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "beta": -0.014537183735155612
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "beta": 0.003706675036223315
+      }
+     ]
+    },
+    "increment": {
+     "base": 0.17314392245215782,
+     "fixtureGain": 0.005604117683556287,
+     "underlyingGain": 0.0028723608330741834
+    }
+   },
+   "next5": {
+    "label": "Next 5 gameweeks — all players",
+    "n": 11414,
+    "univariate": [
+     {
+      "key": "f_mins3",
+      "label": "Minutes (avg last 3)",
+      "rho": 0.5430868537166121
+     },
+     {
+      "key": "f_ppg",
+      "label": "Season points per game",
+      "rho": 0.5187794524720059
+     },
+     {
+      "key": "f_form6",
+      "label": "Form (pts/gm, last 6)",
+      "rho": 0.5071076958529436
+     },
+     {
+      "key": "f_form4",
+      "label": "Form (pts/gm, last 4)",
+      "rho": 0.5053722413693481
+     },
+     {
+      "key": "f_startrate",
+      "label": "Start rate",
+      "rho": 0.4953207091296487
+     },
+     {
+      "key": "f_price",
+      "label": "Price",
+      "rho": 0.23951445887433037
+     },
+     {
+      "key": "f_ict90",
+      "label": "ICT per 90",
+      "rho": 0.09733732201128148
+     },
+     {
+      "key": "f_xgi90",
+      "label": "xG+xA per 90",
+      "rho": 0.09279563269697247
+     },
+     {
+      "key": "f_bps90",
+      "label": "BPS per 90",
+      "rho": 0.07821939422118568
+     },
+     {
+      "key": "f_threat90",
+      "label": "Threat per 90",
+      "rho": 0.06186660403690394
+     },
+     {
+      "key": "f_oppweak_att5",
+      "label": "Fixture run: opponents are toothless (5gw avg)",
+      "rho": 0.0416152761315742
+     },
+     {
+      "key": "f_oppweak_def5",
+      "label": "Fixture run: opponents leak goals (5gw avg)",
+      "rho": 0.027777904383163486
+     },
+     {
+      "key": "f_defcon90",
+      "label": "Defensive contribution per 90",
+      "rho": 0.0233557135067
+     },
+     {
+      "key": "f_ppg90",
+      "label": "Season points per 90",
+      "rho": 0.013919326028857202
+     },
+     {
+      "key": "f_home5",
+      "label": "Home games in next 5",
+      "rho": 0.0017287608374422904
+     }
+    ],
+    "models": [
+     {
+      "name": "Minutes only",
+      "r2": 0.27181931486722544,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.9176160003136244
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 2.1487059687488776
+       }
+      ]
+     },
+     {
+      "name": "Form only",
+      "r2": 0.2577458186557825,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 3.233897049179988
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 1.6746238327901037
+       }
+      ]
+     },
+     {
+      "name": "Fixture only",
+      "r2": 0.003569747206723539,
+      "betas": [
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.44731051329075455
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.18009103863359277
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.059485750012916574
+       }
+      ]
+     },
+     {
+      "name": "Underlying rates only",
+      "r2": 0.010970557193995756,
+      "betas": [
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 1.2412094357191836
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.8216619944598084
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.37588511745768904
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form",
+      "r2": 0.29665540275021696,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.710924926358237
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 2.5780189579735158
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.13885693196869534
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.016135215807752158
+       }
+      ]
+     },
+     {
+      "name": "Minutes + fixture",
+      "r2": 0.27538744977323093,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.9192280277619687
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 2.150079700177213
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.33562639481653744
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.3169955592614807
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.04405920238537914
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form + fixture",
+      "r2": 0.3001283383993134,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.6938955719441497
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 2.5534551696318672
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.35507383255607244
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.28750205796912326
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.15826157365580662
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.04533657098722698
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.02199281493854073
+       }
+      ]
+     },
+     {
+      "name": "Everything",
+      "r2": 0.3071336175278212,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.7531610419633004
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 2.212131186703122
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.6560182592317512
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.49079264640234727
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.4722555845218191
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.3591217605765977
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.31724610553586674
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.2754885035551927
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.016745786825203047
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.0016503074671944894
+       }
+      ]
+     }
+    ],
+    "full": {
+     "name": "All features",
+     "r2": 0.31685223151535213,
+     "betas": [
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "beta": 2.8499330183035934
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "beta": 1.91340057609838
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "beta": 0.9756514405004958
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "beta": -0.5843376878754812
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "beta": 0.576011817636723
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "beta": -0.5638029825637184
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "beta": 0.41100538550766325
+      },
+      {
+       "key": "f_defcon90",
+       "label": "Defensive contribution per 90",
+       "beta": 0.347139702686242
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "beta": 0.33608857693946687
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "beta": 0.3321048881622244
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "beta": 0.22369668835685788
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "beta": 0.13883137523711686
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "beta": 0.1238982446333605
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "beta": 0.02556547177678208
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "beta": 0.0022214299852176696
+      }
+     ]
+    },
+    "increment": {
+     "base": 0.29665540275021696,
+     "fixtureGain": 0.0034729356490964536,
+     "underlyingGain": 0.007083168584062327
+    }
+   },
+   "nailed1": {
+    "label": "Next gameweek — nailed starters only",
+    "n": 3980,
+    "univariate": [
+     {
+      "key": "f_price",
+      "label": "Price",
+      "rho": 0.13820661875205725
+     },
+     {
+      "key": "f_ppg",
+      "label": "Season points per game",
+      "rho": 0.12917226062970982
+     },
+     {
+      "key": "f_bps90",
+      "label": "BPS per 90",
+      "rho": 0.1258197128258088
+     },
+     {
+      "key": "f_mins3",
+      "label": "Minutes (avg last 3)",
+      "rho": 0.12405272827523274
+     },
+     {
+      "key": "f_ppg90",
+      "label": "Season points per 90",
+      "rho": 0.1153338229492308
+     },
+     {
+      "key": "f_ict90",
+      "label": "ICT per 90",
+      "rho": 0.10456322725829705
+     },
+     {
+      "key": "f_form4",
+      "label": "Form (pts/gm, last 4)",
+      "rho": 0.10284734331452662
+     },
+     {
+      "key": "f_form6",
+      "label": "Form (pts/gm, last 6)",
+      "rho": 0.10281749521922863
+     },
+     {
+      "key": "f_oppweak_att",
+      "label": "Fixture: opponent is toothless",
+      "rho": 0.0981921761423362
+     },
+     {
+      "key": "f_oppweak_def",
+      "label": "Fixture: opponent leaks goals",
+      "rho": 0.09655996478214525
+     },
+     {
+      "key": "f_xgi90",
+      "label": "xG+xA per 90",
+      "rho": 0.09071747593832775
+     },
+     {
+      "key": "f_threat90",
+      "label": "Threat per 90",
+      "rho": 0.07024879523069483
+     },
+     {
+      "key": "f_home",
+      "label": "Home fixture",
+      "rho": 0.05263110307572526
+     },
+     {
+      "key": "f_defcon90",
+      "label": "Defensive contribution per 90",
+      "rho": 0.04432805702962332
+     },
+     {
+      "key": "f_startrate",
+      "label": "Start rate",
+      "rho": 0.03805549810187951
+     }
+    ],
+    "models": [
+     {
+      "name": "Minutes only",
+      "r2": 0.009818516304653468,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.32315437604699504
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.00476944287718299
+       }
+      ]
+     },
+     {
+      "name": "Form only",
+      "r2": 0.018035515868167096,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.39198233597358634
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.07389473006276244
+       }
+      ]
+     },
+     {
+      "name": "Fixture only",
+      "r2": 0.017886173775609637,
+      "betas": [
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.25088058528253837
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.22131146243018784
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.15896275616323544
+       }
+      ]
+     },
+     {
+      "name": "Underlying rates only",
+      "r2": 0.02017997469372046,
+      "betas": [
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.3626142720367151
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": 0.27360248535739906
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.11817993366925199
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form",
+      "r2": 0.025795259689225802,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.4536146572516584
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.30783729125139186
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.13649172406749271
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.02529529946287937
+       }
+      ]
+     },
+     {
+      "name": "Minutes + fixture",
+      "r2": 0.027466468628191687,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.31875038004470735
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.2472750576894603
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.2218629454128771
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.15781154174147302
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.006314273405043472
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form + fixture",
+      "r2": 0.04327164363084823,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.45304358346916856
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.30417669043625767
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.24545865974736802
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.22228766176165954
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.15498439942470335
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.13472656885750547
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.028317012580894838
+       }
+      ]
+     },
+     {
+      "name": "Everything",
+      "r2": 0.050850309716495734,
+      "betas": [
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.4285379956006603
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.351372265903471
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.24285641099628721
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.2262777505252331
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.21311326098141165
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.1572244133384143
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.12353616579494589
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": 0.09026454479935639
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.0469898565775635
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.03134711129024304
+       }
+      ]
+     }
+    ],
+    "full": {
+     "name": "All features",
+     "r2": 0.05591352801845739,
+     "betas": [
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "beta": 0.4168922315593628
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "beta": 0.37588479722959905
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "beta": 0.34879094696654067
+      },
+      {
+       "key": "f_oppweak_att",
+       "label": "Fixture: opponent is toothless",
+       "beta": 0.2390854485878411
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "beta": 0.22481260724622554
+      },
+      {
+       "key": "f_oppweak_def",
+       "label": "Fixture: opponent leaks goals",
+       "beta": 0.22183303797232998
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "beta": -0.21254629912118614
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "beta": -0.18728366141726926
+      },
+      {
+       "key": "f_home",
+       "label": "Home fixture",
+       "beta": 0.15565341257520535
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "beta": -0.11756000450413501
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "beta": -0.10812298439472338
+      },
+      {
+       "key": "f_defcon90",
+       "label": "Defensive contribution per 90",
+       "beta": 0.08928945614663111
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "beta": 0.06105633176223881
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "beta": 0.0372140103621744
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "beta": -0.004863040983348098
+      }
+     ]
+    },
+    "increment": {
+     "base": 0.025795259689225802,
+     "fixtureGain": 0.01747638394162243,
+     "underlyingGain": 0.00742872920103943
+    }
+   },
+   "nailed5": {
+    "label": "Next 5 gameweeks — nailed starters only",
+    "n": 3360,
+    "univariate": [
+     {
+      "key": "f_price",
+      "label": "Price",
+      "rho": 0.2205200197287699
+     },
+     {
+      "key": "f_ppg",
+      "label": "Season points per game",
+      "rho": 0.2114971538780043
+     },
+     {
+      "key": "f_ict90",
+      "label": "ICT per 90",
+      "rho": 0.18322259670774904
+     },
+     {
+      "key": "f_bps90",
+      "label": "BPS per 90",
+      "rho": 0.18139441327956585
+     },
+     {
+      "key": "f_ppg90",
+      "label": "Season points per 90",
+      "rho": 0.17734688656127848
+     },
+     {
+      "key": "f_form6",
+      "label": "Form (pts/gm, last 6)",
+      "rho": 0.16317262228431226
+     },
+     {
+      "key": "f_xgi90",
+      "label": "xG+xA per 90",
+      "rho": 0.1609414276030097
+     },
+     {
+      "key": "f_threat90",
+      "label": "Threat per 90",
+      "rho": 0.13752682524218932
+     },
+     {
+      "key": "f_form4",
+      "label": "Form (pts/gm, last 4)",
+      "rho": 0.1367235194275749
+     },
+     {
+      "key": "f_mins3",
+      "label": "Minutes (avg last 3)",
+      "rho": 0.12422634492281005
+     },
+     {
+      "key": "f_oppweak_att5",
+      "label": "Fixture run: opponents are toothless (5gw avg)",
+      "rho": 0.09155629503874205
+     },
+     {
+      "key": "f_oppweak_def5",
+      "label": "Fixture run: opponents leak goals (5gw avg)",
+      "rho": 0.08653261683749357
+     },
+     {
+      "key": "f_startrate",
+      "label": "Start rate",
+      "rho": 0.08584261781304274
+     },
+     {
+      "key": "f_defcon90",
+      "label": "Defensive contribution per 90",
+      "rho": 0.036361563231253405
+     },
+     {
+      "key": "f_home5",
+      "label": "Home games in next 5",
+      "rho": -0.00007061993771184602
+     }
+    ],
+    "models": [
+     {
+      "name": "Minutes only",
+      "r2": 0.017275316362758808,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.9111694612294635
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.491116837842486
+       }
+      ]
+     },
+     {
+      "name": "Form only",
+      "r2": 0.04950320681123843,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 1.857999937953395
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.1553298486778782
+       }
+      ]
+     },
+     {
+      "name": "Fixture only",
+      "r2": 0.013011159622796753,
+      "betas": [
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.7002446392834425
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.5252187744646606
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.0781276198034062
+       }
+      ]
+     },
+     {
+      "name": "Underlying rates only",
+      "r2": 0.06096251803240815,
+      "betas": [
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 1.616129990101195
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": 1.3004925152345972
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.4818652592674949
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form",
+      "r2": 0.057413694082204425,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 1.91448362980683
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.8328254497977441
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.11106576866457764
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.07286513206898902
+       }
+      ]
+     },
+     {
+      "name": "Minutes + fixture",
+      "r2": 0.030105914838082892,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.9220953403325995
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.6540508035074233
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.5673396686757457
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.46851694167969327
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.09868610809850833
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form + fixture",
+      "r2": 0.07016685006167789,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 1.8870919942962
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.831900447732541
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.6126980237212246
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.6064229814675567
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.11881373029903815
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.047442196834727224
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.03034159943317212
+       }
+      ]
+     },
+     {
+      "name": "Everything",
+      "r2": 0.0958571094172127,
+      "betas": [
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 1.6336377764471317
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 1.0715478332341015
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": 1.020893019830869
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.6188116149315821
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.525928635982487
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.5164078586924343
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.3033947770073432
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.23031454116533137
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.17464012672282914
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.01878886079085056
+       }
+      ]
+     }
+    ],
+    "full": {
+     "name": "All features",
+     "r2": 0.11039293481281254,
+     "betas": [
+      {
+       "key": "f_price",
+       "label": "Price",
+       "beta": 1.6299927510767473
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "beta": 1.618511721653409
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "beta": -1.2904752216026412
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "beta": 1.0262032813011868
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "beta": -0.7617618384706472
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "beta": 0.6548968573062156
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "beta": 0.6045089821735128
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "beta": 0.5896945431835047
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "beta": 0.5397510580957559
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "beta": 0.48799658783442307
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "beta": -0.4019146912763177
+      },
+      {
+       "key": "f_defcon90",
+       "label": "Defensive contribution per 90",
+       "beta": 0.30740999515085177
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "beta": 0.09443147668111966
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "beta": 0.045990565834323746
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "beta": 0.014856136084308537
+      }
+     ]
+    },
+    "increment": {
+     "base": 0.057413694082204425,
+     "fixtureGain": 0.012753155979473463,
+     "underlyingGain": 0.027331774350676574
+    }
+   },
+   "byPos": {
+    "Goalkeepers": {
+     "label": "Goalkeepers",
+     "n": 444,
+     "univariate": [
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "rho": -0.26712158529629254
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "rho": 0.2633027429135495
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "rho": 0.2607167277563411
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "rho": 0.19749711078581794
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "rho": 0.151795562766412
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "rho": 0.135027440552756
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "rho": 0.0823374154440416
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "rho": 0.07443099061117198
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "rho": 0.07003453675156107
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "rho": 0.054779596145049285
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "rho": 0.03395132569775945
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "rho": 0.02321759621383437
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "rho": 0.006379316995818627
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "rho": 0.00462050385224614
+      }
+     ],
+     "models": [
+      {
+       "name": "Minutes only",
+       "r2": 0.05636376652656094,
+       "betas": [
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 1.3118863162555596
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.9044690476918057
+        }
+       ]
+      },
+      {
+       "name": "Form only",
+       "r2": 0.01405804219162321,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 0.8478791195685553
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.08839970072905651
+        }
+       ]
+      },
+      {
+       "name": "Fixture only",
+       "r2": 0.10018097572106288,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.5772559915124196
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 1.3611597651044625
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.4363596989657752
+        }
+       ]
+      },
+      {
+       "name": "Underlying rates only",
+       "r2": 0.030361696140029037,
+       "betas": [
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": -1.1850643932985294
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 0.6815052805478864
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 0.29392493864049146
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form",
+       "r2": 0.05673294934564199,
+       "betas": [
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 1.2464167638311163
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.8909642420662174
+        },
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 0.1275926174380677
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.05468914218733133
+        }
+       ]
+      },
+      {
+       "name": "Minutes + fixture",
+       "r2": 0.16038869217126683,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.7040111467424022
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 1.3948976441744259
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 1.2760721976441216
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.8924805361591716
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.45620335557404074
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form + fixture",
+       "r2": 0.16313084521320687,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.6923398287459386
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 1.3460228983580458
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 1.2095659997158816
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.858105549117336
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.454202025136231
+        },
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 0.3490607086250807
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.15543019702375374
+        }
+       ]
+      },
+      {
+       "name": "Everything",
+       "r2": 0.18118249331282554,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.6203223392065975
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 1.4325929582127592
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.9889768467848483
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.9587347049487057
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 0.8480988351139666
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": -0.8256584688146611
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.5300526532671557
+        },
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 0.41114244074400896
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": -0.19108795837496872
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.06855040468474488
+        }
+       ]
+      }
+     ],
+     "full": {
+      "name": "All features",
+      "r2": 0.24766467390824187,
+      "betas": [
+       {
+        "key": "f_ppg90",
+        "label": "Season points per 90",
+        "beta": 9.060717128171914
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": -8.98137547589438
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 4.22216293400704
+       },
+       {
+        "key": "f_ict90",
+        "label": "ICT per 90",
+        "beta": -1.7963142160525332
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 1.7565663589903744
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 1.2964978287843443
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 1.106764429150682
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.9684399101330691
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.8906438614657655
+       },
+       {
+        "key": "f_price",
+        "label": "Price",
+        "beta": -0.5052217385048932
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.4695288674518108
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.36205117958619193
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.3513172051435442
+       },
+       {
+        "key": "f_form6",
+        "label": "Form (pts/gm, last 6)",
+        "beta": 0.03236825103162893
+       }
+      ]
+     },
+     "increment": {
+      "base": 0.05673294934564199,
+      "fixtureGain": 0.10639789586756487,
+      "underlyingGain": 0.017736519738128176
+     }
+    },
+    "Defenders": {
+     "label": "Defenders",
+     "n": 1307,
+     "univariate": [
+      {
+       "key": "f_price",
+       "label": "Price",
+       "rho": 0.2441875257525701
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "rho": 0.18327370531219203
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "rho": 0.173379780379012
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "rho": 0.1603469384958314
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "rho": 0.15491249097574522
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "rho": 0.14677370834575487
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "rho": 0.13673320638777797
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "rho": 0.1355792120064303
+      },
+      {
+       "key": "f_defcon90",
+       "label": "Defensive contribution per 90",
+       "rho": 0.13133513302977184
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "rho": 0.1239701876373408
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "rho": 0.12013646092121
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "rho": 0.10485227213278929
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "rho": 0.08234313049095872
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "rho": 0.08188820892095063
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "rho": -0.027059260766938285
+      }
+     ],
+     "models": [
+      {
+       "name": "Minutes only",
+       "r2": 0.02022221858787243,
+       "betas": [
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.9932439415877603
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.46960665676686786
+        }
+       ]
+      },
+      {
+       "name": "Form only",
+       "r2": 0.031907574327779686,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.6748838036366176
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.2836777513195829
+        }
+       ]
+      },
+      {
+       "name": "Fixture only",
+       "r2": 0.02823293386753556,
+       "betas": [
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 1.0243965977818117
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.6749302478688525
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": -0.05190002566024238
+        }
+       ]
+      },
+      {
+       "name": "Underlying rates only",
+       "r2": 0.03427800282886506,
+       "betas": [
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 1.2304708332025371
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 0.43076009066508386
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 0.18806425367730206
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form",
+       "r2": 0.04689387609508899,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.7710204758824624
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.0826525695219056
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.6369954456630813
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.008659568038852556
+        }
+       ]
+      },
+      {
+       "name": "Minutes + fixture",
+       "r2": 0.046329129998331386,
+       "betas": [
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.9591628264705746
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.9041416675926033
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.7453238221253381
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.42360995908441895
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": -0.04522642568932481
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form + fixture",
+       "r2": 0.07535959303346929,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.8174926228026391
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.028550561993628
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.9515179728045291
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.7649585874262688
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.5815726549828676
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": -0.09006117367872092
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.06981738533343164
+        }
+       ]
+      },
+      {
+       "name": "Everything",
+       "r2": 0.0878714237657584,
+       "betas": [
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 1.5487314699873924
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.0562239400282416
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.911146540224692
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.8109230496890978
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.5819415785935947
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 0.49369393842628984
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.48834340882912786
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 0.2212156296689663
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": -0.09284638802913316
+        },
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 0.009304754823663322
+        }
+       ]
+      }
+     ],
+     "full": {
+      "name": "All features",
+      "r2": 0.13411156106443556,
+      "betas": [
+       {
+        "key": "f_ppg90",
+        "label": "Season points per 90",
+        "beta": -6.619509071259657
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 4.866378344199901
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": 2.405860411209236
+       },
+       {
+        "key": "f_price",
+        "label": "Price",
+        "beta": 1.4513553079090562
+       },
+       {
+        "key": "f_defcon90",
+        "label": "Defensive contribution per 90",
+        "beta": 1.3929056733606349
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 1.1582302608390658
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.9758702525701057
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.8899383737551718
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.8258167511441509
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.6575896451435443
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.5810160196294666
+       },
+       {
+        "key": "f_ict90",
+        "label": "ICT per 90",
+        "beta": -0.46196029003153943
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.21884363453986513
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": -0.16186106479324558
+       },
+       {
+        "key": "f_form6",
+        "label": "Form (pts/gm, last 6)",
+        "beta": 0.05171392482604054
+       }
+      ]
+     },
+     "increment": {
+      "base": 0.04689387609508899,
+      "fixtureGain": 0.028465716938380292,
+      "underlyingGain": 0.012443372009091958
+     }
+    },
+    "Midfielders": {
+     "label": "Midfielders",
+     "n": 1335,
+     "univariate": [
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "rho": 0.2281450160449251
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "rho": 0.21898023519346044
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "rho": 0.19765767915706242
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "rho": 0.19663941116187486
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "rho": 0.19486285940341497
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "rho": 0.18065686804513897
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "rho": 0.17455892284535765
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "rho": 0.1730152466204497
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "rho": 0.16941676033520006
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "rho": 0.1253626237836519
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "rho": 0.08484595515948282
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "rho": 0.01862461191312177
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "rho": 0.0052845492554743755
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "rho": -0.003503753684138178
+      },
+      {
+       "key": "f_defcon90",
+       "label": "Defensive contribution per 90",
+       "rho": -0.003152031967302808
+      }
+     ],
+     "models": [
+      {
+       "name": "Minutes only",
+       "r2": 0.028174966566089865,
+       "betas": [
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.4045660558544035
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.344542513141643
+        }
+       ]
+      },
+      {
+       "name": "Form only",
+       "r2": 0.040824269301071525,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.5133041960759406
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.48349222799561
+        }
+       ]
+      },
+      {
+       "name": "Fixture only",
+       "r2": 0.0010285207254739914,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.24539067470577694
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.09684987345196913
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.012961591173381111
+        }
+       ]
+      },
+      {
+       "name": "Underlying rates only",
+       "r2": 0.0620931233541695,
+       "betas": [
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 2.6111471310677667
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": -1.2777144220497698
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 0.9823183313486687
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form",
+       "r2": 0.0542422241021715,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.528375922746052
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.1411159773491155
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.1900146221599782
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.1289540267378112
+        }
+       ]
+      },
+      {
+       "name": "Minutes + fixture",
+       "r2": 0.02972360824390563,
+       "betas": [
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.4187081707381424
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.3490833108345709
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.28589795478648966
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.13972227074233617
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.04970422445510557
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form + fixture",
+       "r2": 0.0553578045964922,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.5067775872273843
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.145894631641386
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.2839614015905463
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.16975568028139415
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.145506175457021
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.04854390137725281
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.037572409938651685
+        }
+       ]
+      },
+      {
+       "name": "Everything",
+       "r2": 0.08460574620540362,
+       "betas": [
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 2.5615531797409963
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.2327912723450316
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": -1.2300244970632386
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 0.5195354370042704
+        },
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 0.3916420775702113
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.203618958740929
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.15610764643722638
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.07158071722969224
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.05001557233064122
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": -0.010176159213828926
+        }
+       ]
+      }
+     ],
+     "full": {
+      "name": "All features",
+      "r2": 0.1070747173114085,
+      "betas": [
+       {
+        "key": "f_ict90",
+        "label": "ICT per 90",
+        "beta": 2.4773533718775744
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -2.160309270425737
+       },
+       {
+        "key": "f_price",
+        "label": "Price",
+        "beta": 1.3516804627792935
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 1.2132037935780493
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.9654487507273872
+       },
+       {
+        "key": "f_form6",
+        "label": "Form (pts/gm, last 6)",
+        "beta": -0.7776729079089347
+       },
+       {
+        "key": "f_defcon90",
+        "label": "Defensive contribution per 90",
+        "beta": 0.5412234553268097
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.5372647383105975
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.4146443723414733
+       },
+       {
+        "key": "f_ppg90",
+        "label": "Season points per 90",
+        "beta": 0.4068812337299875
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.1558002143125257
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.0565134940780979
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.053913396532896604
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.01063991127241213
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.005180860708264785
+       }
+      ]
+     },
+     "increment": {
+      "base": 0.0542422241021715,
+      "fixtureGain": 0.0011155804943207004,
+      "underlyingGain": 0.029919049842626277
+     }
+    },
+    "Forwards": {
+     "label": "Forwards",
+     "n": 274,
+     "univariate": [
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "rho": 0.29663027790825736
+      },
+      {
+       "key": "f_defcon90",
+       "label": "Defensive contribution per 90",
+       "rho": 0.2862138250296659
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "rho": 0.2766751675100541
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "rho": 0.2744195371498709
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "rho": 0.25588468719421154
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "rho": 0.2283581832983537
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "rho": 0.19361185363580294
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "rho": 0.19193650707539606
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "rho": 0.1770258369548873
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "rho": 0.15311745471202856
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "rho": 0.11823244694968726
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "rho": 0.0988805671613389
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "rho": 0.052972817502312246
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "rho": 0.04445257243228828
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "rho": 0.013385729451507112
+      }
+     ],
+     "models": [
+      {
+       "name": "Minutes only",
+       "r2": 0.04396349177207293,
+       "betas": [
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 1.799796757582613
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.5344096864773479
+        }
+       ]
+      },
+      {
+       "name": "Form only",
+       "r2": 0.139402233975932,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 3.7466083690984293
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.1413196779051754
+        }
+       ]
+      },
+      {
+       "name": "Fixture only",
+       "r2": 0.006811343141744586,
+       "betas": [
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.6503251859887117
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.500419912400024
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": -0.024905212174714485
+        }
+       ]
+      },
+      {
+       "name": "Underlying rates only",
+       "r2": 0.12589542909778628,
+       "betas": [
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 3.0587007524920735
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 1.100936757927495
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": -0.5818326848470389
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form",
+       "r2": 0.13991728667668313,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 3.6018257921542554
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.2608040245155324
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.10654010417741053
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": -0.018767429651758788
+        }
+       ]
+      },
+      {
+       "name": "Minutes + fixture",
+       "r2": 0.04942506391686474,
+       "betas": [
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 1.77356131767331
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.5965407642097786
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.5511172600949025
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.40597904188843625
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.0417605369122952
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form + fixture",
+       "r2": 0.14153918985787883,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 3.6332508308711917
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.2834465929695584
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.2654566832917891
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.25067715880874936
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.24438881002746163
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.10899486045551833
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": -0.011910311036191015
+        }
+       ]
+      },
+      {
+       "name": "Everything",
+       "r2": 0.14702560659000208,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 5.402512988696551
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": -1.7705631441185294
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": -1.463391339383931
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 1.3645115500130875
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.31845036626689
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.3130600596477941
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.2411910843387138
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.18970267661010234
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": -0.10178085607970175
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.037087275710398666
+        }
+       ]
+      }
+     ],
+     "full": {
+      "name": "All features",
+      "r2": 0.2589724834883016,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 9.741654760666233
+       },
+       {
+        "key": "f_ppg90",
+        "label": "Season points per 90",
+        "beta": -6.018822001304757
+       },
+       {
+        "key": "f_ict90",
+        "label": "ICT per 90",
+        "beta": 3.5854044285579088
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -3.4752456644999343
+       },
+       {
+        "key": "f_price",
+        "label": "Price",
+        "beta": 3.404721851423476
+       },
+       {
+        "key": "f_defcon90",
+        "label": "Defensive contribution per 90",
+        "beta": 3.376758322333375
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -3.100129535382006
+       },
+       {
+        "key": "f_form6",
+        "label": "Form (pts/gm, last 6)",
+        "beta": -1.4560882222583134
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -1.3033070755994747
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": -0.5846140075158383
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": -0.5627012181439489
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.4910211363372246
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.31606164570443385
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.23454548332661562
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": -0.1550774662044538
+       }
+      ]
+     },
+     "increment": {
+      "base": 0.13991728667668313,
+      "fixtureGain": 0.0016219031811957052,
+      "underlyingGain": 0.0049021508560862515
+     }
+    }
+   }
+  },
+  "2024-25": {
+   "rows": 27605,
+   "panel": 14361,
+   "next1": {
+    "label": "Next gameweek — all players",
+    "n": 14361,
+    "univariate": [
+     {
+      "key": "f_mins3",
+      "label": "Minutes (avg last 3)",
+      "rho": 0.5270583802348786
+     },
+     {
+      "key": "f_form4",
+      "label": "Form (pts/gm, last 4)",
+      "rho": 0.5213513520144135
+     },
+     {
+      "key": "f_form6",
+      "label": "Form (pts/gm, last 6)",
+      "rho": 0.5125477757712558
+     },
+     {
+      "key": "f_ppg",
+      "label": "Season points per game",
+      "rho": 0.46107199157529855
+     },
+     {
+      "key": "f_startrate",
+      "label": "Start rate",
+      "rho": 0.41443296740245156
+     },
+     {
+      "key": "f_price",
+      "label": "Price",
+      "rho": 0.25981553068364976
+     },
+     {
+      "key": "f_ict90",
+      "label": "ICT per 90",
+      "rho": 0.16354056461529912
+     },
+     {
+      "key": "f_xgi90",
+      "label": "xG+xA per 90",
+      "rho": 0.16184697157870578
+     },
+     {
+      "key": "f_bps90",
+      "label": "BPS per 90",
+      "rho": 0.13417697242926382
+     },
+     {
+      "key": "f_threat90",
+      "label": "Threat per 90",
+      "rho": 0.12717333349266532
+     },
+     {
+      "key": "f_ppg90",
+      "label": "Season points per 90",
+      "rho": 0.08019247319426921
+     },
+     {
+      "key": "f_oppweak_att",
+      "label": "Fixture: opponent is toothless",
+      "rho": 0.057696293338351544
+     },
+     {
+      "key": "f_oppweak_def",
+      "label": "Fixture: opponent leaks goals",
+      "rho": 0.04704618818640762
+     },
+     {
+      "key": "f_home",
+      "label": "Home fixture",
+      "rho": 0.01262460382744453
+     }
+    ],
+    "models": [
+     {
+      "name": "Minutes only",
+      "r2": 0.14731955790636508,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.8178012362837198
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.2878906465319948
+       }
+      ]
+     },
+     {
+      "name": "Form only",
+      "r2": 0.16280327542774742,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.6372729119151432
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.541920054544206
+       }
+      ]
+     },
+     {
+      "name": "Fixture only",
+      "r2": 0.007649146787291117,
+      "betas": [
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.1473473015649626
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.12126557901402539
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.040676464227759106
+       }
+      ]
+     },
+     {
+      "name": "Underlying rates only",
+      "r2": 0.0158935765829753,
+      "betas": [
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.2616557528658886
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.19245360281242513
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.17018585717720244
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form",
+      "r2": 0.184956321688743,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.7076848481104532
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.6817663351122839
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.2287966864303527
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.140922408748059
+       }
+      ]
+     },
+     {
+      "name": "Minutes + fixture",
+      "r2": 0.154720848585446,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.8173089017448262
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.28756630588784277
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.1600857139664383
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.10270238265409525
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.039518582700984406
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form + fixture",
+      "r2": 0.1923444421243391,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.7006301440861313
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.6765917243071119
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.22476580908943916
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.16630848484010452
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.14916058380327582
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.09510239770291926
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.04025946276642006
+       }
+      ]
+     },
+     {
+      "name": "Everything",
+      "r2": 0.19483485705654624,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.6832470161583865
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.5667266350267591
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.16779544601979235
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.15875047820757518
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.12960718216260128
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.12751803427547023
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.09427666526723333
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.0765283521537128
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.07245152409310275
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.04078058612469367
+       }
+      ]
+     }
+    ],
+    "full": {
+     "name": "All features",
+     "r2": 0.19770441186694632,
+     "betas": [
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "beta": 0.6848468099845296
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "beta": 0.3457377269409144
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "beta": 0.21698055392208423
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "beta": -0.18336748410000966
+      },
+      {
+       "key": "f_oppweak_def",
+       "label": "Fixture: opponent leaks goals",
+       "beta": 0.16935934420752624
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "beta": 0.12566695202478484
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "beta": 0.11605467379932943
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "beta": 0.10854006945212799
+      },
+      {
+       "key": "f_oppweak_att",
+       "label": "Fixture: opponent is toothless",
+       "beta": 0.08931379973824188
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "beta": 0.07893931762126374
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "beta": 0.05441997459152695
+      },
+      {
+       "key": "f_home",
+       "label": "Home fixture",
+       "beta": 0.040564500544645415
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "beta": -0.03541871467236759
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "beta": -0.008193449763475618
+      }
+     ]
+    },
+    "increment": {
+     "base": 0.184956321688743,
+     "fixtureGain": 0.007388120435596113,
+     "underlyingGain": 0.002439204095426084
+    }
+   },
+   "next5": {
+    "label": "Next 5 gameweeks — all players",
+    "n": 11395,
+    "univariate": [
+     {
+      "key": "f_form6",
+      "label": "Form (pts/gm, last 6)",
+      "rho": 0.580444356339778
+     },
+     {
+      "key": "f_ppg",
+      "label": "Season points per game",
+      "rho": 0.5715422288356418
+     },
+     {
+      "key": "f_form4",
+      "label": "Form (pts/gm, last 4)",
+      "rho": 0.5656296588222175
+     },
+     {
+      "key": "f_mins3",
+      "label": "Minutes (avg last 3)",
+      "rho": 0.5521418033222458
+     },
+     {
+      "key": "f_startrate",
+      "label": "Start rate",
+      "rho": 0.5001867814779776
+     },
+     {
+      "key": "f_price",
+      "label": "Price",
+      "rho": 0.32347837736502644
+     },
+     {
+      "key": "f_ict90",
+      "label": "ICT per 90",
+      "rho": 0.2228446222177417
+     },
+     {
+      "key": "f_xgi90",
+      "label": "xG+xA per 90",
+      "rho": 0.21603171064595164
+     },
+     {
+      "key": "f_threat90",
+      "label": "Threat per 90",
+      "rho": 0.1853199593590487
+     },
+     {
+      "key": "f_bps90",
+      "label": "BPS per 90",
+      "rho": 0.1664252721694559
+     },
+     {
+      "key": "f_ppg90",
+      "label": "Season points per 90",
+      "rho": 0.12600674461834596
+     },
+     {
+      "key": "f_oppweak_att5",
+      "label": "Fixture run: opponents are toothless (5gw avg)",
+      "rho": 0.06962811947074488
+     },
+     {
+      "key": "f_oppweak_def5",
+      "label": "Fixture run: opponents leak goals (5gw avg)",
+      "rho": 0.03290447713597203
+     },
+     {
+      "key": "f_home5",
+      "label": "Home games in next 5",
+      "rho": 0.019261754385792612
+     }
+    ],
+    "models": [
+     {
+      "name": "Minutes only",
+      "r2": 0.2648893723932795,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.637612506189886
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 2.1414119278359625
+       }
+      ]
+     },
+     {
+      "name": "Form only",
+      "r2": 0.3247883636424662,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 3.6161295204996624
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 1.5985289243621534
+       }
+      ]
+     },
+     {
+      "name": "Fixture only",
+      "r2": 0.005921125372230329,
+      "betas": [
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.5712090065473154
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.2083139680720877
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.15241988650482347
+       }
+      ]
+     },
+     {
+      "name": "Underlying rates only",
+      "r2": 0.039523902646817266,
+      "betas": [
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 1.415702865080319
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.7884445458627851
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.7411397392335669
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form",
+      "r2": 0.35045978604508976,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 3.5500863297466982
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.122610347126527
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.3893810244055496
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.3620449823023206
+       }
+      ]
+     },
+     {
+      "name": "Minutes + fixture",
+      "r2": 0.269654563208796,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.642636057829897
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 2.1314664159365027
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.3646142132953764
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.33373246106209403
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.17544348612929087
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form + fixture",
+      "r2": 0.35525388668067626,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 3.544690836045889
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.1235545958875286
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.39762109954423214
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.3721962668067363
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.36747785573318487
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.334906602859209
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.1503859439836543
+       }
+      ]
+     },
+     {
+      "name": "Everything",
+      "r2": 0.36183936962810703,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 2.8188835629954716
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 2.1641629661474457
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.7341928430857821
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.4436672271906833
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.3804092489106838
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.3309150465338548
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.30127765386161015
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.29452812580034854
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.1672358191374313
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.15713075911756239
+       }
+      ]
+     }
+    ],
+    "full": {
+     "name": "All features",
+     "r2": 0.36930851478671234,
+     "betas": [
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "beta": 2.1511171418607655
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "beta": 1.7088356726086278
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "beta": 1.0561988828794244
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "beta": -0.8990719079014022
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "beta": 0.6220837222419783
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "beta": 0.6151697629674993
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "beta": 0.5998450217729251
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "beta": 0.5997185126748138
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "beta": 0.3975047119749428
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "beta": 0.32902321610726704
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "beta": 0.28737824419720714
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "beta": 0.15242384058602093
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "beta": -0.1478687861231573
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "beta": 0.14564415677892195
+      }
+     ]
+    },
+    "increment": {
+     "base": 0.35045978604508976,
+     "fixtureGain": 0.004794100635586496,
+     "underlyingGain": 0.006503836134547414
+    }
+   },
+   "nailed1": {
+    "label": "Next gameweek — nailed starters only",
+    "n": 4026,
+    "univariate": [
+     {
+      "key": "f_price",
+      "label": "Price",
+      "rho": 0.22268004450569234
+     },
+     {
+      "key": "f_ppg",
+      "label": "Season points per game",
+      "rho": 0.22166528173358657
+     },
+     {
+      "key": "f_ppg90",
+      "label": "Season points per 90",
+      "rho": 0.22143666629258382
+     },
+     {
+      "key": "f_form6",
+      "label": "Form (pts/gm, last 6)",
+      "rho": 0.1955777202657887
+     },
+     {
+      "key": "f_bps90",
+      "label": "BPS per 90",
+      "rho": 0.19140409511596462
+     },
+     {
+      "key": "f_form4",
+      "label": "Form (pts/gm, last 4)",
+      "rho": 0.18727689491658955
+     },
+     {
+      "key": "f_xgi90",
+      "label": "xG+xA per 90",
+      "rho": 0.1718228657453329
+     },
+     {
+      "key": "f_ict90",
+      "label": "ICT per 90",
+      "rho": 0.16633486216612312
+     },
+     {
+      "key": "f_threat90",
+      "label": "Threat per 90",
+      "rho": 0.15273285793445535
+     },
+     {
+      "key": "f_oppweak_def",
+      "label": "Fixture: opponent leaks goals",
+      "rho": 0.0985463251629645
+     },
+     {
+      "key": "f_oppweak_att",
+      "label": "Fixture: opponent is toothless",
+      "rho": 0.0929813186048138
+     },
+     {
+      "key": "f_mins3",
+      "label": "Minutes (avg last 3)",
+      "rho": 0.05770379371837346
+     },
+     {
+      "key": "f_home",
+      "label": "Home fixture",
+      "rho": 0.0510500161798337
+     },
+     {
+      "key": "f_startrate",
+      "label": "Start rate",
+      "rho": 0.05052582688495464
+     }
+    ],
+    "models": [
+     {
+      "name": "Minutes only",
+      "r2": 0.0036759161656318984,
+      "betas": [
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.14269079856849648
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.10513305566964241
+       }
+      ]
+     },
+     {
+      "name": "Form only",
+      "r2": 0.05720178874121373,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.6801859272390393
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.14360309460229126
+       }
+      ]
+     },
+     {
+      "name": "Fixture only",
+      "r2": 0.01364426840975208,
+      "betas": [
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.22875398341750952
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.18749319343859638
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.14429463660508238
+       }
+      ]
+     },
+     {
+      "name": "Underlying rates only",
+      "r2": 0.05018672421862658,
+      "betas": [
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.3165938491377126
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": 0.2431475093564908
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.23569070285784643
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form",
+      "r2": 0.05909049108710729,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.7431942239763675
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.1288925633341925
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.12113168798370877
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.08943616561615197
+       }
+      ]
+     },
+     {
+      "name": "Minutes + fixture",
+      "r2": 0.017069288698087215,
+      "betas": [
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.2291951995082338
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.1813668401710969
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.14746016098600961
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.12692074793129948
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.11378995881966861
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form + fixture",
+      "r2": 0.0720440279805773,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.7354429707943212
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.23734355886010522
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.16456737734863072
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.14631995652510416
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.11246283271537155
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.11023392355074399
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.09532901520174593
+       }
+      ]
+     },
+     {
+      "name": "Everything",
+      "r2": 0.07955354298903561,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.6818269143318956
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.43665512876556334
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.3284735026931018
+       },
+       {
+        "key": "f_oppweak_def",
+        "label": "Fixture: opponent leaks goals",
+        "beta": 0.2369482496212439
+       },
+       {
+        "key": "f_oppweak_att",
+        "label": "Fixture: opponent is toothless",
+        "beta": 0.16421522480783698
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.1465198191421124
+       },
+       {
+        "key": "f_home",
+        "label": "Home fixture",
+        "beta": 0.14633582068535175
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.10875605097049584
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.07773153780284899
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.0003485180104312478
+       }
+      ]
+     }
+    ],
+    "full": {
+     "name": "All features",
+     "r2": 0.08376684545181179,
+     "betas": [
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "beta": -0.48918100489765987
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "beta": 0.3966947098973475
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "beta": 0.34267705578623003
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "beta": 0.3028416843918291
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "beta": 0.25405908996971704
+      },
+      {
+       "key": "f_oppweak_def",
+       "label": "Fixture: opponent leaks goals",
+       "beta": 0.23624217022746527
+      },
+      {
+       "key": "f_oppweak_att",
+       "label": "Fixture: opponent is toothless",
+       "beta": 0.15601864064340365
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "beta": -0.15359233218537688
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "beta": 0.14568570344371637
+      },
+      {
+       "key": "f_home",
+       "label": "Home fixture",
+       "beta": 0.14429106970509917
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "beta": 0.09545974432311695
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "beta": 0.09418047032727368
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "beta": 0.07301367682925879
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "beta": -0.02046054648854483
+      }
+     ]
+    },
+    "increment": {
+     "base": 0.05909049108710729,
+     "fixtureGain": 0.012953536893470008,
+     "underlyingGain": 0.0075516673959046265
+    }
+   },
+   "nailed5": {
+    "label": "Next 5 gameweeks — nailed starters only",
+    "n": 3282,
+    "univariate": [
+     {
+      "key": "f_ppg",
+      "label": "Season points per game",
+      "rho": 0.366581608812695
+     },
+     {
+      "key": "f_ppg90",
+      "label": "Season points per 90",
+      "rho": 0.3603050965434584
+     },
+     {
+      "key": "f_price",
+      "label": "Price",
+      "rho": 0.32466214978546454
+     },
+     {
+      "key": "f_form6",
+      "label": "Form (pts/gm, last 6)",
+      "rho": 0.3094426804888952
+     },
+     {
+      "key": "f_xgi90",
+      "label": "xG+xA per 90",
+      "rho": 0.2794436378601245
+     },
+     {
+      "key": "f_bps90",
+      "label": "BPS per 90",
+      "rho": 0.27781574316507096
+     },
+     {
+      "key": "f_ict90",
+      "label": "ICT per 90",
+      "rho": 0.27126799013925645
+     },
+     {
+      "key": "f_form4",
+      "label": "Form (pts/gm, last 4)",
+      "rho": 0.2666849277681012
+     },
+     {
+      "key": "f_threat90",
+      "label": "Threat per 90",
+      "rho": 0.2516123216866191
+     },
+     {
+      "key": "f_startrate",
+      "label": "Start rate",
+      "rho": 0.09172458129649316
+     },
+     {
+      "key": "f_oppweak_att5",
+      "label": "Fixture run: opponents are toothless (5gw avg)",
+      "rho": 0.08932179441609711
+     },
+     {
+      "key": "f_oppweak_def5",
+      "label": "Fixture run: opponents leak goals (5gw avg)",
+      "rho": 0.08519817914201838
+     },
+     {
+      "key": "f_home5",
+      "label": "Home games in next 5",
+      "rho": 0.04691382920362072
+     },
+     {
+      "key": "f_mins3",
+      "label": "Minutes (avg last 3)",
+      "rho": 0.04143316507509832
+     }
+    ],
+    "models": [
+     {
+      "name": "Minutes only",
+      "r2": 0.009621550590887873,
+      "betas": [
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.669524183098926
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.43347369300002964
+       }
+      ]
+     },
+     {
+      "name": "Form only",
+      "r2": 0.1579707295260928,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 3.3665688652518257
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.36196852768127646
+       }
+      ]
+     },
+     {
+      "name": "Fixture only",
+      "r2": 0.011826053885519161,
+      "betas": [
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.5718842927766683
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.5479727031606324
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.4543959968370184
+       }
+      ]
+     },
+     {
+      "name": "Underlying rates only",
+      "r2": 0.14463060702721542,
+      "betas": [
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 2.2699353198913226
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": 1.186096551634035
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.26411439595109026
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form",
+      "r2": 0.16055773633906434,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 3.5797079821457376
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.41619778966548754
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.4042957399314775
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.1823359556044237
+       }
+      ]
+     },
+     {
+      "name": "Minutes + fixture",
+      "r2": 0.02209218952846781,
+      "betas": [
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.7201547251656637
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.6309627795755361
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.5221343283594454
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.45696959089698913
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.4128575907708707
+       }
+      ]
+     },
+     {
+      "name": "Minutes + form + fixture",
+      "r2": 0.17435524282336756,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 3.6223068924770354
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.7247312894519381
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.49960402358955697
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.44126123023069963
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.3975666644589835
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.3567148295028541
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.1498677383962075
+       }
+      ]
+     },
+     {
+      "name": "Everything",
+      "r2": 0.19610086806879878,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 3.1397067455485472
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 2.523648015557591
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -1.2469228758969328
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.6669936496564088
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.5720591184406982
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.5190536178240924
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.4952992533248243
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.4435959095981029
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.1925157643824455
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.17944850000431994
+       }
+      ]
+     }
+    ],
+    "full": {
+     "name": "All features",
+     "r2": 0.2022262210401966,
+     "betas": [
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "beta": -1.7764110655302359
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "beta": 1.7466349998540605
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "beta": 1.4846826350239393
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "beta": 1.3523092142892097
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "beta": 1.0101457361855042
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "beta": -0.9741542781719911
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "beta": 0.8229937339397431
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "beta": 0.6739839306085235
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "beta": 0.6026629848181254
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "beta": 0.5140868819059179
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "beta": 0.49130942748804146
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "beta": 0.43974191286611286
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "beta": 0.15224052977703845
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "beta": -0.03412114774794576
+      }
+     ]
+    },
+    "increment": {
+     "base": 0.16055773633906434,
+     "fixtureGain": 0.013797506484303224,
+     "underlyingGain": 0.02259571870860899
+    }
+   },
+   "byPos": {
+    "Goalkeepers": {
+     "label": "Goalkeepers",
+     "n": 376,
+     "univariate": [
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "rho": 0.3276147922509519
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "rho": 0.20788290444255994
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "rho": 0.17166217197297295
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "rho": 0.16174318121208658
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "rho": 0.1420366573911582
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "rho": 0.09976111319628025
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "rho": -0.09652446291731175
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "rho": 0.09556437438688548
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "rho": 0.07034054497168243
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "rho": 0.06258851787711027
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "rho": 0.06075795701215627
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "rho": 0.027524662202604345
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "rho": -0.01586489533006642
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "rho": 0.01163369491891953
+      }
+     ],
+     "models": [
+      {
+       "name": "Minutes only",
+       "r2": 0.026946265522538093,
+       "betas": [
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.048414520851768
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.30107015042235774
+        }
+       ]
+      },
+      {
+       "name": "Form only",
+       "r2": 0.02183983152344582,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.0600319931569526
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.05903389122703774
+        }
+       ]
+      },
+      {
+       "name": "Fixture only",
+       "r2": 0.011059927548876858,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.7327518644583303
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.1950574376995026
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.09236431984388788
+        }
+       ]
+      },
+      {
+       "name": "Underlying rates only",
+       "r2": 0.06412323275151455,
+       "betas": [
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 1.3350967756051104
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 1.1803815788547276
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 0.15288654239730573
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form",
+       "r2": 0.044947779698883084,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.2654390454595181
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.085488838380094
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.3557715231729818
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.2773684910044767
+        }
+       ]
+      },
+      {
+       "name": "Minutes + fixture",
+       "r2": 0.039368928228214584,
+       "betas": [
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.0312919282540711
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.8081653055547988
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.406355911860866
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.14224058546423857
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.12054939348722905
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form + fixture",
+       "r2": 0.05752528806661383,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.241882800872588
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.060880441676487
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.798990825470531
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.24515920827488494
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.20248963494836325
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.07662989411401683
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.03675881920385234
+        }
+       ]
+      },
+      {
+       "name": "Everything",
+       "r2": 0.10131384698031298,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 1.4366423354306939
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 1.035273479436202
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 1.0198517131145781
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.8984545637207877
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": -0.6551115065477718
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.6292228711928246
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.37018950822062247
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.1071819083024775
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.03645735305750101
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.036311262349338486
+        }
+       ]
+      }
+     ],
+     "full": {
+      "name": "All features",
+      "r2": 0.10706291446567295,
+      "betas": [
+       {
+        "key": "f_ppg90",
+        "label": "Season points per 90",
+        "beta": 1.4529014540082472
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 1.0167370093279757
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.9628232255277566
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": 0.8575643759965801
+       },
+       {
+        "key": "f_price",
+        "label": "Price",
+        "beta": -0.7840319281837153
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.6003107691963524
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -0.5924326222792139
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 0.2966798392968102
+       },
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 0.23590232044241272
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.20758597706693951
+       },
+       {
+        "key": "f_form6",
+        "label": "Form (pts/gm, last 6)",
+        "beta": -0.18469847295453004
+       },
+       {
+        "key": "f_ict90",
+        "label": "ICT per 90",
+        "beta": -0.1800686905068881
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": -0.038647043126366576
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": -0.006558090612960943
+       }
+      ]
+     },
+     "increment": {
+      "base": 0.044947779698883084,
+      "fixtureGain": 0.01257750836773075,
+      "underlyingGain": 0.04881791055311191
+     }
+    },
+    "Defenders": {
+     "label": "Defenders",
+     "n": 1351,
+     "univariate": [
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "rho": 0.30642153579547443
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "rho": 0.2812836987960266
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "rho": 0.23707458038275872
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "rho": 0.2327695788161013
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "rho": 0.2029164792820592
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "rho": 0.19082634185375627
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "rho": 0.17635570048095345
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "rho": 0.14613948829942797
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "rho": 0.14240051214967878
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "rho": 0.12725031611532192
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "rho": 0.1028612498529797
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "rho": 0.10042183085405372
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "rho": 0.09918246005126989
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "rho": 0.02228991505359848
+      }
+     ],
+     "models": [
+      {
+       "name": "Minutes only",
+       "r2": 0.017977487008134174,
+       "betas": [
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.8114667063065897
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.5354051559718094
+        }
+       ]
+      },
+      {
+       "name": "Form only",
+       "r2": 0.06823345403933134,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 2.3147323519480794
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.3403817558828906
+        }
+       ]
+      },
+      {
+       "name": "Fixture only",
+       "r2": 0.03496115937565514,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.0377511095794014
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.8157354754903524
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.23012419972664575
+        }
+       ]
+      },
+      {
+       "name": "Underlying rates only",
+       "r2": 0.04988453800993509,
+       "betas": [
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 1.0428778236599097
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 1.0075111825880987
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 0.2522263852166599
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form",
+       "r2": 0.07189757350618486,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 2.310156566580028
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.5008715464943203
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.4740332431220638
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.026184442742148734
+        }
+       ]
+      },
+      {
+       "name": "Minutes + fixture",
+       "r2": 0.055874310140774486,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.098801579682253
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.9299996385214475
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.838984015206236
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.5106570696535752
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.16585279584699292
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form + fixture",
+       "r2": 0.11303599401511744,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 2.4162880724348295
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.0909663516036083
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.9358555556686411
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.5485457293414175
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.48840161728302417
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.12262800664439734
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.05128953523030925
+        }
+       ]
+      },
+      {
+       "name": "Everything",
+       "r2": 0.12286322885609413,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 3.248804978841524
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": -1.164060311027616
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.028479000231936
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.9334838042649547
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 0.7671801945821434
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.5591862731646342
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.47839645681030846
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": -0.3033777319201287
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.1386448097478538
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.04627038770898137
+        }
+       ]
+      }
+     ],
+     "full": {
+      "name": "All features",
+      "r2": 0.13185348622298843,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 4.322334948146483
+       },
+       {
+        "key": "f_ppg90",
+        "label": "Season points per 90",
+        "beta": -1.5698323336713098
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -1.187606371336447
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 1.1369928609035829
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 1.0396192830913364
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.8998126686796416
+       },
+       {
+        "key": "f_ict90",
+        "label": "ICT per 90",
+        "beta": -0.7716421989884953
+       },
+       {
+        "key": "f_price",
+        "label": "Price",
+        "beta": 0.7713871875984686
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": -0.5933403950537101
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.46453269208786147
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.37234928117334126
+       },
+       {
+        "key": "f_form6",
+        "label": "Form (pts/gm, last 6)",
+        "beta": 0.24923349649436757
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.18472502800751717
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.029659615195592466
+       }
+      ]
+     },
+     "increment": {
+      "base": 0.07189757350618486,
+      "fixtureGain": 0.04113842050893257,
+      "underlyingGain": 0.012853353800524991
+     }
+    },
+    "Midfielders": {
+     "label": "Midfielders",
+     "n": 1227,
+     "univariate": [
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "rho": 0.42684452425196945
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "rho": 0.4254926607833161
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "rho": 0.3935866154829028
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "rho": 0.38622150005856454
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "rho": 0.37835438033719965
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "rho": 0.37403187565557683
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "rho": 0.3288750999994313
+      },
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "rho": 0.29862734458481255
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "rho": 0.289218842115864
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "rho": 0.10094552549262827
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "rho": 0.10074453519162405
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "rho": 0.07792076977531927
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "rho": 0.07294787702465995
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "rho": 0.055762232420808
+      }
+     ],
+     "models": [
+      {
+       "name": "Minutes only",
+       "r2": 0.024085096918397997,
+       "betas": [
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 1.0127264744871116
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.8145489631149649
+        }
+       ]
+      },
+      {
+       "name": "Form only",
+       "r2": 0.21201493545796068,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 4.365736536215467
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 0.041652021940610684
+        }
+       ]
+      },
+      {
+       "name": "Fixture only",
+       "r2": 0.010927853526719655,
+       "betas": [
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.7582562104200828
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.645265513987778
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.1429358160120381
+        }
+       ]
+      },
+      {
+       "name": "Underlying rates only",
+       "r2": 0.22684439831025183,
+       "betas": [
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 3.015468771449811
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 1.094494786478384
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 0.7816636030033476
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form",
+       "r2": 0.21620555611319048,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 4.564843994486928
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.631870156515823
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.39923688639069166
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.1701226520116451
+        }
+       ]
+      },
+      {
+       "name": "Minutes + fixture",
+       "r2": 0.03560824117706207,
+       "betas": [
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 1.012570037992276
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.840501230646742
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.8059910165024203
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.6100132029525601
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.18225709103902124
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form + fixture",
+       "r2": 0.22699411340465514,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 4.555092589648227
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.8242328246686033
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.6587271286648051
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.5055840445094162
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.39404943103441115
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.2112264511331457
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.16673017215940492
+        }
+       ]
+      },
+      {
+       "name": "Everything",
+       "r2": 0.2540475920217993,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": 2.37897753772583
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 2.2854595137585676
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.8121462056057952
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.768688636573914
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": 0.7094405092575033
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": 0.5470808180981483
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": -0.4711347846224499
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": -0.19277792408669736
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.09059493226451398
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": -0.01337483537270083
+        }
+       ]
+      }
+     ],
+     "full": {
+      "name": "All features",
+      "r2": 0.275082175856888,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": 2.7609649433730654
+       },
+       {
+        "key": "f_price",
+        "label": "Price",
+        "beta": 2.2534779482642797
+       },
+       {
+        "key": "f_ict90",
+        "label": "ICT per 90",
+        "beta": 2.0910203334755146
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": -1.6280800891945602
+       },
+       {
+        "key": "f_ppg90",
+        "label": "Season points per 90",
+        "beta": -1.115373100289251
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.797521070763449
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.6905791330090154
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 0.6244075184067304
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": 0.5277707875663854
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": -0.4000630480083732
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -0.2456751399547755
+       },
+       {
+        "key": "f_form6",
+        "label": "Form (pts/gm, last 6)",
+        "beta": 0.16611086476394007
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.11401204667372954
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 0.03622012177844277
+       }
+      ]
+     },
+     "increment": {
+      "base": 0.21620555611319048,
+      "fixtureGain": 0.010788557291464662,
+      "underlyingGain": 0.028381333883603865
+     }
+    },
+    "Forwards": {
+     "label": "Forwards",
+     "n": 328,
+     "univariate": [
+      {
+       "key": "f_form4",
+       "label": "Form (pts/gm, last 4)",
+       "rho": 0.2212025183228856
+      },
+      {
+       "key": "f_price",
+       "label": "Price",
+       "rho": 0.21949167134697828
+      },
+      {
+       "key": "f_form6",
+       "label": "Form (pts/gm, last 6)",
+       "rho": 0.21422713810326682
+      },
+      {
+       "key": "f_bps90",
+       "label": "BPS per 90",
+       "rho": 0.19086612629285812
+      },
+      {
+       "key": "f_ict90",
+       "label": "ICT per 90",
+       "rho": 0.16609003876144757
+      },
+      {
+       "key": "f_xgi90",
+       "label": "xG+xA per 90",
+       "rho": 0.14451485788781177
+      },
+      {
+       "key": "f_ppg",
+       "label": "Season points per game",
+       "rho": 0.1395204752492348
+      },
+      {
+       "key": "f_ppg90",
+       "label": "Season points per 90",
+       "rho": 0.1385206912687494
+      },
+      {
+       "key": "f_home5",
+       "label": "Home games in next 5",
+       "rho": 0.09413542999573482
+      },
+      {
+       "key": "f_threat90",
+       "label": "Threat per 90",
+       "rho": 0.08537132058782852
+      },
+      {
+       "key": "f_oppweak_def5",
+       "label": "Fixture run: opponents leak goals (5gw avg)",
+       "rho": 0.05861173337882513
+      },
+      {
+       "key": "f_mins3",
+       "label": "Minutes (avg last 3)",
+       "rho": 0.041293489900301114
+      },
+      {
+       "key": "f_startrate",
+       "label": "Start rate",
+       "rho": 0.01228946603887119
+      },
+      {
+       "key": "f_oppweak_att5",
+       "label": "Fixture run: opponents are toothless (5gw avg)",
+       "rho": 0.0022983854014291126
+      }
+     ],
+     "models": [
+      {
+       "name": "Minutes only",
+       "r2": 0.005121030560530926,
+       "betas": [
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.7565413039453929
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.11298073976448979
+        }
+       ]
+      },
+      {
+       "name": "Form only",
+       "r2": 0.05880842509032247,
+       "betas": [
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 2.9289499794814557
+        },
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": -0.6190396277829723
+        }
+       ]
+      },
+      {
+       "name": "Fixture only",
+       "r2": 0.011964254547067843,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 0.9587515637051663
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.8757694680424692
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.4713582806044767
+        }
+       ]
+      },
+      {
+       "name": "Underlying rates only",
+       "r2": 0.049389965749224496,
+       "betas": [
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 4.357822230046202
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": -4.316484602023546
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 1.6272696076419828
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form",
+       "r2": 0.0597908532642385,
+       "betas": [
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 2.943796902225785
+        },
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": -0.800098298404683
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.2727626260345523
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.23691212372476625
+        }
+       ]
+      },
+      {
+       "name": "Minutes + fixture",
+       "r2": 0.022013121467552965,
+       "betas": [
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.1654931446986525
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 1.0760204569165386
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 1.006163059907323
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.7066076269900464
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.41223245136862974
+        }
+       ]
+      },
+      {
+       "name": "Minutes + form + fixture",
+       "r2": 0.07604411081556917,
+       "betas": [
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 2.8689749381063074
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.1486329877033052
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.9962761464967571
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.891133820488421
+        },
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": -0.6012730733074199
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.5093425560809114
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 0.4629403784685736
+        }
+       ]
+      },
+      {
+       "name": "Everything",
+       "r2": 0.114863414016944,
+       "betas": [
+        {
+         "key": "f_ppg",
+         "label": "Season points per game",
+         "beta": -6.103866338041765
+        },
+        {
+         "key": "f_bps90",
+         "label": "BPS per 90",
+         "beta": 3.9753415910190792
+        },
+        {
+         "key": "f_xgi90",
+         "label": "xG+xA per 90",
+         "beta": 3.6715188404699846
+        },
+        {
+         "key": "f_form4",
+         "label": "Form (pts/gm, last 4)",
+         "beta": 2.7405947066804623
+        },
+        {
+         "key": "f_startrate",
+         "label": "Start rate",
+         "beta": 2.5698375887177813
+        },
+        {
+         "key": "f_threat90",
+         "label": "Threat per 90",
+         "beta": -1.8005464188648508
+        },
+        {
+         "key": "f_oppweak_def5",
+         "label": "Fixture run: opponents leak goals (5gw avg)",
+         "beta": 1.2037050676309775
+        },
+        {
+         "key": "f_home5",
+         "label": "Home games in next 5",
+         "beta": 0.8419174045991088
+        },
+        {
+         "key": "f_oppweak_att5",
+         "label": "Fixture run: opponents are toothless (5gw avg)",
+         "beta": -0.6718499527381796
+        },
+        {
+         "key": "f_mins3",
+         "label": "Minutes (avg last 3)",
+         "beta": 0.5354920342533668
+        }
+       ]
+      }
+     ],
+     "full": {
+      "name": "All features",
+      "r2": 0.15001321945433022,
+      "betas": [
+       {
+        "key": "f_ppg",
+        "label": "Season points per game",
+        "beta": -9.164435194681372
+       },
+       {
+        "key": "f_threat90",
+        "label": "Threat per 90",
+        "beta": -5.219904248678604
+       },
+       {
+        "key": "f_ict90",
+        "label": "ICT per 90",
+        "beta": 4.338539719841401
+       },
+       {
+        "key": "f_ppg90",
+        "label": "Season points per 90",
+        "beta": 3.6557232205942625
+       },
+       {
+        "key": "f_price",
+        "label": "Price",
+        "beta": 3.230061074825479
+       },
+       {
+        "key": "f_startrate",
+        "label": "Start rate",
+        "beta": 2.687287770801874
+       },
+       {
+        "key": "f_xgi90",
+        "label": "xG+xA per 90",
+        "beta": 2.1926909494251836
+       },
+       {
+        "key": "f_form6",
+        "label": "Form (pts/gm, last 6)",
+        "beta": 2.152605874534354
+       },
+       {
+        "key": "f_form4",
+        "label": "Form (pts/gm, last 4)",
+        "beta": 1.3231074205467648
+       },
+       {
+        "key": "f_oppweak_def5",
+        "label": "Fixture run: opponents leak goals (5gw avg)",
+        "beta": 0.9537219455282634
+       },
+       {
+        "key": "f_home5",
+        "label": "Home games in next 5",
+        "beta": 0.6954138793701232
+       },
+       {
+        "key": "f_oppweak_att5",
+        "label": "Fixture run: opponents are toothless (5gw avg)",
+        "beta": -0.6933477619584922
+       },
+       {
+        "key": "f_mins3",
+        "label": "Minutes (avg last 3)",
+        "beta": 0.6653539854940019
+       },
+       {
+        "key": "f_bps90",
+        "label": "BPS per 90",
+        "beta": 0.2451172341945593
+       }
+      ]
+     },
+     "increment": {
+      "base": 0.0597908532642385,
+      "fixtureGain": 0.01625325755133067,
+      "underlyingGain": 0.04138523302062935
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "fpl-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Expected-points model and analysis dashboard for a Fantasy Premier League squad",
+  "scripts": {
+    "fetch": "node src/fetch.js",
+    "research": "node src/research.js",
+    "model": "node src/model.js",
+    "build": "node src/build.js",
+    "refresh": "node src/fetch.js && node src/odds.js && node src/model.js && node src/planner.js && node src/build.js",
+    "refresh:full": "node src/fetch.js && node src/odds.js && node src/research.js && node src/signals.js && node src/model.js && node src/planner.js && node src/build.js",
+    "signals": "node src/signals.js",
+    "odds": "node src/odds.js",
+    "backtest": "node src/backtest.js",
+    "plan": "node src/planner.js"
+  }
+}
