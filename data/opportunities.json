@@ -1,4 +1,17 @@
 {
-  "last_updated": "2026-08-24T02:15:18Z",
-  "opportunities": []
+  "last_updated": "2026-08-25T02:11:33Z",
+  "opportunities": [
+    {
+      "ticker": "ABUS",
+      "company_name": "Arbutus Biopharma Corp",
+      "exchange": "NASDAQ",
+      "price_lower": 5.75,
+      "price_upper": 5.75,
+      "current_price": 5.2,
+      "max_profit": 54.45,
+      "expiry": "2026-09-29",
+      "filed_date": "2026-08-24",
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/1447028/000110465926100002/"
+    }
+  ]
 }
