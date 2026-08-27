@@ -9,6 +9,8 @@
 const fs = require('fs');
 const path = require('path');
 const { parseCSV, num, sum, mean, poissonP } = require('./lib');
+const { applyDepth, slotsFromHistory } = require('./depth');
+const { fitRulebook, bpsMean, simulateBonus } = require('./bonus');
 
 const DATA = path.join(__dirname, '..', 'data');
 const read = f => JSON.parse(fs.readFileSync(path.join(DATA, f), 'utf8'));
@@ -99,6 +101,7 @@ function lastSeasonBaselines(lastSeason) {
       goals90: per90(sum(gws.map(g => num(g.goals_scored)))),
       assists90: per90(sum(gws.map(g => num(g.assists)))),
       bonus90: per90(sum(gws.map(g => num(g.bonus)))),
+      bps90: per90(sum(gws.map(g => num(g.bps)))),
       saves90: per90(sum(gws.map(g => num(g.saves)))),
       yellow90: per90(sum(gws.map(g => num(g.yellow_cards)))),
       pts90: per90(sum(gws.map(g => num(g.total_points)))),
@@ -186,7 +189,7 @@ function positionalPriors(baselines, boot) {
     if (!buckets.has(key)) buckets.set(key, []);
     buckets.get(key).push(b);
   }
-  const fields = ['xg90', 'xa90', 'goals90', 'assists90', 'bonus90', 'saves90', 'yellow90', 'pts90', 'defconRate'];
+  const fields = ['xg90', 'xa90', 'goals90', 'assists90', 'bonus90', 'bps90', 'saves90', 'yellow90', 'pts90', 'defconRate'];
   const priors = new Map();
   for (const [key, list] of buckets) {
     const p = {};
@@ -225,6 +228,18 @@ function blindMinutes(cost, hasSetPiece) {
 // xG already contains this, so it is only applied as a delta when duty CHANGES.
 const PEN_XG90 = 0.10;
 
+// Last season's match rows in the shape src/bonus.js fits the BPS rulebook on.
+function lastSeasonBps(season) {
+  const POS = { GK: 1, GKP: 1, DEF: 2, MID: 3, FWD: 4 };
+  return parseCSV(fs.readFileSync(path.join(DATA, `gw_${season}.csv`), 'utf8')).map(r => ({
+    pos: POS[r.position] || 3, mins: num(r.minutes), bps: num(r.bps),
+    goals: num(r.goals_scored), assists: num(r.assists), cs: num(r.clean_sheets),
+    saves: num(r.saves), gc: num(r.goals_conceded), yc: num(r.yellow_cards),
+    rc: num(r.red_cards), og: num(r.own_goals),
+    ps: num(r.penalties_saved), pm: num(r.penalties_missed),
+  })).filter(r => r.mins > 0);
+}
+
 // ------------------------------------------------------------------ the model
 function project() {
   const boot = read('bootstrap.json');
@@ -253,7 +268,7 @@ function project() {
   const deadlineGw = nextEvent ? nextEvent.id : nextGw;
   const deadline = nextEvent ? nextEvent.deadline_time : null;
 
-  const players = [];
+  const contexts = [];
   for (const el of boot.elements) {
     const pos = el.element_type;
     const cost = el.now_cost;
@@ -278,6 +293,7 @@ function project() {
     let g90 = 0.7 * xg90 + 0.3 * rate('goals90', el.goals_scored);
     let a90 = 0.7 * xa90 + 0.3 * rate('assists90', el.assists);
     const bonus90 = rate('bonus90', el.bonus);
+    const bps90 = rate('bps90', el.bps);
     const saves90 = rate('saves90', el.saves);
     const yellow90 = rate('yellow90', el.yellow_cards);
 
@@ -354,15 +370,64 @@ function project() {
     const dist60 = haveDist
       ? (1 - curW) * base.p60_15 + curW * Math.min(1, el.starts / curGamesPlayed)
       : null;
-    let pStart = Math.max(0, Math.min(1, startRate)) * avail;
-    if (ov && ov.pStart != null) pStart = Math.max(0, Math.min(1, ov.pStart));
+    let rawStart = Math.max(0, Math.min(1, startRate)) * avail;
+    if (ov && ov.pStart != null) rawStart = Math.max(0, Math.min(1, ov.pStart));
+
+    // Everything above is a per-player judgement. The competition for places is
+    // a team-level one, so it is settled in a second pass once every player's
+    // raw start rate and availability is known.
+    contexts.push({
+      el, pos, cost, base, prior, ov, chance, duty, hasSetPiece, roleNotes,
+      g90, a90, bonus90, bps90, saves90, yellow90, defconRate, avail,
+      minsPerStart, haveDist, dist60, distPlay, rawStart,
+      fitStart: Math.max(0, Math.min(1, startRate)),
+      // Never let a hand override be second-guessed by the depth chart.
+      pinned: !!(ov && ov.pStart != null),
+    });
+  }
+
+  // ---- squad competition -------------------------------------------------
+  // Start probabilities inside a team-position are rescaled to the number of
+  // players that team actually starts there. This is what lifts a deputy when
+  // the man ahead of him is ruled out; see the note at the top of src/depth.js
+  // for why the same idea is worthless as a historical feature.
+  const slots = slotsFromHistory(rows);
+  const { adjusted: depthAdj, charts: depthCharts } = applyDepth(
+    contexts.map(c => ({
+      id: c.el.id, team: c.el.team, pos: c.pos, name: c.el.web_name,
+      raw: c.rawStart, avail: c.avail,
+      // What he would start at if fit, which is how an absent regular is told
+      // apart from a fringe player who was never going to play anyway.
+      raw0: c.fitStart,
+    })), slots);
+
+  const players = [];
+  const bpsRules = fitRulebook(lastSeasonBps(meta.lastSeason));
+  const bpsPool = new Map();   // fixture id -> entries for the bonus tournament
+  for (const ctx of contexts) {
+    const {
+      el, pos, cost, base, ov, chance, duty, hasSetPiece, roleNotes,
+      g90, a90, bonus90, bps90, saves90, yellow90, defconRate, avail,
+      minsPerStart, haveDist, dist60, distPlay, rawStart, pinned,
+    } = ctx;
+
+    const dep = depthAdj.get(el.id);
+    const pStart = pinned || !dep ? rawStart : dep.pStart;
+    const depthLift = pinned || !dep ? 0 : dep.lift;
+    if (depthLift > 0.08 && dep.absent > 0) {
+      roleNotes.push(dep.absent === 1 ? 'Deputising — a regular ahead of him is out'
+        : `Deputising — ${dep.absent} regulars ahead of him are out`);
+    }
+    // The 60-plus and appearance rates keep their empirical shape and move with
+    // the start probability, rather than being recomputed from scratch.
+    const shift = rawStart > 0.02 ? pStart / rawStart : 1;
     const expMins = pStart * Math.max(60, minsPerStart) + (1 - pStart) * avail * 12;
-    const p60 = haveDist
-      ? Math.min(1, dist60 * avail)
-      : pStart * (minsPerStart >= 70 ? 0.88 : 0.55);
-    const pPlay = haveDist
-      ? Math.min(1, Math.max(p60, distPlay * avail))
-      : Math.min(1, pStart + (1 - pStart) * avail * 0.35);
+    const p60 = Math.min(1, haveDist
+      ? dist60 * avail * shift
+      : pStart * (minsPerStart >= 70 ? 0.88 : 0.55));
+    const pPlay = Math.min(1, haveDist
+      ? Math.max(p60, distPlay * avail * shift)
+      : pStart + (1 - pStart) * avail * 0.35);
 
     const mine = strengths.get(el.team);
     const teamRow = { id: el.team, ...mine };
@@ -408,13 +473,30 @@ function project() {
           assists: a90 * m * mult * 3,
           cleanSheet: poissonP(0, ga) * p60 * CS_PTS[pos],
           defcon: defconRate * pStart * 2,
-          bonus: bonus90 * m * (0.7 + 0.3 * mult),
+          bonus: 0,   // decided by the fixture-wide BPS tournament, after this loop
           cards: -yellow90 * m,
           conceding: (pos === 1 || pos === 2) ? -0.5 * ga * m : 0,
           saves: pos === 1 ? (saves90 * m * (ga / Math.max(0.4, LEAGUE_GPG * mine.defence))) / 3 : 0,
         };
         return { parts, pts: Object.values(parts).reduce((a, b) => a + b, 0) };
       };
+      // Expected BPS: the player's own rate, plus what THIS fixture adds or takes
+      // away relative to a neutral one. Rebuilding BPS out of predicted goals and
+      // assists instead of correcting a rate this way tested measurably worse —
+      // the rulebook weights are big enough to amplify the noise in a per-90 rate.
+      const neutralGA = LEAGUE_GPG * mine.defence;
+      const w = bpsRules[pos];
+      const bpsMu = bpsMean(w, {
+        bps90, expMins, p60,
+        dGoals: g90 * m * (attMult - 1),
+        dAssists: a90 * m * (attMult - 1),
+        dCs: pos <= 2 ? poissonP(0, xGA) - poissonP(0, neutralGA) : 0,
+        dGc: pos <= 2 ? (xGA - neutralGA) * m : 0,
+        dSaves: pos === 1 ? saves90 * m * (xGA / Math.max(0.4, neutralGA) - 1) : 0,
+      });
+      if (!bpsPool.has(f.id)) bpsPool.set(f.id, []);
+      bpsPool.get(f.id).push({ id: el.id, mu: bpsMu, pPlay });
+
       const real = score(xGF, xGA, attMult);
       const parts = real.parts;
       const pts = real.pts;
@@ -422,6 +504,8 @@ function project() {
       const neutralPts = score(LEAGUE_GPG * mine.attack, LEAGUE_GPG * mine.defence, 1).pts;
       perFixture.push({
         gw: f.event,
+        fid: f.id,
+        bpsMu: +bpsMu.toFixed(1),
         opp: teamName.get(oppId),
         oppId,
         home,
@@ -468,6 +552,7 @@ function project() {
       lastSeasonPoints: base ? base.totalPoints : null,
       lastSeasonMins: base ? base.mins : 0,
       pStart: +pStart.toFixed(2),
+      depthLift: +depthLift.toFixed(3),
       expMins: +expMins.toFixed(1),
       xg90: +g90.toFixed(3),
       xa90: +a90.toFixed(3),
@@ -488,6 +573,45 @@ function project() {
       swing5: +(horizon(5) - horizonOf('xpn', 5)).toFixed(2),
       swing10: +(horizon(10) - horizonOf('xpn', 10)).toFixed(2),
     });
+  }
+
+  // ---- bonus points ------------------------------------------------------
+  // Now that every player in every fixture has an expected BPS, each match is a
+  // ranking contest: simulate the BPS draws and count how often each player
+  // lands in the top three. This is the whole reason bonus is computed here
+  // rather than inside the per-player loop — a player's bonus depends on who
+  // else is on the pitch, which the per-90 rate it replaces could never see.
+  const byId = new Map(players.map(pl => [pl.id, pl]));
+  let bonusTotal = 0;
+  for (const [fid, entries] of bpsPool) {
+    const awarded = simulateBonus(entries, { seed: fid || 1 });
+    for (const [pid, xb] of awarded) {
+      const pl = byId.get(pid);
+      if (!pl) continue;
+      const fx = pl.fixtures.find(x => x.fid === fid);
+      if (!fx) continue;
+      fx.parts.bonus = +xb.toFixed(3);
+      fx.xp = +(fx.xp + xb).toFixed(2);
+      // Added to the neutral score too, so the fixture-swing metric keeps
+      // measuring attacking and clean-sheet effects rather than absorbing bonus.
+      fx.xpn = +(fx.xpn + xb).toFixed(2);
+      bonusTotal += xb;
+    }
+  }
+  // Horizons were summed before bonus existed, so they are rebuilt here.
+  for (const pl of players) {
+    const gws = [...new Set(pl.fixtures.map(f => f.gw))].sort((a, b) => a - b);
+    const upto = (key, n) => {
+      const set = new Set(gws.slice(0, n));
+      return +sum(pl.fixtures.filter(f => set.has(f.gw)).map(f => f[key])).toFixed(2);
+    };
+    pl.xp1 = upto("xp", 1); pl.xp3 = upto("xp", 3);
+    pl.xp5 = upto("xp", 5); pl.xp10 = upto("xp", 10);
+    pl.swing3 = +(pl.xp3 - upto("xpn", 3)).toFixed(2);
+    pl.swing5 = +(pl.xp5 - upto("xpn", 5)).toFixed(2);
+    pl.swing10 = +(pl.xp10 - upto("xpn", 10)).toFixed(2);
+    pl.xBonus5 = +sum(pl.fixtures.filter(f => new Set(gws.slice(0, 5)).has(f.gw))
+      .map(f => f.parts.bonus || 0)).toFixed(2);
   }
 
   for (const p of players) {

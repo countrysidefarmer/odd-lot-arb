@@ -5,6 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const { parseCSV, num, sum, mean, poissonP } = require('./lib');
+const { fitRulebook, bpsMean, simulateBonus } = require('./bonus');
 
 const DATA = path.join(__dirname, '..', 'data');
 const POS = { GK: 1, GKP: 1, DEF: 2, MID: 3, FWD: 4 };
@@ -23,6 +24,10 @@ function load() {
     xg: num(r.expected_goals), xa: num(r.expected_assists),
     goals: num(r.goals_scored), assists: num(r.assists),
     bonus: num(r.bonus), saves: num(r.saves), yellow: num(r.yellow_cards),
+    bps: num(r.bps), cs: num(r.clean_sheets), gc: num(r.goals_conceded),
+    yc: num(r.yellow_cards),
+    rc: num(r.red_cards), og: num(r.own_goals),
+    ps: num(r.penalties_saved), pm: num(r.penalties_missed),
     defcon: num(r.defensive_contribution),
     hs: num(r.team_h_score), as: num(r.team_a_score),
   })).filter(r => r.gw >= 1 && r.gw <= 38);
@@ -72,11 +77,38 @@ function run() {
     byPlayer.get(r.id).push(r);
   }
 
+  // The BPS rulebook is fitted only on gameweeks before the backtest window, so
+  // nothing here has seen the matches it is scored against.
+  const rulebook = fitRulebook(rows.filter(r => r.gw < START_GW && r.mins > 0));
+
+  // Typical BPS per 90 by position, for players with no usable history.
+  const POS_BPS = {};
+  for (const q of [1, 2, 3, 4]) {
+    const v = rows.filter(r => r.gw < START_GW && r.mins >= 60 && r.pos === q);
+    POS_BPS[q] = v.length ? mean(v.map(r => r.bps * 90 / r.mins)) : 18;
+  }
+  const field = new Map();
+
   const preds = [];
   for (const hist of byPlayer.values()) {
     hist.sort((a, b) => a.gw - b.gw);
     for (const cur of hist) {
       if (cur.gw < START_GW) continue;
+      // Bonus is decided among everyone on the pitch, so the ranking contest
+      // needs the whole field — including players too new to project properly.
+      // They get a crude BPS estimate rather than being left out, because an
+      // absent competitor would silently inflate everyone else's bonus odds.
+      {
+        const pr = hist.filter(h => h.gw < cur.gw);
+        const pm = sum(pr.map(x => x.mins));
+        const mu = pm >= 90
+          ? (sum(pr.map(x => x.bps)) * 90 / pm) * (mean(pr.slice(-6).map(x => x.mins)) / 90)
+          : POS_BPS[cur.pos] * 0.35;
+        const pp = pr.length ? pr.slice(-8).filter(x => x.mins > 0).length / Math.min(8, pr.length) : 0.3;
+        if (!field.has(cur.fixture)) field.set(cur.fixture, []);
+        field.get(cur.fixture).push({ id: cur.id, mu, pPlay: pp });
+      }
+
       const prior = hist.filter(h => h.gw < cur.gw);
       if (prior.length < 6) continue;
       const pMins = sum(prior.map(p => p.mins));
@@ -94,6 +126,7 @@ function run() {
       const g90 = 0.7 * per90(sum(prior.map(p => p.xg))) + 0.3 * per90(sum(prior.map(p => p.goals)));
       const a90 = 0.7 * per90(sum(prior.map(p => p.xa))) + 0.3 * per90(sum(prior.map(p => p.assists)));
       const bonus90 = per90(sum(prior.map(p => p.bonus)));
+      const bps90 = per90(sum(prior.map(p => p.bps)));
       const saves90 = per90(sum(prior.map(p => p.saves)));
       const yellow90 = per90(sum(prior.map(p => p.yellow)));
       const starts = prior.filter(p => p.starts > 0);
@@ -112,14 +145,29 @@ function run() {
       xp += a90 * m * attMult * 3;
       xp += poissonP(0, xGA) * p60 * CS_PTS[cur.pos];
       xp += defconRate * startRate * 2;
-      xp += bonus90 * m * (0.7 + 0.3 * attMult);
+      const bonusRate = bonus90 * m * (0.7 + 0.3 * attMult);   // the old model
       xp -= yellow90 * m;
       if (cur.pos <= 2) xp -= 0.5 * xGA * m;
       if (cur.pos === 1) xp += (saves90 * m * (xGA / Math.max(0.4, LEAGUE_GPG * mine.defence))) / 3;
 
+      // Expected BPS for the ranking contest: the player's rate, corrected only
+      // for how this fixture differs from a neutral one.
+      const neutralGA = LEAGUE_GPG * mine.defence;
+      const bpsMu = bpsMean(rulebook[cur.pos], {
+        bps90, expMins, p60,
+        dGoals: g90 * m * (attMult - 1),
+        dAssists: a90 * m * (attMult - 1),
+        dCs: cur.pos <= 2 ? poissonP(0, xGA) - poissonP(0, neutralGA) : 0,
+        dGc: cur.pos <= 2 ? (xGA - neutralGA) * m : 0,
+        dSaves: cur.pos === 1 ? saves90 * m * (xGA / Math.max(0.4, neutralGA) - 1) : 0,
+      });
+
       preds.push({
         gw: cur.gw, pos: cur.pos, name: cur.name, actual: cur.pts,
-        mine: Math.max(0, xp),
+        fixture: cur.fixture, id: cur.id,
+        xpNoBonus: xp, bonusRate, bpsMu, pPlayDraw: pPlay,
+        actualBonus: cur.bonus,
+        mine: Math.max(0, xp + bonusRate),
         // Baselines: what you would get without a model at all.
         ppg: mean(prior.map(pp => pp.pts)),                 // season average to date
         form: mean(prior.slice(-4).map(pp => pp.pts)),      // last four games
@@ -127,6 +175,28 @@ function run() {
         expMins, likely: p60 >= 0.5,
       });
     }
+  }
+
+  // ---- bonus, as a ranking contest inside each fixture --------------------
+  const better = new Map(preds.map(p => [p.fixture + "|" + p.id, p]));
+  const pool = new Map();
+  for (const [fid, entries] of field) {
+    pool.set(fid, entries.map(e => {
+      const b = better.get(fid + "|" + e.id);
+      return b ? { id: e.id, mu: b.bpsMu, pPlay: b.pPlayDraw } : e;
+    }));
+  }
+  const byKey = new Map(preds.map(p => [p.fixture + '|' + p.id, p]));
+  for (const [fid, entries] of pool) {
+    const awarded = simulateBonus(entries, { seed: Number(fid) || 1 });
+    for (const [pid, xb] of awarded) {
+      const p = byKey.get(fid + '|' + pid);
+      if (p) p.bonusRank = xb;
+    }
+  }
+  for (const p of preds) {
+    p.bonusRank = p.bonusRank || 0;
+    p.mineRank = Math.max(0, p.xpNoBonus + p.bonusRank);
   }
 
   const mae = (a, f) => mean(a.map((x, i) => Math.abs(x - f[i])));
@@ -187,6 +257,43 @@ function run() {
   // Calibration: are projections systematically high or low?
   console.log(`\nCalibration — mean projection ${mean(preds.map(p => p.mine)).toFixed(2)}`
     + ` vs mean actual ${mean(preds.map(p => p.actual)).toFixed(2)}`);
+
+  // ---- A/B: bonus as a per-90 rate vs as a ranking contest ----------------
+  const AB = preds.map(p => p.actualBonus);
+  const ACT = preds.map(p => p.actual);
+  const corr = (x, y) => {
+    const mx = mean(x), my = mean(y);
+    let a = 0, b = 0, c = 0;
+    for (let i = 0; i < x.length; i++) { const u = x[i] - mx, v = y[i] - my; a += u * v; b += u * u; c += v * v; }
+    return b && c ? a / Math.sqrt(b * c) : 0;
+  };
+  console.log('\nBonus points — per-90 rate vs BPS ranking contest:');
+  for (const [label, key] of [['rate (old)', 'bonusRate'], ['ranking (new)', 'bonusRank']]) {
+    const P = preds.map(p => p[key]);
+    console.log(`  ${label.padEnd(14)} corr ${corr(P, AB).toFixed(3)}`
+      + `   RMSE ${rmse(AB, P).toFixed(4)}`
+      + `   predicted total ${sum(P).toFixed(0)} vs actual ${sum(AB).toFixed(0)}`);
+  }
+  console.log('\nWhole-projection effect of the bonus change:');
+  for (const [label, key] of [['rate (old)', 'mine'], ['ranking (new)', 'mineRank']]) {
+    const P = preds.map(p => p[key]);
+    console.log(`  ${label.padEnd(14)} MAE ${mae(ACT, P).toFixed(4)}`
+      + `   RMSE ${rmse(ACT, P).toFixed(4)}`
+      + `   mean proj ${mean(P).toFixed(3)} vs actual ${mean(ACT).toFixed(3)}`);
+  }
+  {
+    const gws2 = [...new Set(preds.map(p => p.gw))].sort((a, b) => a - b);
+    const line = key => {
+      const v = [];
+      for (const gw of gws2) {
+        const set = preds.filter(p => p.gw === gw && p.likely);
+        if (set.length < 40) continue;
+        v.push(mean(set.slice().sort((a, b) => b[key] - a[key]).slice(0, 20).map(p => p.actual)));
+      }
+      return mean(v);
+    };
+    console.log(`  Top 20 by projection, average actual points:  rate ${line('mine').toFixed(3)}   ranking ${line('mineRank').toFixed(3)}`);
+  }
 
   // Where the error concentrates: are the misses on hauls or on blanks?
   const big = preds.filter(p => p.actual >= 10);

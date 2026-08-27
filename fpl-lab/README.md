@@ -56,6 +56,30 @@ snapshot and only moves when it is republished.
 
 Every projection respects the horizon toggle: 1, 3, 5 or 10 gameweeks.
 
+The player card's **fixture-by-fixture table runs played and upcoming gameweeks
+together on one set of axes** — minutes, xG, xA, BPS, bonus, points, and the
+team's own scoreline. Played rows are tinted, carry a solid left edge and shade
+their points cell on the return scale; projected rows are left plain, because a
+projection should never be coloured as though it happened. On a played row BPS
+and bonus are what he scored and was awarded; on a projected row they are his
+expected tally and how often he finishes a match's top three across the simulated
+rankings. Putting them in one column is the point: it shows whether the
+underlying numbers backed up a return, since a big score off 0.1 xG is not a
+repeatable one.
+
+A gameweek counts as played only once that player's own fixture has finished, not
+when the gameweek is merely current — otherwise a match still to kick off shows up
+as the player failing to appear in it.
+
+The squad and best-buys tables carry a **recent form strip**: one cell per
+gameweek actually played, up to the last five, newest on the right. The number is
+always the points scored, so colour is a second cue rather than the only one, and
+a gameweek the player sat out is drawn hollow — a blank and an absence mean
+different things when you are reading a squad. The bar under each number is
+minutes played, and hovering gives the opponent, score and the full return.
+Gameweeks that have not happened are simply absent, so in August this is honestly
+one cell wide rather than a row of blanks.
+
 ## The model
 
 For each player and each upcoming fixture:
@@ -139,6 +163,8 @@ with no current-season evidence:
 src/fetch.js       pulls the FPL API + vaastav/Fantasy-Premier-League history
 src/research.js    fixtures vs form -> data/research.json
 src/minutes.js     minutes vs quality, reported to stdout
+src/depth.js       squad competition -> start probabilities that react to team news
+src/bonus.js       the BPS rulebook and the per-match bonus tournament
 src/preseason.js   the gameweek-1 case, reported to stdout
 src/signals.js     runs both of the above -> data/signals.json
 src/model.js       the projections -> data/projections.json
@@ -149,6 +175,71 @@ src/build.js       injects the payload into the template
 src/template.html  the dashboard (styles, markup, client-side logic)
 src/lib.js         CSV parsing, stats, Poisson
 ```
+
+## Bonus points
+
+Bonus is a tournament, not a rate. FPL gives 3/2/1 to the top three BPS scores
+**in a match**, and ranking the published BPS reproduces the published bonus for
+100% of player-matches in both 2024-25 and 2025-26 — the award rule is exact.
+The model used to multiply a historical bonus-per-90 by expected minutes, which
+cannot see the opposition: 25 BPS wins bonus in a quiet game and nothing in a 4-3.
+
+Now every player in a fixture gets an expected BPS, the match is simulated, and
+expected bonus is how often he finishes top three. Per-match calibration is exact
+by construction — for the two unplayed GW1 fixtures the model distributes 12.0
+expected bonus points against the 12 really on offer.
+
+Expected BPS is a **smooth base plus a fixture correction**, deliberately not a
+rebuild from components. `src/bonus.js` fits the BPS rulebook per position from
+last season, and the fit recovers the real rules closely — clean sheet 12.0,
+midfield goal 19.7, save 2.8, yellow -3.1, at 78-95% R². But feeding *predicted*
+goals and assists through those weights is measurably **worse** than the flat
+rate (correlation with actual bonus 0.154 vs 0.198): a midfield goal is worth
+~20 BPS, so the weight amplifies the noise in a per-90 goal rate. Only the
+deviation of this fixture from a neutral one is added.
+
+Worth knowing where the ceiling is. Given the *actual* match statistics, the
+ranking simulation predicts bonus at correlation **0.759**; from a player's
+history it manages **0.198**. Nothing is wrong with the award model — bonus is
+hard because BPS and minutes are hard. In the full backtest, where minutes are
+uncertain too, the change is a wash on accuracy (MAE 1.9094 -> 1.9043, top-20
+returns 4.19 -> 4.21) and is kept for being structurally right and exactly
+calibrated per match, not for the decimal.
+
+## Squad competition and minutes
+
+The obvious idea — feed the depth chart into the minutes model — does not work,
+and it is worth recording why. Adding competitors-ahead, squad depth and share of
+positional minutes to the existing recency features moves minutes R^2 by
+**+0.02pp** on 2025-26 and +0.02pp on 2024-25. Individually those features look
+strong (share of positional minutes correlates 0.79 with next-week minutes), but
+a player's own recent minutes already encode who he is competing with.
+
+What does work is the same idea as a **live availability constraint**, which no
+backtest can see: last season's files record minutes, not injuries, so "his rival
+is out this week" simply is not in the history. It is in today's data, and right
+now it is large — Spurs have five defenders and five midfielders flagged,
+Brighton six midfielders.
+
+The constraint that makes it usable is that the number of players a team starts
+in each position is nearly deterministic. Per team per match over 2025-26:
+
+| Position | Started | sd |
+|---|---|---|
+| GK | 1.00 | 0.00 |
+| DEF | 4.19 | 0.60 |
+| MID | 4.71 | 0.83 |
+| FWD | 1.10 | 0.54 |
+
+So `src/depth.js` redistributes the starts **vacated by unavailable players**
+across their available team-mates, scaling on the odds so nobody is pushed past a
+0.97 ceiling. It redistributes only what was vacated rather than rescaling the
+group to its slot count, because forcing a fully fit squad onto the slot count
+makes minutes prediction *worse* (MAE 19.18 -> 19.52 on 2025-26, 19.49 -> 19.87
+on 2024-25) — with nobody injured the constraint carries no information and only
+moves noise around. Written this way it is an exact no-op when everyone is
+available, and reacts only when there is news. Players it promotes are labelled
+"Deputising" on the dashboard.
 
 ## How far ahead the odds reach
 
@@ -227,6 +318,12 @@ minimised by shrinking every projection downward: a 3.65% "improvement" moves th
 from +0.015 to -0.21 while barely touching RMSE. Calibration is the objective that matters.
 
 ## Limits
+
+The depth chart reacts to FPL's own availability flags, which is not the same as
+reading a predicted line-up — it knows Saliba is out, not who the manager picks
+instead beyond what minutes history implies. Its effect is also untestable
+historically, since the per-gameweek archives carry no injury status; the
+backtest can only confirm it does no harm when everyone is fit.
 
 It does not read team news or predicted line-ups, does not model blanks and doubles,
 and tracks set-piece duty only as a change signal. Early in a season it leans heavily on

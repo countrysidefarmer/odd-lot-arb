@@ -42,6 +42,47 @@ async function main() {
   console.log(picks ? `entry: squad from GW${picks.gw}, ${picks.picks.length} picks`
                     : 'entry: no published squad yet');
 
+  // Per-gameweek results for the recent form strip. One request covers every
+  // player for a gameweek, so the last five cost five calls rather than one per
+  // player. Early in a season there may only be one gameweek to show.
+  const playedGws = boot.events
+    .filter(e => e.finished || e.is_current || new Date(e.deadline_time).getTime() <= now)
+    .map(e => e.id)
+    .sort((a, b) => a - b)
+    .slice(-5);
+  const recent = {};
+  for (const gw of playedGws) {
+    try {
+      const live = await get(`${API}/event/${gw}/live/`);
+      recent[gw] = Object.fromEntries(live.elements
+        .filter(e => e.stats.minutes > 0 || e.stats.total_points !== 0)
+        .map(e => [e.id, {
+          p: e.stats.total_points, m: e.stats.minutes, b: e.stats.bonus,
+          bps: e.stats.bps, s: e.stats.starts, g: e.stats.goals_scored,
+          a: e.stats.assists, cs: e.stats.clean_sheets,
+          // What he actually generated, so a past gameweek can be read on the
+          // same axes as a projected one.
+          xg: +e.stats.expected_goals, xa: +e.stats.expected_assists,
+        }]));
+    } catch (err) { console.log(`  live GW${gw}: ${err.message}`); }
+  }
+  // Which opponent each team faced, so the strip can label the fixtures.
+  const opponents = {};
+  for (const gw of playedGws) {
+    const done = f => Boolean(f.finished || f.finished_provisional);
+    opponents[gw] = fixtures.filter(f => f.event === gw).flatMap(f => ([
+      { team: f.team_h, opp: f.team_a, home: 1, gs: f.team_h_score, ga: f.team_a_score, fin: done(f) },
+      { team: f.team_a, opp: f.team_h, home: 0, gs: f.team_a_score, ga: f.team_h_score, fin: done(f) },
+    ]));
+  }
+  // Whether the gameweek as a whole is over, for teams that had no fixture in it.
+  const gwFinished = Object.fromEntries(playedGws.map(gw => {
+    const e = boot.events.find(x => x.id === gw);
+    return [gw, Boolean(e && e.finished)];
+  }));
+  fs.writeFileSync(path.join(DATA, 'recent.json'), JSON.stringify({ gws: playedGws, recent, opponents, gwFinished }));
+  console.log(`recent form: gameweeks ${playedGws.join(', ') || '(none yet)'}`);
+
   // Stable player codes let us join last season's rows onto this season's ids.
   const raw = await get(`${VAASTAV}/${LAST_SEASON}/players_raw.csv`, true);
   fs.writeFileSync(path.join(DATA, `players_raw_${LAST_SEASON}.csv`), raw);

@@ -171,6 +171,44 @@ td.num, th.num { text-align: right; }
 .legend { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-2); flex-wrap: wrap; }
 .legend .fx i { min-width: 34px; }
 
+/* ----------------------------------------------------------- recent form */
+/* One cell per gameweek actually played, oldest on the left. The number is
+   always the points, so colour is a second cue rather than the only one, and a
+   gameweek the player sat out is drawn hollow rather than as a zero return —
+   they mean different things when you are reading a squad. */
+.form { display: flex; gap: 3px; align-items: stretch; }
+.form .gwc {
+  min-width: 32px; padding: 2px 4px 3px; border-radius: 4px; text-align: center;
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 600;
+  border: 1px solid var(--line); line-height: 1.2; color: var(--ink);
+  background: var(--surface-2);
+}
+.form .gwc b { font-weight: 600; display: block; }
+.form .gwc .mn { display: block; height: 2px; margin-top: 3px; border-radius: 1px; background: var(--line-strong); }
+.form .gwc .mn i { display: block; height: 100%; border-radius: 1px; background: currentColor; opacity: .55; }
+.fdnp { border-style: dashed; color: var(--ink-2); background: transparent; }
+.fblank { color: var(--ink-2); }
+.fok   { background: var(--warn-bg); color: color-mix(in srgb, var(--warn) 75%, var(--ink)); border-color: color-mix(in srgb, var(--warn) 35%, transparent); }
+.fgood { background: var(--good-bg); color: color-mix(in srgb, var(--good) 75%, var(--ink)); border-color: color-mix(in srgb, var(--good) 35%, transparent); }
+.fhaul { background: var(--good); color: #fff; border-color: var(--good); }
+
+/* Played rows inside the fixture table are fact, the rest are estimate. The
+   actual rows are tinted and carry a solid left edge, and only their points are
+   shaded on the return scale — a projection is never coloured as if it happened. */
+tr.played > td { background: var(--surface-2); }
+tr.played > td:first-child { box-shadow: inset 3px 0 0 var(--line-strong); }
+tr.splitrow > td {
+  padding: 5px 10px; font-size: 10px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-2); background: transparent; border-bottom: 1px solid var(--line-strong);
+}
+td.ptcell b {
+  display: inline-block; min-width: 30px; padding: 2px 7px; border-radius: 4px;
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--line);
+}
+.form .gwlab { display: block; font-size: 9px; font-weight: 500; letter-spacing: .04em; opacity: .7; }
+.formlegend .form .gwc { min-width: 40px; }
+
 /* ------------------------------------------------------------------ chips */
 .chip {
   display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600;
@@ -356,6 +394,41 @@ const difficultyLegend = `<div class="legend"><span>Fixture difficulty</span><di
   <span>easiest to hardest, from the model's expected goals &middot; shaded on conceding for keepers and defenders,
   on scoring for midfielders and forwards &middot; the opponent is always named, so colour is never the only cue</span></div>`;
 
+/* --------------------------------------------------------- recent form */
+// Up to five gameweeks of actual returns. Only gameweeks that have been played
+// are in the payload, so at the start of a season this is legitimately one cell.
+function formBucket(r) {
+  if (!r.m) return 'fdnp';
+  if (r.p >= 10) return 'fhaul';
+  if (r.p >= 6) return 'fgood';
+  if (r.p >= 3) return 'fok';
+  return 'fblank';
+}
+function formStrip(p, withLabels = false) {
+  const rc = p.rc || [];
+  if (!rc.length) return '<span class="tag">not played yet</span>';
+  return '<div class="form">' + rc.map(r => {
+    const where = r.o ? `${r.h ? 'v' : 'at'} ${r.o}${r.sc ? ' ' + r.sc : ''}` : 'no fixture';
+    const what = !r.m ? 'did not play'
+      : [`${r.m} mins`, r.gl ? `${r.gl}G` : '', r.as ? `${r.as}A` : '',
+         r.cs && r.m >= 60 ? 'clean sheet' : '', r.b ? `${r.b} bonus` : '', `${r.bps} BPS`]
+        .filter(Boolean).join(', ');
+    return `<span class="gwc ${formBucket(r)}" title="GW${r.g} ${where} — ${what}">
+      ${withLabels ? `<span class="gwlab">GW${r.g}</span>` : ''}
+      <b>${r.m ? r.p : '–'}</b>
+      <span class="mn"><i style="width:${Math.round((r.m / 90) * 100)}%"></i></span>
+    </span>`;
+  }).join('') + '</div>';
+}
+const formLegend = `<div class="legend formlegend"><span>Recent form</span>
+  <div class="form">
+    <span class="gwc fdnp"><b>–</b></span><span class="gwc fblank"><b>2</b></span>
+    <span class="gwc fok"><b>4</b></span><span class="gwc fgood"><b>8</b></span>
+    <span class="gwc fhaul"><b>13</b></span>
+  </div>
+  <span>did not play &middot; blank &middot; modest &middot; good &middot; haul &mdash; the bar under each number is
+  minutes played, and the points are always written out so colour is never the only cue</span></div>`;
+
 /* --------------------------------------------------------- player detail */
 const PART_LABEL = {
   appearance: 'Appearance', goals: 'Goals', assists: 'Assists', cleanSheet: 'Clean sheet',
@@ -373,6 +446,7 @@ function openPlayer(id) {
   if (!p) return;
   const dlg = document.getElementById('detail');
   const det = p.f.filter(f => f.pt);
+  const played = p.rc || [];
   const total = det.reduce((s, f) => s + f.x, 0);
 
   // Points split across the detailed fixtures, largest contributor first.
@@ -408,11 +482,20 @@ function openPlayer(id) {
           ${(p.rn || []).length ? '<br>' + p.rn.map(esc).join(' &middot; ') : ''}</p>
       </section>
       <section>
+        <h3>Recent form</h3>
+        <p class="note">${played.length
+          ? `What he actually returned in the last ${played.length} gameweek${played.length === 1 ? '' : 's'}.
+             The full breakdown is in the fixture table below, alongside what is projected next.`
+          : 'His team has not completed a gameweek yet this season, so there is nothing to show here — the fixture table below is all projection.'}</p>
+        ${formStrip(p, true)}
+      </section>
+      <section>
         <h3>Underlying rates</h3>
         <div class="scroll"><table class="mini">
           <tbody>
             <tr><td>Expected goals + assists per 90</td><td class="num mono">${fmt(p.xgi, 2)}</td></tr>
-            <tr><td>Bonus points per 90</td><td class="num mono">${fmt(p.b90, 2)}</td></tr>
+            <tr><td>Bonus points per 90, historic</td><td class="num mono">${fmt(p.b90, 2)}</td></tr>
+            <tr><td>Expected bonus, next 5</td><td class="num mono">${fmt(p.xb5, 2)}</td></tr>
             <tr><td>Clears defensive threshold</td><td class="num mono">${Math.round(p.dc * 100)}%</td></tr>
             <tr><td>Penalties</td><td class="num mono">${p.pen === 1 ? 'first choice' : p.pen ? 'order ' + p.pen : 'no'}</td></tr>
             <tr><td>Last season</td><td class="num mono">${p.lp != null ? p.lp + ' pts, ' + p.lm + ' mins' : 'no PL record'}</td></tr>
@@ -421,22 +504,50 @@ function openPlayer(id) {
       </section>
       <section class="wide">
         <h3>Fixture by fixture</h3>
+        <p class="note">One row per gameweek, played and upcoming on the same axes.
+          Shaded rows already happened and every number in them is what actually occurred;
+          the rest are expectations. Reading down a column shows whether the underlying
+          numbers back up the return &mdash; a big score off 0.1 xG is not a repeatable one.</p>
         <div class="scroll"><table>
-          <thead><tr><th>GW</th><th>Opponent</th><th>Priced by</th><th class="num">Team scores</th><th class="num">Team concedes</th>
-            <th class="num">Clean sheet</th><th class="num">His goals</th><th class="num">His assists</th><th class="num">xP</th></tr></thead>
-          <tbody>${det.map(f => `<tr>
-            <td class="mono">${f.g}</td>
-            <td><span class="name">${esc(f.o)}</span> <span class="tag">${f.h ? 'home' : 'away'}</span></td>
-            <td>${f.od ? '<span class="chip ok">market</span>' : '<span class="chip flat">model</span>'}</td>
-            <td class="num mono">${fmt(f.s, 2)}</td>
-            <td class="num mono">${fmt(f.a, 2)}</td>
-            <td class="num mono">${Math.round(f.pr.cs * 100)}%</td>
-            <td class="num mono">${fmt(f.eg, 2)}</td>
-            <td class="num mono">${fmt(f.ea, 2)}</td>
-            <td class="num big">${fmt(f.x, 2)}</td>
-          </tr>`).join('')}</tbody>
+          <thead><tr><th>GW</th><th>Opponent</th><th class="num">Mins</th>
+            <th class="num">xG</th><th class="num">xA</th><th class="num">BPS</th><th class="num">Bonus</th>
+            <th class="num">Pts</th><th class="num">Team scored</th><th class="num">Conceded</th><th class="num">Clean sheet</th></tr></thead>
+          <tbody>
+            ${played.map(r => `<tr class="played">
+              <td class="mono">${r.g}</td>
+              <td><span class="name">${r.o ? esc(r.o) : '—'}</span>
+                <span class="tag">${r.o ? (r.h ? 'home' : 'away') : 'no fixture'}${r.sc ? ' · ' + r.sc : ''}</span></td>
+              <td class="num mono">${r.m ? r.m + "'" : '—'}</td>
+              <td class="num mono">${fmt(r.xg, 2)}</td>
+              <td class="num mono">${fmt(r.xa, 2)}</td>
+              <td class="num mono">${r.m ? r.bps : '—'}</td>
+              <td class="num mono">${r.b || ''}</td>
+              <td class="num ptcell"><b class="${formBucket(r)}">${r.m ? r.p : '–'}</b></td>
+              <td class="num mono">${r.gs != null ? r.gs : '—'}</td>
+              <td class="num mono">${r.ga != null ? r.ga : '—'}</td>
+              <td class="num mono">${r.m >= 60 ? (r.cs ? 'yes' : 'no') : '—'}</td>
+            </tr>`).join('')}
+            ${played.length && det.length ? `<tr class="splitrow"><td colspan="11">Projected from here</td></tr>` : ''}
+            ${det.map(f => `<tr>
+              <td class="mono">${f.g}</td>
+              <td><span class="name">${esc(f.o)}</span> <span class="tag">${f.h ? 'home' : 'away'}</span>
+                ${f.od ? '<span class="chip ok">market</span>' : '<span class="chip flat">model</span>'}</td>
+              <td class="num mono">${Math.round(f.m)}'</td>
+              <td class="num mono">${fmt(f.eg, 2)}</td>
+              <td class="num mono">${fmt(f.ea, 2)}</td>
+              <td class="num mono">${f.bm != null ? fmt(f.bm, 1) : '—'}</td>
+              <td class="num mono">${fmt(f.xb || 0, 2)}</td>
+              <td class="num big">${fmt(f.x, 2)}</td>
+              <td class="num mono">${fmt(f.s, 2)}</td>
+              <td class="num mono">${fmt(f.a, 2)}</td>
+              <td class="num mono">${Math.round(f.pr.cs * 100)}%</td>
+            </tr>`).join('')}
+          </tbody>
         </table></div>
-        <p class="note" style="margin-top:8px">Fixtures marked <strong>market</strong> take their expected goals from
+        <p class="note" style="margin-top:8px">On played rows <strong>BPS</strong> is what he scored and
+          <strong>Bonus</strong> is what he was awarded. On projected rows BPS is his expected tally and Bonus is
+          how often he finishes in a match's top three across the simulated rankings, so it is a fraction.
+          Fixtures marked <strong>market</strong> take their expected goals from
           Polymarket's betting prices on that match; the rest are the model's own estimate from team strength.
           The clean-sheet chance is a Poisson probability on the goals the opponent is expected to score.</p>
       </section>
@@ -519,6 +630,7 @@ function renderSquad() {
     <td class="num mono">${Math.round(p.em)}'</td>
     <td class="num big">${fmt(xp(p), 1)}</td>
     <td class="num mono">${fmt(perGw(p), 2)}</td>
+    <td>${formStrip(p)}</td>
     <td>${fxStrip(p, Math.min(H === 1 ? 3 : H, 5))}</td>
   </tr>`;
 
@@ -534,7 +646,7 @@ function renderSquad() {
       <h2>Starting eleven</h2>
       <p class="sub">The highest-projected legal XI from your fifteen over the next ${H} gameweek${H > 1 ? 's' : ''}, and who to captain.</p>
       <div class="card scroll"><table>
-        <thead><tr>${sortableHead([{key:'pos',label:''},{key:'name',label:'Player'},{key:'cost',label:'£m',num:1},{key:'status',label:'Status'},{key:'mins',label:'Mins',num:1},{key:'xp',label:'xP'+H,num:1},{key:'gw',label:'/gw',num:1}])}<th>Next fixtures</th></tr></thead>
+        <thead><tr>${sortableHead([{key:'pos',label:''},{key:'name',label:'Player'},{key:'cost',label:'£m',num:1},{key:'status',label:'Status'},{key:'mins',label:'Mins',num:1},{key:'xp',label:'xP'+H,num:1},{key:'gw',label:'/gw',num:1}])}<th>Last ${D.recentGws.length} GW</th><th>Next fixtures</th></tr></thead>
         <tbody>${sortSquad(xi.xi).map(p => row(p, p === cap ? '<span class="chip cap">C</span>' : '')).join('')}</tbody>
       </table></div>
     </section>
@@ -542,7 +654,7 @@ function renderSquad() {
       <h2>Bench</h2>
       <p class="sub">Ordered by projection — this is the order you want your autosubs to fire in.</p>
       <div class="card scroll"><table>
-        <thead><tr>${sortableHead([{key:'pos',label:''},{key:'name',label:'Player'},{key:'cost',label:'£m',num:1},{key:'status',label:'Status'},{key:'mins',label:'Mins',num:1},{key:'xp',label:'xP'+H,num:1},{key:'gw',label:'/gw',num:1}])}<th>Next fixtures</th></tr></thead>
+        <thead><tr>${sortableHead([{key:'pos',label:''},{key:'name',label:'Player'},{key:'cost',label:'£m',num:1},{key:'status',label:'Status'},{key:'mins',label:'Mins',num:1},{key:'xp',label:'xP'+H,num:1},{key:'gw',label:'/gw',num:1}])}<th>Last ${D.recentGws.length} GW</th><th>Next fixtures</th></tr></thead>
         <tbody>${sortSquad(bench).map(p => row(p)).join('')}</tbody>
       </table></div>
     </section>
@@ -554,6 +666,7 @@ function renderSquad() {
         <div class="note">${esc(p.nw || `Projected to start ${Math.round(p.ps * 100)}% of games — ${Math.round(p.em)} minutes per gameweek.`)}</div>
       </div>`).join('')}</div>
     </section>` : ''}
+    <section>${formLegend}</section>
     <section>${difficultyLegend}</section>`;
 }
 
@@ -834,7 +947,7 @@ function renderTargets() {
       </div>
       <div class="card scroll"><table>
         <thead><tr><th>#</th><th>Player</th><th class="num">£m</th><th class="num">Own%</th><th>Status</th>
-          <th class="num">Mins</th><th class="num">xP${H}</th><th class="num" title="Points from the fixture run rather than the player">Fixtures</th><th class="num">pts/£m</th><th class="num">xGI/90</th><th>Next fixtures</th></tr></thead>
+          <th class="num">Mins</th><th class="num">xP${H}</th><th class="num" title="Points from the fixture run rather than the player">Fixtures</th><th class="num">pts/£m</th><th class="num">xGI/90</th><th>Last ${D.recentGws.length} GW</th><th>Next fixtures</th></tr></thead>
         <tbody>${list.map((p, i) => `<tr>
           <td class="tag">${i + 1}</td>
           <td><span class="pos">${POS[p.po]}</span> ${pname(p)} <span class="tag">${esc(p.ts)}</span>
@@ -847,10 +960,12 @@ function renderTargets() {
           ${swingCell(p)}
           <td class="num mono">${fmt(xp(p) / p.c, 2)}</td>
           <td class="num mono">${fmt(p.xgi, 2)}</td>
+          <td>${formStrip(p)}</td>
           <td>${fxStrip(p, 5)}</td>
         </tr>`).join('')}</tbody>
       </table></div>
     </section>
+    <section>${formLegend}</section>
     <section>${difficultyLegend}</section>`;
 
   root.querySelectorAll('#posSeg button').forEach(b => b.onclick = () => { targetState.pos = +b.dataset.pos; renderTargets(); });

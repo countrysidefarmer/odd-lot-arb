@@ -10,6 +10,7 @@ data/meta.json
 data/odds.json
 data/projections.json
 data/plan.json
+data/recent.json
 site/
 
 # Historical datasets, re-downloaded on demand by src/fetch.js (~10MB).

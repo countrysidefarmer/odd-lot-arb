@@ -17,6 +17,24 @@ function main() {
   const entryFile = read('entry.json');
   const boot = read('bootstrap.json');
   const meta = read('meta.json');
+  let recent = { gws: [], recent: {}, opponents: {} };
+  try { recent = read('recent.json'); } catch (e) { /* first run, or nothing played yet */ }
+
+  // The last five gameweeks of actual returns, per player. Only gameweeks that
+  // have really been played appear, so early in a season this is a short strip
+  // rather than a row of blanks.
+  const recentGws = recent.gws.slice(-5);
+  const oppFor = {};
+  for (const gw of recentGws) {
+    oppFor[gw] = {};
+    for (const o of (recent.opponents[gw] || [])) oppFor[gw][o.team] = o;
+  }
+  // A gameweek counts as played for a given team only once its fixture has
+  // finished — otherwise a match still to kick off is reported as a blank.
+  const settled = (gw, team) => {
+    const o = (oppFor[gw] || {})[team];
+    return o ? Boolean(o.fin) : Boolean((recent.gwFinished || {})[gw]);
+  };
 
   const teamNames = {};
   boot.teams.forEach(t => { teamNames[t.id] = { short: t.short_name, name: t.name }; });
@@ -28,6 +46,22 @@ function main() {
     ps: p.pStart, em: p.expMins, xgi: p.xgi90, b90: p.bonus90, dc: p.defconRate,
     lp: p.lastSeasonPoints, lm: p.lastSeasonMins, tp: p.totalPoints,
     pen: p.penOrder, sp: p.setPiece, rn: p.roleNotes, ovr: p.overridden,
+    dl: p.depthLift, xb5: p.xBonus5,
+    // Recent form: one entry per played gameweek, oldest first.
+    rc: recentGws.filter(gw => settled(gw, p.team)).map(gw => {
+      const st = (recent.recent[gw] || {})[p.id];
+      const o = (oppFor[gw] || {})[p.team];
+      return {
+        g: gw,
+        p: st ? st.p : 0, m: st ? st.m : 0, b: st ? st.b : 0,
+        bps: st ? st.bps : 0, s: st ? st.s : 0,
+        gl: st ? st.g : 0, as: st ? st.a : 0, cs: st ? st.cs : 0,
+        xg: st ? st.xg : 0, xa: st ? st.xa : 0,
+        o: o ? (teamNames[o.opp] || {}).short : null, h: o ? o.home : null,
+        gs: o ? o.gs : null, ga: o ? o.ga : null,
+        sc: o && o.gs != null ? o.gs + '-' + o.ga : null,
+      };
+    }),
     x1: p.xp1, x3: p.xp3, x5: p.xp5, x10: p.xp10,
     sw3: p.swing3, sw5: p.swing5, sw10: p.swing10,
     // Full detail only on the fixtures the player card actually shows; the rest
@@ -36,6 +70,7 @@ function main() {
       const light = { g: f.gw, o: f.opp, h: f.home ? 1 : 0, a: f.xGA, s: f.xGF, x: f.xp, od: f.odds };
       if (i >= 6) return light;
       return { ...light, cs: f.cs, pr: f.probs, eg: f.expGoals, ea: f.expAssists, m: f.mins,
+        bm: f.bpsMu, xb: f.parts.bonus || 0,
         pt: Object.fromEntries(Object.entries(f.parts).filter(([, v]) => Math.abs(v) > 0.004)) };
     }),
   }));
@@ -51,6 +86,7 @@ function main() {
     deadlineGw: proj.deadlineGw,
     deadline: proj.deadline,
     lastSeason: meta.lastSeason,
+    recentGws,
     entry: {
       id: entryFile.entry.id,
       name: entryFile.entry.name,
