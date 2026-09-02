@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-01T05:49:06Z",
+  "last_updated": "2026-09-02T05:12:33Z",
   "opportunities": [
     {
       "ticker": "ABUS",
@@ -7,11 +7,23 @@
       "exchange": "NASDAQ",
       "price_lower": 5.75,
       "price_upper": 5.75,
-      "current_price": 5.08,
-      "max_profit": 66.33,
+      "current_price": 5.09,
+      "max_profit": 65.34,
       "expiry": "2026-09-29",
       "filed_date": "2026-08-24",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1447028/000110465926100002/"
+    },
+    {
+      "ticker": "NFJ",
+      "company_name": "Virtus Dividend, Interest & Premium Strategy Fund",
+      "exchange": "NYSE",
+      "price_lower": 14.6718,
+      "price_upper": 14.6718,
+      "current_price": 15.41,
+      "max_profit": -73.08,
+      "expiry": null,
+      "filed_date": "2026-09-01",
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
     }
   ]
 }
