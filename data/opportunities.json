@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-17T05:33:52Z",
+  "last_updated": "2026-09-18T05:21:51Z",
   "opportunities": [
     {
       "ticker": "ABUS",
@@ -7,8 +7,8 @@
       "exchange": "NASDAQ",
       "price_lower": 5.75,
       "price_upper": 5.75,
-      "current_price": 5.05,
-      "max_profit": 69.3,
+      "current_price": 5.07,
+      "max_profit": 67.32,
       "expiry": "2026-09-29",
       "filed_date": "2026-08-24",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1447028/000110465926100002/"
@@ -19,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 14.6718,
       "price_upper": 14.6718,
-      "current_price": 15.12,
-      "max_profit": -44.37,
+      "current_price": 15.29,
+      "max_profit": -61.2,
       "expiry": null,
       "filed_date": "2026-09-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
