@@ -9,7 +9,12 @@
       "ticker": "NFJ",
       "first_seen": "2026-09-02",
       "threshold_alerted": false
+    },
+    "0001213900-26-101507": {
+      "ticker": "XFLT",
+      "first_seen": "2026-09-19",
+      "threshold_alerted": false
     }
   },
-  "last_updated": "2026-09-18T05:21:51Z"
+  "last_updated": "2026-09-19T05:14:25Z"
 }

@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-18T05:21:51Z",
+  "last_updated": "2026-09-19T05:14:25Z",
   "opportunities": [
     {
       "ticker": "ABUS",
@@ -7,8 +7,8 @@
       "exchange": "NASDAQ",
       "price_lower": 5.75,
       "price_upper": 5.75,
-      "current_price": 5.07,
-      "max_profit": 67.32,
+      "current_price": 5.01,
+      "max_profit": 73.26,
       "expiry": "2026-09-29",
       "filed_date": "2026-08-24",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1447028/000110465926100002/"
@@ -19,11 +19,23 @@
       "exchange": "NYSE",
       "price_lower": 14.6718,
       "price_upper": 14.6718,
-      "current_price": 15.29,
-      "max_profit": -61.2,
+      "current_price": 15.26,
+      "max_profit": -58.23,
       "expiry": null,
       "filed_date": "2026-09-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
+    },
+    {
+      "ticker": "XFLT",
+      "company_name": "XAI Floating Rate & Alternative Income Trust",
+      "exchange": "NYSE",
+      "price_lower": 0.25,
+      "price_upper": 0.25,
+      "current_price": 19.23,
+      "max_profit": -1879.02,
+      "expiry": null,
+      "filed_date": "2026-09-18",
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/1703079/000121390026101507/"
     }
   ]
 }
