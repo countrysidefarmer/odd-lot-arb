@@ -14,7 +14,12 @@
       "ticker": "XFLT",
       "first_seen": "2026-09-19",
       "threshold_alerted": false
+    },
+    "0001096906-26-001428": {
+      "ticker": "UTMD",
+      "first_seen": "2026-09-25",
+      "threshold_alerted": false
     }
   },
-  "last_updated": "2026-09-24T05:36:42Z"
+  "last_updated": "2026-09-25T05:33:17Z"
 }

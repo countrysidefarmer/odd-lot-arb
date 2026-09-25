@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-24T05:36:42Z",
+  "last_updated": "2026-09-25T05:33:17Z",
   "opportunities": [
     {
       "ticker": "ABUS",
@@ -7,11 +7,23 @@
       "exchange": "NASDAQ",
       "price_lower": 5.75,
       "price_upper": 5.75,
-      "current_price": 4.85,
-      "max_profit": 89.1,
+      "current_price": 4.88,
+      "max_profit": 86.13,
       "expiry": "2026-09-29",
       "filed_date": "2026-08-24",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1447028/000110465926100002/"
+    },
+    {
+      "ticker": "UTMD",
+      "company_name": "UTAH MEDICAL PRODUCTS INC",
+      "exchange": "NASDAQ",
+      "price_lower": 75.0,
+      "price_upper": 75.0,
+      "current_price": 74.75,
+      "max_profit": 24.75,
+      "expiry": "2026-10-07",
+      "filed_date": "2026-09-24",
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/706698/000109690626001428/"
     },
     {
       "ticker": "NFJ",
@@ -19,8 +31,8 @@
       "exchange": "NYSE",
       "price_lower": 14.6718,
       "price_upper": 14.6718,
-      "current_price": 15.04,
-      "max_profit": -36.45,
+      "current_price": 15.06,
+      "max_profit": -38.43,
       "expiry": null,
       "filed_date": "2026-09-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
@@ -31,8 +43,8 @@
       "exchange": "NYSE",
       "price_lower": 0.25,
       "price_upper": 0.25,
-      "current_price": 19.42,
-      "max_profit": -1897.83,
+      "current_price": 19.36,
+      "max_profit": -1891.89,
       "expiry": null,
       "filed_date": "2026-09-18",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1703079/000121390026101507/"
