@@ -1,10 +1,5 @@
 {
   "opportunities": {
-    "0001104659-26-100002": {
-      "ticker": "ABUS",
-      "first_seen": "2026-08-25",
-      "threshold_alerted": false
-    },
     "0001193125-26-377910": {
       "ticker": "NFJ",
       "first_seen": "2026-09-02",
@@ -19,7 +14,12 @@
       "ticker": "UTMD",
       "first_seen": "2026-09-25",
       "threshold_alerted": false
+    },
+    "0001096906-26-001481": {
+      "ticker": "UTMD",
+      "first_seen": "2026-09-30",
+      "threshold_alerted": false
     }
   },
-  "last_updated": "2026-09-29T06:21:58Z"
+  "last_updated": "2026-09-30T06:05:53Z"
 }
