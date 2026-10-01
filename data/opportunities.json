@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-30T06:05:53Z",
+  "last_updated": "2026-10-01T06:39:19Z",
   "opportunities": [
     {
       "ticker": "UTMD",
@@ -7,8 +7,8 @@
       "exchange": "NASDAQ",
       "price_lower": 75.0,
       "price_upper": 75.0,
-      "current_price": 74.95,
-      "max_profit": 4.95,
+      "current_price": 74.05,
+      "max_profit": 94.05,
       "expiry": "2026-10-07",
       "filed_date": "2026-09-29",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/706698/000109690626001481/"
@@ -19,8 +19,8 @@
       "exchange": "NASDAQ",
       "price_lower": 75.0,
       "price_upper": 75.0,
-      "current_price": 74.95,
-      "max_profit": 4.95,
+      "current_price": 74.05,
+      "max_profit": 94.05,
       "expiry": "2026-10-07",
       "filed_date": "2026-09-24",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/706698/000109690626001428/"
@@ -43,8 +43,8 @@
       "exchange": "NYSE",
       "price_lower": 0.25,
       "price_upper": 0.25,
-      "current_price": 19.15,
-      "max_profit": -1871.1,
+      "current_price": 19.22,
+      "max_profit": -1878.03,
       "expiry": null,
       "filed_date": "2026-09-18",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1703079/000121390026101507/"
