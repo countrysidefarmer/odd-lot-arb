@@ -1,38 +1,14 @@
 {
-  "last_updated": "2026-10-07T06:39:32Z",
+  "last_updated": "2026-10-08T06:45:54Z",
   "opportunities": [
-    {
-      "ticker": "UTMD",
-      "company_name": "UTAH MEDICAL PRODUCTS INC",
-      "exchange": "NASDAQ",
-      "price_lower": 75.0,
-      "price_upper": 75.0,
-      "current_price": 73.83,
-      "max_profit": 115.83,
-      "expiry": "2026-10-07",
-      "filed_date": "2026-09-29",
-      "filing_link": "https://www.sec.gov/Archives/edgar/data/706698/000109690626001481/"
-    },
-    {
-      "ticker": "UTMD",
-      "company_name": "UTAH MEDICAL PRODUCTS INC",
-      "exchange": "NASDAQ",
-      "price_lower": 75.0,
-      "price_upper": 75.0,
-      "current_price": 73.83,
-      "max_profit": 115.83,
-      "expiry": "2026-10-07",
-      "filed_date": "2026-09-24",
-      "filing_link": "https://www.sec.gov/Archives/edgar/data/706698/000109690626001428/"
-    },
     {
       "ticker": "NFJ",
       "company_name": "Virtus Dividend, Interest & Premium Strategy Fund",
       "exchange": "NYSE",
       "price_lower": 14.6718,
       "price_upper": 14.6718,
-      "current_price": 14.73,
-      "max_profit": -5.76,
+      "current_price": 14.45,
+      "max_profit": 21.96,
       "expiry": null,
       "filed_date": "2026-09-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
@@ -43,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 0.25,
       "price_upper": 0.25,
-      "current_price": 19.13,
-      "max_profit": -1869.12,
+      "current_price": 18.97,
+      "max_profit": -1853.28,
       "expiry": null,
       "filed_date": "2026-09-18",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1703079/000121390026101507/"
