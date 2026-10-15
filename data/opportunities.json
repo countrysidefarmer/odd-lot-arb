@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-14T05:34:47Z",
+  "last_updated": "2026-10-15T05:22:31Z",
   "opportunities": [
     {
       "ticker": "NFJ",
@@ -7,8 +7,8 @@
       "exchange": "NYSE",
       "price_lower": 14.6718,
       "price_upper": 14.6718,
-      "current_price": 15.08,
-      "max_profit": -40.41,
+      "current_price": 14.67,
+      "max_profit": 0.18,
       "expiry": null,
       "filed_date": "2026-09-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
@@ -19,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 0.25,
       "price_upper": 0.25,
-      "current_price": 18.84,
-      "max_profit": -1840.41,
+      "current_price": 18.74,
+      "max_profit": -1830.51,
       "expiry": null,
       "filed_date": "2026-09-18",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1703079/000121390026101507/"
