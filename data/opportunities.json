@@ -1,14 +1,26 @@
 {
-  "last_updated": "2026-10-21T05:28:59Z",
+  "last_updated": "2026-10-22T05:33:30Z",
   "opportunities": [
+    {
+      "ticker": "INVE",
+      "company_name": "INVE Technologies, Inc.",
+      "exchange": "NASDAQ",
+      "price_lower": 2.85,
+      "price_upper": 3.4,
+      "current_price": 2.78,
+      "max_profit": 61.38,
+      "expiry": "2026-11-19",
+      "filed_date": "2026-10-21",
+      "filing_link": "https://www.sec.gov/Archives/edgar/data/1036044/000121390026111186/"
+    },
     {
       "ticker": "NFJ",
       "company_name": "Virtus Dividend, Interest & Premium Strategy Fund",
       "exchange": "NYSE",
       "price_lower": 14.6718,
       "price_upper": 14.6718,
-      "current_price": 14.8,
-      "max_profit": -12.69,
+      "current_price": 14.81,
+      "max_profit": -13.68,
       "expiry": null,
       "filed_date": "2026-09-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
@@ -19,8 +31,8 @@
       "exchange": "NYSE",
       "price_lower": 0.25,
       "price_upper": 0.25,
-      "current_price": 17.04,
-      "max_profit": -1662.21,
+      "current_price": 17.03,
+      "max_profit": -1661.22,
       "expiry": null,
       "filed_date": "2026-09-18",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1703079/000121390026101507/"
