@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-30T06:34:55Z",
+  "last_updated": "2026-10-31T06:25:00Z",
   "opportunities": [
     {
       "ticker": "INVE",
@@ -7,8 +7,8 @@
       "exchange": "NASDAQ",
       "price_lower": 2.85,
       "price_upper": 3.4,
-      "current_price": 2.68,
-      "max_profit": 71.28,
+      "current_price": 2.71,
+      "max_profit": 68.31,
       "expiry": "2026-11-19",
       "filed_date": "2026-10-21",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1036044/000121390026111186/"
@@ -19,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 14.6718,
       "price_upper": 14.6718,
-      "current_price": 14.49,
-      "max_profit": 18.0,
+      "current_price": 14.23,
+      "max_profit": 43.74,
       "expiry": null,
       "filed_date": "2026-09-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
@@ -31,8 +31,8 @@
       "exchange": "NYSE",
       "price_lower": 0.25,
       "price_upper": 0.25,
-      "current_price": 16.04,
-      "max_profit": -1563.21,
+      "current_price": 16.17,
+      "max_profit": -1576.08,
       "expiry": null,
       "filed_date": "2026-09-18",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1703079/000121390026101507/"
