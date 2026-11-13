@@ -14,7 +14,12 @@
       "ticker": "INVE",
       "first_seen": "2026-10-22",
       "threshold_alerted": false
+    },
+    "0002077096-26-000313": {
+      "ticker": "MYPS",
+      "first_seen": "2026-11-13",
+      "threshold_alerted": false
     }
   },
-  "last_updated": "2026-11-12T07:49:55Z"
+  "last_updated": "2026-11-13T07:27:18Z"
 }
