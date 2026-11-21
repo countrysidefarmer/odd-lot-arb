@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-20T07:52:26Z",
+  "last_updated": "2026-11-21T07:48:32Z",
   "opportunities": [
     {
       "ticker": "MYPS",
@@ -7,8 +7,8 @@
       "exchange": "NASDAQ",
       "price_lower": 4.3,
       "price_upper": 4.3,
-      "current_price": 5.18,
-      "max_profit": -87.12,
+      "current_price": 4.94,
+      "max_profit": -63.36,
       "expiry": "2026-12-10",
       "filed_date": "2026-11-12",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1823878/000207709626000313/"
@@ -19,8 +19,8 @@
       "exchange": "NYSE",
       "price_lower": 14.6718,
       "price_upper": 14.6718,
-      "current_price": 13.32,
-      "max_profit": 133.83,
+      "current_price": 12.84,
+      "max_profit": 181.35,
       "expiry": null,
       "filed_date": "2026-09-01",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1260563/000119312526377910/"
@@ -31,8 +31,8 @@
       "exchange": "NYSE",
       "price_lower": 0.25,
       "price_upper": 0.25,
-      "current_price": 15.68,
-      "max_profit": -1527.57,
+      "current_price": 15.2,
+      "max_profit": -1480.05,
       "expiry": null,
       "filed_date": "2026-09-18",
       "filing_link": "https://www.sec.gov/Archives/edgar/data/1703079/000121390026101507/"
